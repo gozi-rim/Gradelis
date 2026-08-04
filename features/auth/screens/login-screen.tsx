@@ -112,25 +112,14 @@ export function LoginScreen() {
 
               <button
                 type="submit"
-                className="h-11 w-full rounded-xl bg-[#2e63e5] text-lg font-semibold text-white transition hover:bg-[#2456cf]"
+                className="h-11 w-full rounded-xl bg-[#2e63e5] text-lg font-semibold text-white transition hover:cursor-pointer hover:bg-[#2456cf]"
               >
                 Sign In
               </button>
 
-              <div className="flex items-center gap-4 text-xs text-slate-500">
-                <div className="h-px flex-1 bg-slate-200" />
-                or
-                <div className="h-px flex-1 bg-slate-200" />
-              </div>
 
-              <button
-                type="button"
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white text-base font-semibold text-[#1f3f7d]"
-              >
-                Sign in with Google
-              </button>
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 mt-10 px-4 py-3 text-left">
                 <p className="text-base font-semibold text-slate-700">
                   Secure role-based login
                 </p>
