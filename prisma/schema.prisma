@@ -1,0 +1,465 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum UserRole {
+  SYSTEM_ADMIN
+  HOD
+  LECTURER
+}
+
+enum StudentStatus {
+  ACTIVE
+  GRADUATED
+  SUSPENDED
+  WITHDRAWN
+}
+
+enum Semester {
+  FIRST
+  SECOND
+}
+
+enum CourseType {
+  COMPULSORY
+  ELECTIVE
+}
+
+enum AdviserAssignmentStatus {
+  OFFERED // HOD has assigned; awaiting lecturer's response
+  ACTIVE // lecturer accepted, currently responsible
+  DECLINED // lecturer declined the offer
+  ENDED // cohort cycle complete / manually ended by HOD
+}
+
+enum ResultStatus {
+  PENDING
+  POSTED
+  CORRECTED
+}
+
+enum CorrectionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum UploadBatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum UploadFileStatus {
+  VALID
+  UNMATCHED_COURSE
+  PROCESSING
+  FAILED
+  COMPLETED
+}
+
+enum UploadRowStatus {
+  VALID
+  UNMATCHED_STUDENT
+  DUPLICATE
+  INVALID_SCORE
+  IMPORTED
+}
+
+enum GraduationStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+}
+
+// ============================================================================
+// USER
+// ============================================================================
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Courses (HOD)
+  coursesCreated Course[] @relation("CourseCreatedBy")
+  coursesUpdated Course[] @relation("CourseUpdatedBy")
+
+  // Students (Lecturer/Adviser)
+  studentsCreated Student[] @relation("StudentCreatedBy")
+
+  // Adviser assignments
+  adviserAssignments  AdviserAssignment[] @relation("Lecturer")
+  assignmentsAssigned AdviserAssignment[] @relation("AssignedBy")
+
+  // Uploads
+  uploadBatches UploadBatch[] @relation("UploadedBy")
+
+  // Corrections
+  correctionsRequested CorrectionRequest[] @relation("CorrectionRequester")
+  correctionsApproved  CorrectionRequest[] @relation("CorrectionApprover")
+
+  // Override tokens
+  tokensGenerated OverrideToken[] @relation("TokenGeneratedBy")
+  tokensIssuedTo  OverrideToken[] @relation("TokenIssuedTo")
+
+  // Change log
+  resultChanges ResultChangeLog[] @relation("ChangedBy")
+
+  // Submission windows
+  windowsOpened ResultSubmissionWindow[] @relation("OpenedBy")
+
+  // Graduation
+  graduationRunsTriggered GraduationRun[] @relation("TriggeredBy")
+}
+
+// ============================================================================
+// COURSE  (HOD-owned; single-department scope; carries curriculum attributes)
+// ============================================================================
+
+model Course {
+  id          String     @id @default(cuid())
+  code        String     @unique
+  title       String
+  creditUnits Int
+  level       Int
+  semester    Semester
+  courseType  CourseType @default(COMPULSORY)
+  isActive    Boolean    @default(true)
+
+  createdById String
+  createdBy   User    @relation("CourseCreatedBy", fields: [createdById], references: [id])
+  updatedById String?
+  updatedBy   User?   @relation("CourseUpdatedBy", fields: [updatedById], references: [id])
+
+  results           StudentResult[]
+  uploadFiles       UploadFile[]
+  submissionWindows ResultSubmissionWindow[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([level, semester])
+}
+
+// ============================================================================
+// STUDENT  (Lecturer/Adviser-owned)
+// ============================================================================
+
+model Student {
+  id String @id @default(cuid())
+
+  matricNumber String        @unique
+  fullName     String
+  entrySession String
+  currentLevel Int
+  status       StudentStatus @default(ACTIVE)
+
+  createdById String
+  createdBy   User   @relation("StudentCreatedBy", fields: [createdById], references: [id])
+
+  results          StudentResult[]
+  uploadRows       UploadRow[]
+  eligibilityItems EligibilityRunItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([entrySession])
+  @@index([status])
+}
+
+// ============================================================================
+// ADVISER ASSIGNMENT  (HOD assigns → Lecturer accepts/declines)
+// No separate request entity — the offer/response cycle lives in status.
+// ============================================================================
+
+model AdviserAssignment {
+  id String @id @default(cuid())
+
+  lecturerId String
+  lecturer   User   @relation("Lecturer", fields: [lecturerId], references: [id])
+
+  assignedById String
+  assignedBy   User   @relation("AssignedBy", fields: [assignedById], references: [id])
+
+  entrySession String
+
+  status AdviserAssignmentStatus @default(OFFERED)
+
+  offeredAt   DateTime  @default(now())
+  respondedAt DateTime?
+
+  startDate       DateTime? // set once accepted
+  expectedEndDate DateTime? // startDate + 5 years, set on acceptance
+  endDate         DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([lecturerId, status])
+  @@index([entrySession])
+}
+
+// ============================================================================
+// STUDENT RESULT  (the hub — one row per student, per course, per attempt)
+// Corrections version this table rather than overwrite it.
+// ============================================================================
+
+model StudentResult {
+  id String @id @default(cuid())
+
+  studentId       String
+  student         Student @relation(fields: [studentId], references: [id])
+  courseId        String
+  course          Course  @relation(fields: [courseId], references: [id])
+  academicSession String
+
+  score         Float?
+  grade         String?
+  gradePoint    Float?
+  attemptNumber Int          @default(1)
+  status        ResultStatus @default(PENDING)
+
+  // Versioning: a correction creates a new row pointing back to the one it replaces
+  currentVersionOfId String?        @unique
+  currentVersionOf   StudentResult? @relation("ResultVersioning", fields: [currentVersionOfId], references: [id])
+  previousVersion    StudentResult? @relation("ResultVersioning")
+
+  uploadRows         UploadRow[]
+  correctionRequests CorrectionRequest[]
+  changeLogs         ResultChangeLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, courseId, academicSession, attemptNumber])
+  @@index([courseId, academicSession])
+  @@index([status])
+}
+
+// ============================================================================
+// CORRECTION REQUEST  (Lecturer/Adviser requests, HOD approves)
+// ============================================================================
+
+model CorrectionRequest {
+  id String @id @default(cuid())
+
+  studentResultId String
+  studentResult   StudentResult @relation(fields: [studentResultId], references: [id])
+
+  requestedById String
+  requestedBy   User   @relation("CorrectionRequester", fields: [requestedById], references: [id])
+
+  approvedById String?
+  approvedBy   User?   @relation("CorrectionApprover", fields: [approvedById], references: [id])
+
+  overrideTokenId String?
+  overrideToken   OverrideToken? @relation(fields: [overrideTokenId], references: [id])
+
+  oldScore Float
+  newScore Float
+  reason   String
+
+  status CorrectionStatus @default(PENDING)
+
+  requestedAt DateTime  @default(now())
+  approvedAt  DateTime?
+
+  @@index([studentResultId])
+  @@index([status])
+}
+
+// ============================================================================
+// OVERRIDE TOKEN  (HOD-issued permission for edits outside the open window)
+// ============================================================================
+
+model OverrideToken {
+  id String @id @default(cuid())
+
+  token String @unique
+
+  generatedById String
+  generatedBy   User   @relation("TokenGeneratedBy", fields: [generatedById], references: [id])
+
+  issuedToId String?
+  issuedTo   User?   @relation("TokenIssuedTo", fields: [issuedToId], references: [id])
+
+  used      Boolean  @default(false)
+  expiresAt DateTime
+
+  correctionRequests CorrectionRequest[]
+
+  createdAt DateTime @default(now())
+}
+
+// ============================================================================
+// RESULT CHANGE LOG  (permanent, append-only audit trail)
+// ============================================================================
+
+model ResultChangeLog {
+  id String @id @default(cuid())
+
+  studentResultId String
+  studentResult   StudentResult @relation(fields: [studentResultId], references: [id])
+
+  changedById String
+  changedBy   User   @relation("ChangedBy", fields: [changedById], references: [id])
+
+  oldScore Float?
+  newScore Float?
+  reason   String?
+
+  changedAt DateTime @default(now())
+
+  @@index([studentResultId])
+}
+
+// ============================================================================
+// RESULT SUBMISSION WINDOW  (HOD-controlled, per academic session + semester)
+// ============================================================================
+
+model ResultSubmissionWindow {
+  id String @id @default(cuid())
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  academicSession String
+  semester        Semester
+
+  openedById String
+  openedBy   User   @relation("OpenedBy", fields: [openedById], references: [id])
+
+  opensAt  DateTime
+  closesAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@unique([courseId, academicSession, semester])
+}
+
+// ============================================================================
+// UPLOAD PIPELINE
+// One upload action (Batch) → many workbooks (File, one course each) →
+// many student rows (Row) per workbook.
+// ============================================================================
+
+model UploadBatch {
+  id String @id @default(cuid())
+
+  uploadedById String
+  uploadedBy   User   @relation("UploadedBy", fields: [uploadedById], references: [id])
+
+  status UploadBatchStatus @default(PENDING)
+
+  files UploadFile[]
+
+  uploadedAt DateTime @default(now())
+}
+
+model UploadFile {
+  id String @id @default(cuid())
+
+  uploadBatchId String
+  uploadBatch   UploadBatch @relation(fields: [uploadBatchId], references: [id])
+
+  fileName           String
+  courseCodeRaw      String
+  academicSessionRaw String
+  semesterRaw        String
+
+  matchedCourseId String?
+  matchedCourse   Course? @relation(fields: [matchedCourseId], references: [id])
+
+  status       UploadFileStatus @default(VALID)
+  errorMessage String?
+
+  rows UploadRow[]
+
+  createdAt DateTime @default(now())
+
+  @@index([uploadBatchId])
+  @@index([matchedCourseId])
+  @@index([status])
+}
+
+model UploadRow {
+  id String @id @default(cuid())
+
+  uploadFileId String
+  uploadFile   UploadFile @relation(fields: [uploadFileId], references: [id])
+
+  matricNumberRaw String
+  score           Float?
+
+  matchedStudentId String?
+  matchedStudent   Student? @relation(fields: [matchedStudentId], references: [id])
+
+  studentResultId String?
+  studentResult   StudentResult? @relation(fields: [studentResultId], references: [id])
+
+  status       UploadRowStatus @default(VALID)
+  errorMessage String?
+
+  createdAt DateTime @default(now())
+
+  @@index([uploadFileId])
+  @@index([matchedStudentId])
+  @@index([status])
+}
+
+// ============================================================================
+// GRADUATION
+// ============================================================================
+
+model GraduationRun {
+  id String @id @default(cuid())
+
+  academicSession String
+
+  status      GraduationStatus @default(PENDING)
+  startedAt   DateTime?
+  completedAt DateTime?
+
+  triggeredById String
+  triggeredBy   User   @relation("TriggeredBy", fields: [triggeredById], references: [id])
+
+  items EligibilityRunItem[]
+
+  createdAt DateTime @default(now())
+
+  @@index([academicSession])
+}
+
+model EligibilityRunItem {
+  id String @id @default(cuid())
+
+  graduationRunId String
+  graduationRun   GraduationRun @relation(fields: [graduationRunId], references: [id])
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  cgpa     Float
+  eligible Boolean
+  remarks  Json?
+
+  @@unique([graduationRunId, studentId])
+  @@index([eligible])
+}
