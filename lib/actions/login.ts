@@ -1,11 +1,10 @@
 "use server"
-import { signIn, auth } from "@/auth"
+import { signIn, } from "@/auth"
 import { AuthError } from "next-auth"
 import { redirect } from "next/navigation"
 import { loginSchema } from "../zod/schema"
 import z from "zod"
 import { Prisma } from "@/generated/prisma"
-import { roleRoutes } from "@/types/roleRoutes"
 
 export type FormState = {
   errors?: Record<string, string[]>

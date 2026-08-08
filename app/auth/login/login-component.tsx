@@ -1,6 +1,6 @@
 "use client"
 
-import { FormState, login } from "@/lib/actions/auth"
+import { FormState, login } from "@/lib/actions/login"
 import { cn } from "@/shared/lib/cn"
 import { LoaderCircle } from "lucide-react"
 import Link from "next/link"
