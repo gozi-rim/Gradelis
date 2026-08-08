@@ -1,6 +1,11 @@
 "use server"
-import { signIn } from "@/auth"
+import { signIn, auth } from "@/auth"
 import { AuthError } from "next-auth"
+import { redirect } from "next/navigation"
+import { loginSchema } from "../zod/schema"
+import z from "zod"
+import { Prisma } from "@/generated/prisma"
+import { roleRoutes } from "@/types/roleRoutes"
 
 export type FormState = {
   errors?: Record<string, string[]>
@@ -8,24 +13,38 @@ export type FormState = {
 }
 
 export async function login(prevState: FormState, formData: FormData): Promise<FormState> {
-  const email = formData.get("email") as string
-  const password = formData.get("password") as string
+  const parsed = loginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  })
 
-  if (!email || !password) {
-    return { message: "Email and password are required" }
+  if (!parsed.success) {
+    const flattened = z.flattenError(parsed.error)
+    return { message: "Please fix the errors below", errors: flattened.fieldErrors }
   }
 
   try {
     await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/dashboard",
+      ...parsed.data,
+      redirect: false, // <- key change: no redirectTo here
     })
-    return { message: "success" }
   } catch (error) {
     if (error instanceof AuthError) {
-      return { message: "Invalid email or password" }
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { message: "Invalid email or password" }
+        default:
+          return { message: "Authentication error. Please try again." }
+      }
     }
-    throw error
+
+    if (error instanceof Prisma.PrismaClientInitializationError) {
+      return { message: "Can't reach the database right now. Try again shortly." }
+    }
+
+    console.error("Unexpected login error:", error)
+    return { message: "Unexpected server error. Please try again." }
   }
+
+  redirect("/")
 }
