@@ -35,10 +35,10 @@ enum CourseType {
 }
 
 enum AdviserAssignmentStatus {
-  OFFERED // HOD has assigned; awaiting lecturer's response
-  ACTIVE // lecturer accepted, currently responsible
-  DECLINED // lecturer declined the offer
-  ENDED // cohort cycle complete / manually ended by HOD
+  OFFERED
+  ACTIVE
+  DECLINED
+  ENDED
 }
 
 enum ResultStatus {
@@ -82,6 +82,41 @@ enum GraduationStatus {
   COMPLETED
 }
 
+enum StudentCreationMethod {
+  MANUAL
+  EXCEL_IMPORT
+}
+
+enum StudentSeedBatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum StudentSeedRowStatus {
+  VALID
+  DUPLICATE_MATRIC
+  INVALID_DATA
+  IMPORTED
+  FAILED
+}
+
+enum UserSeedBatchStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum UserSeedRowStatus {
+  VALID
+  DUPLICATE_EMAIL
+  INVALID_DATA
+  IMPORTED
+  FAILED
+}
+
 // ============================================================================
 // USER
 // ============================================================================
@@ -107,7 +142,7 @@ model User {
   adviserAssignments  AdviserAssignment[] @relation("Lecturer")
   assignmentsAssigned AdviserAssignment[] @relation("AssignedBy")
 
-  // Uploads
+  // Result uploads
   uploadBatches UploadBatch[] @relation("UploadedBy")
 
   // Corrections
@@ -126,6 +161,40 @@ model User {
 
   // Graduation
   graduationRunsTriggered GraduationRun[] @relation("TriggeredBy")
+
+  // Student seeding
+  studentSeedBatches StudentSeedBatch[] @relation("StudentSeedUploadedBy")
+
+  // Lecturer/user seeding
+  userSeedBatchesUploaded UserSeedBatch[] @relation("UserSeedUploadedBy")
+  createdViaSeedRow       UserSeedRow?    @relation("UserFromSeedRow")
+
+  // HOD assignment history
+  hodAssignmentsHeld  HodAssignment[] @relation("HodUser")
+  hodAssignmentsGiven HodAssignment[] @relation("HodAssignedBy")
+}
+
+// ============================================================================
+// HOD ASSIGNMENT  (audit trail; User.role is still the source of truth
+// for permissions, this table just tracks who held the seat and when)
+// ============================================================================
+
+model HodAssignment {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation("HodUser", fields: [userId], references: [id])
+
+  assignedById String
+  assignedBy   User   @relation("HodAssignedBy", fields: [assignedById], references: [id])
+
+  startDate DateTime  @default(now())
+  endDate   DateTime? // null = currently active HOD
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([endDate])
 }
 
 // ============================================================================
@@ -158,7 +227,7 @@ model Course {
 }
 
 // ============================================================================
-// STUDENT  (Lecturer/Adviser-owned)
+// STUDENT  (record only — no auth, students don't log in)
 // ============================================================================
 
 model Student {
@@ -169,6 +238,10 @@ model Student {
   entrySession String
   currentLevel Int
   status       StudentStatus @default(ACTIVE)
+
+  creationMethod StudentCreationMethod @default(MANUAL)
+  seedRowId      String?               @unique
+  seedRow        StudentSeedRow?       @relation(fields: [seedRowId], references: [id])
 
   createdById String
   createdBy   User   @relation("StudentCreatedBy", fields: [createdById], references: [id])
@@ -185,8 +258,94 @@ model Student {
 }
 
 // ============================================================================
-// ADVISER ASSIGNMENT  (HOD assigns → Lecturer accepts/declines)
-// No separate request entity — the offer/response cycle lives in status.
+// STUDENT SEEDING  (Excel import per session; mirrors UploadBatch/File/Row)
+// ============================================================================
+
+model StudentSeedBatch {
+  id String @id @default(cuid())
+
+  entrySession String
+
+  uploadedById String
+  uploadedBy   User   @relation("StudentSeedUploadedBy", fields: [uploadedById], references: [id])
+
+  status StudentSeedBatchStatus @default(PENDING)
+
+  rows StudentSeedRow[]
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([entrySession])
+}
+
+model StudentSeedRow {
+  id String @id @default(cuid())
+
+  batchId String
+  batch   StudentSeedBatch @relation(fields: [batchId], references: [id])
+
+  matricNumberRaw String
+  fullNameRaw     String
+  levelRaw        Int?
+
+  status       StudentSeedRowStatus @default(VALID)
+  errorMessage String?
+
+  student Student?
+
+  createdAt DateTime @default(now())
+
+  @@index([batchId])
+  @@index([status])
+}
+
+// ============================================================================
+// USER SEEDING  (bulk lecturer import — these accounts DO log in,
+// so an 8-digit password is generated + hashed per row)
+// ============================================================================
+
+model UserSeedBatch {
+  id String @id @default(cuid())
+
+  role UserRole @default(LECTURER)
+
+  uploadedById String
+  uploadedBy   User   @relation("UserSeedUploadedBy", fields: [uploadedById], references: [id])
+
+  status UserSeedBatchStatus @default(PENDING)
+
+  rows UserSeedRow[]
+
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+}
+
+model UserSeedRow {
+  id String @id @default(cuid())
+
+  batchId String
+  batch   UserSeedBatch @relation(fields: [batchId], references: [id])
+
+  nameRaw  String
+  emailRaw String
+
+  status       UserSeedRowStatus @default(VALID)
+  errorMessage String?
+
+  generatedPassword String? // shown once at seed time; clear after display/export
+
+  userId String? @unique
+  user   User?   @relation("UserFromSeedRow", fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([batchId])
+  @@index([status])
+}
+
+// ============================================================================
+// ADVISER ASSIGNMENT
 // ============================================================================
 
 model AdviserAssignment {
@@ -205,8 +364,8 @@ model AdviserAssignment {
   offeredAt   DateTime  @default(now())
   respondedAt DateTime?
 
-  startDate       DateTime? // set once accepted
-  expectedEndDate DateTime? // startDate + 5 years, set on acceptance
+  startDate       DateTime?
+  expectedEndDate DateTime?
   endDate         DateTime?
 
   createdAt DateTime @default(now())
@@ -217,8 +376,7 @@ model AdviserAssignment {
 }
 
 // ============================================================================
-// STUDENT RESULT  (the hub — one row per student, per course, per attempt)
-// Corrections version this table rather than overwrite it.
+// STUDENT RESULT
 // ============================================================================
 
 model StudentResult {
@@ -236,7 +394,6 @@ model StudentResult {
   attemptNumber Int          @default(1)
   status        ResultStatus @default(PENDING)
 
-  // Versioning: a correction creates a new row pointing back to the one it replaces
   currentVersionOfId String?        @unique
   currentVersionOf   StudentResult? @relation("ResultVersioning", fields: [currentVersionOfId], references: [id])
   previousVersion    StudentResult? @relation("ResultVersioning")
@@ -254,7 +411,7 @@ model StudentResult {
 }
 
 // ============================================================================
-// CORRECTION REQUEST  (Lecturer/Adviser requests, HOD approves)
+// CORRECTION REQUEST
 // ============================================================================
 
 model CorrectionRequest {
@@ -286,7 +443,7 @@ model CorrectionRequest {
 }
 
 // ============================================================================
-// OVERRIDE TOKEN  (HOD-issued permission for edits outside the open window)
+// OVERRIDE TOKEN
 // ============================================================================
 
 model OverrideToken {
@@ -309,7 +466,7 @@ model OverrideToken {
 }
 
 // ============================================================================
-// RESULT CHANGE LOG  (permanent, append-only audit trail)
+// RESULT CHANGE LOG
 // ============================================================================
 
 model ResultChangeLog {
@@ -331,7 +488,7 @@ model ResultChangeLog {
 }
 
 // ============================================================================
-// RESULT SUBMISSION WINDOW  (HOD-controlled, per academic session + semester)
+// RESULT SUBMISSION WINDOW
 // ============================================================================
 
 model ResultSubmissionWindow {
@@ -355,9 +512,7 @@ model ResultSubmissionWindow {
 }
 
 // ============================================================================
-// UPLOAD PIPELINE
-// One upload action (Batch) → many workbooks (File, one course each) →
-// many student rows (Row) per workbook.
+// RESULT UPLOAD PIPELINE
 // ============================================================================
 
 model UploadBatch {
