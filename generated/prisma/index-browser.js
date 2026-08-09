@@ -131,6 +131,15 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.HodAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  assignedById: 'assignedById',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.CourseScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -153,9 +162,52 @@ exports.Prisma.StudentScalarFieldEnum = {
   entrySession: 'entrySession',
   currentLevel: 'currentLevel',
   status: 'status',
+  creationMethod: 'creationMethod',
+  seedRowId: 'seedRowId',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StudentSeedBatchScalarFieldEnum = {
+  id: 'id',
+  entrySession: 'entrySession',
+  uploadedById: 'uploadedById',
+  status: 'status',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.StudentSeedRowScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  matricNumberRaw: 'matricNumberRaw',
+  fullNameRaw: 'fullNameRaw',
+  levelRaw: 'levelRaw',
+  status: 'status',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserSeedBatchScalarFieldEnum = {
+  id: 'id',
+  role: 'role',
+  uploadedById: 'uploadedById',
+  status: 'status',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.UserSeedRowScalarFieldEnum = {
+  id: 'id',
+  batchId: 'batchId',
+  nameRaw: 'nameRaw',
+  emailRaw: 'emailRaw',
+  status: 'status',
+  errorMessage: 'errorMessage',
+  generatedPassword: 'generatedPassword',
+  userId: 'userId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AdviserAssignmentScalarFieldEnum = {
@@ -332,6 +384,41 @@ exports.StudentStatus = exports.$Enums.StudentStatus = {
   WITHDRAWN: 'WITHDRAWN'
 };
 
+exports.StudentCreationMethod = exports.$Enums.StudentCreationMethod = {
+  MANUAL: 'MANUAL',
+  EXCEL_IMPORT: 'EXCEL_IMPORT'
+};
+
+exports.StudentSeedBatchStatus = exports.$Enums.StudentSeedBatchStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.StudentSeedRowStatus = exports.$Enums.StudentSeedRowStatus = {
+  VALID: 'VALID',
+  DUPLICATE_MATRIC: 'DUPLICATE_MATRIC',
+  INVALID_DATA: 'INVALID_DATA',
+  IMPORTED: 'IMPORTED',
+  FAILED: 'FAILED'
+};
+
+exports.UserSeedBatchStatus = exports.$Enums.UserSeedBatchStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+exports.UserSeedRowStatus = exports.$Enums.UserSeedRowStatus = {
+  VALID: 'VALID',
+  DUPLICATE_EMAIL: 'DUPLICATE_EMAIL',
+  INVALID_DATA: 'INVALID_DATA',
+  IMPORTED: 'IMPORTED',
+  FAILED: 'FAILED'
+};
+
 exports.AdviserAssignmentStatus = exports.$Enums.AdviserAssignmentStatus = {
   OFFERED: 'OFFERED',
   ACTIVE: 'ACTIVE',
@@ -382,8 +469,13 @@ exports.GraduationStatus = exports.$Enums.GraduationStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  HodAssignment: 'HodAssignment',
   Course: 'Course',
   Student: 'Student',
+  StudentSeedBatch: 'StudentSeedBatch',
+  StudentSeedRow: 'StudentSeedRow',
+  UserSeedBatch: 'UserSeedBatch',
+  UserSeedRow: 'UserSeedRow',
   AdviserAssignment: 'AdviserAssignment',
   StudentResult: 'StudentResult',
   CorrectionRequest: 'CorrectionRequest',

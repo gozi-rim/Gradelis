@@ -1,4 +1,3 @@
-import { RoleViewToggle } from "@/features/hod/components/role-view-toggle";
 import {
   CheckCircleIcon,
   ClockIcon,
@@ -51,7 +50,6 @@ export default function DashboardScreen() {
         <h2 className="text-4xl font-semibold text-slate-700">
           Welcome back, Dr Victor Odoi
         </h2>
-        <RoleViewToggle />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -124,9 +122,7 @@ export default function DashboardScreen() {
               >
                 <ExcelFileIcon className="size-9" />
                 <div>
-                  <p className="text-sm font-medium text-slate-700">
-                    {upload}
-                  </p>
+                  <p className="text-sm font-medium text-slate-700">{upload}</p>
                   <p className="text-xs text-slate-400">
                     Uploaded 24th May 2026
                   </p>

@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model HodAssignment
+ * 
+ */
+export type HodAssignment = $Result.DefaultSelection<Prisma.$HodAssignmentPayload>
+/**
  * Model Course
  * 
  */
@@ -28,6 +33,26 @@ export type Course = $Result.DefaultSelection<Prisma.$CoursePayload>
  * 
  */
 export type Student = $Result.DefaultSelection<Prisma.$StudentPayload>
+/**
+ * Model StudentSeedBatch
+ * 
+ */
+export type StudentSeedBatch = $Result.DefaultSelection<Prisma.$StudentSeedBatchPayload>
+/**
+ * Model StudentSeedRow
+ * 
+ */
+export type StudentSeedRow = $Result.DefaultSelection<Prisma.$StudentSeedRowPayload>
+/**
+ * Model UserSeedBatch
+ * 
+ */
+export type UserSeedBatch = $Result.DefaultSelection<Prisma.$UserSeedBatchPayload>
+/**
+ * Model UserSeedRow
+ * 
+ */
+export type UserSeedRow = $Result.DefaultSelection<Prisma.$UserSeedRowPayload>
 /**
  * Model AdviserAssignment
  * 
@@ -191,6 +216,56 @@ export const GraduationStatus: {
 
 export type GraduationStatus = (typeof GraduationStatus)[keyof typeof GraduationStatus]
 
+
+export const StudentCreationMethod: {
+  MANUAL: 'MANUAL',
+  EXCEL_IMPORT: 'EXCEL_IMPORT'
+};
+
+export type StudentCreationMethod = (typeof StudentCreationMethod)[keyof typeof StudentCreationMethod]
+
+
+export const StudentSeedBatchStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type StudentSeedBatchStatus = (typeof StudentSeedBatchStatus)[keyof typeof StudentSeedBatchStatus]
+
+
+export const StudentSeedRowStatus: {
+  VALID: 'VALID',
+  DUPLICATE_MATRIC: 'DUPLICATE_MATRIC',
+  INVALID_DATA: 'INVALID_DATA',
+  IMPORTED: 'IMPORTED',
+  FAILED: 'FAILED'
+};
+
+export type StudentSeedRowStatus = (typeof StudentSeedRowStatus)[keyof typeof StudentSeedRowStatus]
+
+
+export const UserSeedBatchStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type UserSeedBatchStatus = (typeof UserSeedBatchStatus)[keyof typeof UserSeedBatchStatus]
+
+
+export const UserSeedRowStatus: {
+  VALID: 'VALID',
+  DUPLICATE_EMAIL: 'DUPLICATE_EMAIL',
+  INVALID_DATA: 'INVALID_DATA',
+  IMPORTED: 'IMPORTED',
+  FAILED: 'FAILED'
+};
+
+export type UserSeedRowStatus = (typeof UserSeedRowStatus)[keyof typeof UserSeedRowStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -236,6 +311,26 @@ export const UploadRowStatus: typeof $Enums.UploadRowStatus
 export type GraduationStatus = $Enums.GraduationStatus
 
 export const GraduationStatus: typeof $Enums.GraduationStatus
+
+export type StudentCreationMethod = $Enums.StudentCreationMethod
+
+export const StudentCreationMethod: typeof $Enums.StudentCreationMethod
+
+export type StudentSeedBatchStatus = $Enums.StudentSeedBatchStatus
+
+export const StudentSeedBatchStatus: typeof $Enums.StudentSeedBatchStatus
+
+export type StudentSeedRowStatus = $Enums.StudentSeedRowStatus
+
+export const StudentSeedRowStatus: typeof $Enums.StudentSeedRowStatus
+
+export type UserSeedBatchStatus = $Enums.UserSeedBatchStatus
+
+export const UserSeedBatchStatus: typeof $Enums.UserSeedBatchStatus
+
+export type UserSeedRowStatus = $Enums.UserSeedRowStatus
+
+export const UserSeedRowStatus: typeof $Enums.UserSeedRowStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -369,6 +464,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.hodAssignment`: Exposes CRUD operations for the **HodAssignment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HodAssignments
+    * const hodAssignments = await prisma.hodAssignment.findMany()
+    * ```
+    */
+  get hodAssignment(): Prisma.HodAssignmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.course`: Exposes CRUD operations for the **Course** model.
     * Example usage:
     * ```ts
@@ -387,6 +492,46 @@ export class PrismaClient<
     * ```
     */
   get student(): Prisma.StudentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studentSeedBatch`: Exposes CRUD operations for the **StudentSeedBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudentSeedBatches
+    * const studentSeedBatches = await prisma.studentSeedBatch.findMany()
+    * ```
+    */
+  get studentSeedBatch(): Prisma.StudentSeedBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.studentSeedRow`: Exposes CRUD operations for the **StudentSeedRow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StudentSeedRows
+    * const studentSeedRows = await prisma.studentSeedRow.findMany()
+    * ```
+    */
+  get studentSeedRow(): Prisma.StudentSeedRowDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userSeedBatch`: Exposes CRUD operations for the **UserSeedBatch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserSeedBatches
+    * const userSeedBatches = await prisma.userSeedBatch.findMany()
+    * ```
+    */
+  get userSeedBatch(): Prisma.UserSeedBatchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userSeedRow`: Exposes CRUD operations for the **UserSeedRow** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserSeedRows
+    * const userSeedRows = await prisma.userSeedRow.findMany()
+    * ```
+    */
+  get userSeedRow(): Prisma.UserSeedRowDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.adviserAssignment`: Exposes CRUD operations for the **AdviserAssignment** model.
@@ -945,8 +1090,13 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    HodAssignment: 'HodAssignment',
     Course: 'Course',
     Student: 'Student',
+    StudentSeedBatch: 'StudentSeedBatch',
+    StudentSeedRow: 'StudentSeedRow',
+    UserSeedBatch: 'UserSeedBatch',
+    UserSeedRow: 'UserSeedRow',
     AdviserAssignment: 'AdviserAssignment',
     StudentResult: 'StudentResult',
     CorrectionRequest: 'CorrectionRequest',
@@ -973,7 +1123,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "course" | "student" | "adviserAssignment" | "studentResult" | "correctionRequest" | "overrideToken" | "resultChangeLog" | "resultSubmissionWindow" | "uploadBatch" | "uploadFile" | "uploadRow" | "graduationRun" | "eligibilityRunItem"
+      modelProps: "user" | "hodAssignment" | "course" | "student" | "studentSeedBatch" | "studentSeedRow" | "userSeedBatch" | "userSeedRow" | "adviserAssignment" | "studentResult" | "correctionRequest" | "overrideToken" | "resultChangeLog" | "resultSubmissionWindow" | "uploadBatch" | "uploadFile" | "uploadRow" | "graduationRun" | "eligibilityRunItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1048,6 +1198,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      HodAssignment: {
+        payload: Prisma.$HodAssignmentPayload<ExtArgs>
+        fields: Prisma.HodAssignmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HodAssignmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HodAssignmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          findFirst: {
+            args: Prisma.HodAssignmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HodAssignmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          findMany: {
+            args: Prisma.HodAssignmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>[]
+          }
+          create: {
+            args: Prisma.HodAssignmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          createMany: {
+            args: Prisma.HodAssignmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HodAssignmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>[]
+          }
+          delete: {
+            args: Prisma.HodAssignmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          update: {
+            args: Prisma.HodAssignmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.HodAssignmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HodAssignmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HodAssignmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.HodAssignmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HodAssignmentPayload>
+          }
+          aggregate: {
+            args: Prisma.HodAssignmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHodAssignment>
+          }
+          groupBy: {
+            args: Prisma.HodAssignmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HodAssignmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HodAssignmentCountArgs<ExtArgs>
+            result: $Utils.Optional<HodAssignmentCountAggregateOutputType> | number
           }
         }
       }
@@ -1196,6 +1420,302 @@ export namespace Prisma {
           count: {
             args: Prisma.StudentCountArgs<ExtArgs>
             result: $Utils.Optional<StudentCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudentSeedBatch: {
+        payload: Prisma.$StudentSeedBatchPayload<ExtArgs>
+        fields: Prisma.StudentSeedBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudentSeedBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudentSeedBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.StudentSeedBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudentSeedBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          findMany: {
+            args: Prisma.StudentSeedBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>[]
+          }
+          create: {
+            args: Prisma.StudentSeedBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          createMany: {
+            args: Prisma.StudentSeedBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudentSeedBatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>[]
+          }
+          delete: {
+            args: Prisma.StudentSeedBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          update: {
+            args: Prisma.StudentSeedBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudentSeedBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudentSeedBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudentSeedBatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudentSeedBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.StudentSeedBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudentSeedBatch>
+          }
+          groupBy: {
+            args: Prisma.StudentSeedBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudentSeedBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudentSeedBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<StudentSeedBatchCountAggregateOutputType> | number
+          }
+        }
+      }
+      StudentSeedRow: {
+        payload: Prisma.$StudentSeedRowPayload<ExtArgs>
+        fields: Prisma.StudentSeedRowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StudentSeedRowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StudentSeedRowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          findFirst: {
+            args: Prisma.StudentSeedRowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StudentSeedRowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          findMany: {
+            args: Prisma.StudentSeedRowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>[]
+          }
+          create: {
+            args: Prisma.StudentSeedRowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          createMany: {
+            args: Prisma.StudentSeedRowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StudentSeedRowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>[]
+          }
+          delete: {
+            args: Prisma.StudentSeedRowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          update: {
+            args: Prisma.StudentSeedRowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          deleteMany: {
+            args: Prisma.StudentSeedRowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StudentSeedRowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.StudentSeedRowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>[]
+          }
+          upsert: {
+            args: Prisma.StudentSeedRowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StudentSeedRowPayload>
+          }
+          aggregate: {
+            args: Prisma.StudentSeedRowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStudentSeedRow>
+          }
+          groupBy: {
+            args: Prisma.StudentSeedRowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StudentSeedRowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StudentSeedRowCountArgs<ExtArgs>
+            result: $Utils.Optional<StudentSeedRowCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserSeedBatch: {
+        payload: Prisma.$UserSeedBatchPayload<ExtArgs>
+        fields: Prisma.UserSeedBatchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserSeedBatchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserSeedBatchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          findFirst: {
+            args: Prisma.UserSeedBatchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserSeedBatchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          findMany: {
+            args: Prisma.UserSeedBatchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>[]
+          }
+          create: {
+            args: Prisma.UserSeedBatchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          createMany: {
+            args: Prisma.UserSeedBatchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserSeedBatchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>[]
+          }
+          delete: {
+            args: Prisma.UserSeedBatchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          update: {
+            args: Prisma.UserSeedBatchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserSeedBatchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserSeedBatchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserSeedBatchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserSeedBatchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedBatchPayload>
+          }
+          aggregate: {
+            args: Prisma.UserSeedBatchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserSeedBatch>
+          }
+          groupBy: {
+            args: Prisma.UserSeedBatchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserSeedBatchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserSeedBatchCountArgs<ExtArgs>
+            result: $Utils.Optional<UserSeedBatchCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserSeedRow: {
+        payload: Prisma.$UserSeedRowPayload<ExtArgs>
+        fields: Prisma.UserSeedRowFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserSeedRowFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserSeedRowFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          findFirst: {
+            args: Prisma.UserSeedRowFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserSeedRowFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          findMany: {
+            args: Prisma.UserSeedRowFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>[]
+          }
+          create: {
+            args: Prisma.UserSeedRowCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          createMany: {
+            args: Prisma.UserSeedRowCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserSeedRowCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>[]
+          }
+          delete: {
+            args: Prisma.UserSeedRowDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          update: {
+            args: Prisma.UserSeedRowUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserSeedRowDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserSeedRowUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserSeedRowUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserSeedRowUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserSeedRowPayload>
+          }
+          aggregate: {
+            args: Prisma.UserSeedRowAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserSeedRow>
+          }
+          groupBy: {
+            args: Prisma.UserSeedRowGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserSeedRowGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserSeedRowCountArgs<ExtArgs>
+            result: $Utils.Optional<UserSeedRowCountAggregateOutputType> | number
           }
         }
       }
@@ -2137,8 +2657,13 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    hodAssignment?: HodAssignmentOmit
     course?: CourseOmit
     student?: StudentOmit
+    studentSeedBatch?: StudentSeedBatchOmit
+    studentSeedRow?: StudentSeedRowOmit
+    userSeedBatch?: UserSeedBatchOmit
+    userSeedRow?: UserSeedRowOmit
     adviserAssignment?: AdviserAssignmentOmit
     studentResult?: StudentResultOmit
     correctionRequest?: CorrectionRequestOmit
@@ -2243,6 +2768,10 @@ export namespace Prisma {
     resultChanges: number
     windowsOpened: number
     graduationRunsTriggered: number
+    studentSeedBatches: number
+    userSeedBatchesUploaded: number
+    hodAssignmentsHeld: number
+    hodAssignmentsGiven: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2259,6 +2788,10 @@ export namespace Prisma {
     resultChanges?: boolean | UserCountOutputTypeCountResultChangesArgs
     windowsOpened?: boolean | UserCountOutputTypeCountWindowsOpenedArgs
     graduationRunsTriggered?: boolean | UserCountOutputTypeCountGraduationRunsTriggeredArgs
+    studentSeedBatches?: boolean | UserCountOutputTypeCountStudentSeedBatchesArgs
+    userSeedBatchesUploaded?: boolean | UserCountOutputTypeCountUserSeedBatchesUploadedArgs
+    hodAssignmentsHeld?: boolean | UserCountOutputTypeCountHodAssignmentsHeldArgs
+    hodAssignmentsGiven?: boolean | UserCountOutputTypeCountHodAssignmentsGivenArgs
   }
 
   // Custom InputTypes
@@ -2363,6 +2896,34 @@ export namespace Prisma {
     where?: GraduationRunWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStudentSeedBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentSeedBatchWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUserSeedBatchesUploadedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserSeedBatchWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHodAssignmentsHeldArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HodAssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHodAssignmentsGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HodAssignmentWhereInput
+  }
+
 
   /**
    * Count Type CourseCountOutputType
@@ -2459,6 +3020,68 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountEligibilityItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EligibilityRunItemWhereInput
+  }
+
+
+  /**
+   * Count Type StudentSeedBatchCountOutputType
+   */
+
+  export type StudentSeedBatchCountOutputType = {
+    rows: number
+  }
+
+  export type StudentSeedBatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rows?: boolean | StudentSeedBatchCountOutputTypeCountRowsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * StudentSeedBatchCountOutputType without action
+   */
+  export type StudentSeedBatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatchCountOutputType
+     */
+    select?: StudentSeedBatchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * StudentSeedBatchCountOutputType without action
+   */
+  export type StudentSeedBatchCountOutputTypeCountRowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentSeedRowWhereInput
+  }
+
+
+  /**
+   * Count Type UserSeedBatchCountOutputType
+   */
+
+  export type UserSeedBatchCountOutputType = {
+    rows: number
+  }
+
+  export type UserSeedBatchCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rows?: boolean | UserSeedBatchCountOutputTypeCountRowsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserSeedBatchCountOutputType without action
+   */
+  export type UserSeedBatchCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatchCountOutputType
+     */
+    select?: UserSeedBatchCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserSeedBatchCountOutputType without action
+   */
+  export type UserSeedBatchCountOutputTypeCountRowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserSeedRowWhereInput
   }
 
 
@@ -2840,6 +3463,11 @@ export namespace Prisma {
     resultChanges?: boolean | User$resultChangesArgs<ExtArgs>
     windowsOpened?: boolean | User$windowsOpenedArgs<ExtArgs>
     graduationRunsTriggered?: boolean | User$graduationRunsTriggeredArgs<ExtArgs>
+    studentSeedBatches?: boolean | User$studentSeedBatchesArgs<ExtArgs>
+    userSeedBatchesUploaded?: boolean | User$userSeedBatchesUploadedArgs<ExtArgs>
+    createdViaSeedRow?: boolean | User$createdViaSeedRowArgs<ExtArgs>
+    hodAssignmentsHeld?: boolean | User$hodAssignmentsHeldArgs<ExtArgs>
+    hodAssignmentsGiven?: boolean | User$hodAssignmentsGivenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2891,6 +3519,11 @@ export namespace Prisma {
     resultChanges?: boolean | User$resultChangesArgs<ExtArgs>
     windowsOpened?: boolean | User$windowsOpenedArgs<ExtArgs>
     graduationRunsTriggered?: boolean | User$graduationRunsTriggeredArgs<ExtArgs>
+    studentSeedBatches?: boolean | User$studentSeedBatchesArgs<ExtArgs>
+    userSeedBatchesUploaded?: boolean | User$userSeedBatchesUploadedArgs<ExtArgs>
+    createdViaSeedRow?: boolean | User$createdViaSeedRowArgs<ExtArgs>
+    hodAssignmentsHeld?: boolean | User$hodAssignmentsHeldArgs<ExtArgs>
+    hodAssignmentsGiven?: boolean | User$hodAssignmentsGivenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2912,6 +3545,11 @@ export namespace Prisma {
       resultChanges: Prisma.$ResultChangeLogPayload<ExtArgs>[]
       windowsOpened: Prisma.$ResultSubmissionWindowPayload<ExtArgs>[]
       graduationRunsTriggered: Prisma.$GraduationRunPayload<ExtArgs>[]
+      studentSeedBatches: Prisma.$StudentSeedBatchPayload<ExtArgs>[]
+      userSeedBatchesUploaded: Prisma.$UserSeedBatchPayload<ExtArgs>[]
+      createdViaSeedRow: Prisma.$UserSeedRowPayload<ExtArgs> | null
+      hodAssignmentsHeld: Prisma.$HodAssignmentPayload<ExtArgs>[]
+      hodAssignmentsGiven: Prisma.$HodAssignmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3329,6 +3967,11 @@ export namespace Prisma {
     resultChanges<T extends User$resultChangesArgs<ExtArgs> = {}>(args?: Subset<T, User$resultChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultChangeLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     windowsOpened<T extends User$windowsOpenedArgs<ExtArgs> = {}>(args?: Subset<T, User$windowsOpenedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultSubmissionWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     graduationRunsTriggered<T extends User$graduationRunsTriggeredArgs<ExtArgs> = {}>(args?: Subset<T, User$graduationRunsTriggeredArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GraduationRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    studentSeedBatches<T extends User$studentSeedBatchesArgs<ExtArgs> = {}>(args?: Subset<T, User$studentSeedBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    userSeedBatchesUploaded<T extends User$userSeedBatchesUploadedArgs<ExtArgs> = {}>(args?: Subset<T, User$userSeedBatchesUploadedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdViaSeedRow<T extends User$createdViaSeedRowArgs<ExtArgs> = {}>(args?: Subset<T, User$createdViaSeedRowArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    hodAssignmentsHeld<T extends User$hodAssignmentsHeldArgs<ExtArgs> = {}>(args?: Subset<T, User$hodAssignmentsHeldArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    hodAssignmentsGiven<T extends User$hodAssignmentsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$hodAssignmentsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4071,6 +4714,121 @@ export namespace Prisma {
   }
 
   /**
+   * User.studentSeedBatches
+   */
+  export type User$studentSeedBatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    where?: StudentSeedBatchWhereInput
+    orderBy?: StudentSeedBatchOrderByWithRelationInput | StudentSeedBatchOrderByWithRelationInput[]
+    cursor?: StudentSeedBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudentSeedBatchScalarFieldEnum | StudentSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * User.userSeedBatchesUploaded
+   */
+  export type User$userSeedBatchesUploadedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    where?: UserSeedBatchWhereInput
+    orderBy?: UserSeedBatchOrderByWithRelationInput | UserSeedBatchOrderByWithRelationInput[]
+    cursor?: UserSeedBatchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserSeedBatchScalarFieldEnum | UserSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdViaSeedRow
+   */
+  export type User$createdViaSeedRowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    where?: UserSeedRowWhereInput
+  }
+
+  /**
+   * User.hodAssignmentsHeld
+   */
+  export type User$hodAssignmentsHeldArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    where?: HodAssignmentWhereInput
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    cursor?: HodAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.hodAssignmentsGiven
+   */
+  export type User$hodAssignmentsGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    where?: HodAssignmentWhereInput
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    cursor?: HodAssignmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4086,6 +4844,1090 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HodAssignment
+   */
+
+  export type AggregateHodAssignment = {
+    _count: HodAssignmentCountAggregateOutputType | null
+    _min: HodAssignmentMinAggregateOutputType | null
+    _max: HodAssignmentMaxAggregateOutputType | null
+  }
+
+  export type HodAssignmentMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    assignedById: string | null
+    startDate: Date | null
+    endDate: Date | null
+    createdAt: Date | null
+  }
+
+  export type HodAssignmentMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    assignedById: string | null
+    startDate: Date | null
+    endDate: Date | null
+    createdAt: Date | null
+  }
+
+  export type HodAssignmentCountAggregateOutputType = {
+    id: number
+    userId: number
+    assignedById: number
+    startDate: number
+    endDate: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HodAssignmentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    assignedById?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+  }
+
+  export type HodAssignmentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    assignedById?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+  }
+
+  export type HodAssignmentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    assignedById?: true
+    startDate?: true
+    endDate?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HodAssignmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HodAssignment to aggregate.
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HodAssignments to fetch.
+     */
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HodAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HodAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HodAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HodAssignments
+    **/
+    _count?: true | HodAssignmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HodAssignmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HodAssignmentMaxAggregateInputType
+  }
+
+  export type GetHodAssignmentAggregateType<T extends HodAssignmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateHodAssignment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHodAssignment[P]>
+      : GetScalarType<T[P], AggregateHodAssignment[P]>
+  }
+
+
+
+
+  export type HodAssignmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HodAssignmentWhereInput
+    orderBy?: HodAssignmentOrderByWithAggregationInput | HodAssignmentOrderByWithAggregationInput[]
+    by: HodAssignmentScalarFieldEnum[] | HodAssignmentScalarFieldEnum
+    having?: HodAssignmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HodAssignmentCountAggregateInputType | true
+    _min?: HodAssignmentMinAggregateInputType
+    _max?: HodAssignmentMaxAggregateInputType
+  }
+
+  export type HodAssignmentGroupByOutputType = {
+    id: string
+    userId: string
+    assignedById: string
+    startDate: Date
+    endDate: Date | null
+    createdAt: Date
+    _count: HodAssignmentCountAggregateOutputType | null
+    _min: HodAssignmentMinAggregateOutputType | null
+    _max: HodAssignmentMaxAggregateOutputType | null
+  }
+
+  type GetHodAssignmentGroupByPayload<T extends HodAssignmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HodAssignmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HodAssignmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HodAssignmentGroupByOutputType[P]>
+            : GetScalarType<T[P], HodAssignmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HodAssignmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    assignedById?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hodAssignment"]>
+
+  export type HodAssignmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    assignedById?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hodAssignment"]>
+
+  export type HodAssignmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    assignedById?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["hodAssignment"]>
+
+  export type HodAssignmentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    assignedById?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    createdAt?: boolean
+  }
+
+  export type HodAssignmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "assignedById" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["hodAssignment"]>
+  export type HodAssignmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type HodAssignmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type HodAssignmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    assignedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $HodAssignmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HodAssignment"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      assignedBy: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      assignedById: string
+      startDate: Date
+      endDate: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["hodAssignment"]>
+    composites: {}
+  }
+
+  type HodAssignmentGetPayload<S extends boolean | null | undefined | HodAssignmentDefaultArgs> = $Result.GetResult<Prisma.$HodAssignmentPayload, S>
+
+  type HodAssignmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HodAssignmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HodAssignmentCountAggregateInputType | true
+    }
+
+  export interface HodAssignmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HodAssignment'], meta: { name: 'HodAssignment' } }
+    /**
+     * Find zero or one HodAssignment that matches the filter.
+     * @param {HodAssignmentFindUniqueArgs} args - Arguments to find a HodAssignment
+     * @example
+     * // Get one HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HodAssignmentFindUniqueArgs>(args: SelectSubset<T, HodAssignmentFindUniqueArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HodAssignment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HodAssignmentFindUniqueOrThrowArgs} args - Arguments to find a HodAssignment
+     * @example
+     * // Get one HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HodAssignmentFindUniqueOrThrowArgs>(args: SelectSubset<T, HodAssignmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HodAssignment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentFindFirstArgs} args - Arguments to find a HodAssignment
+     * @example
+     * // Get one HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HodAssignmentFindFirstArgs>(args?: SelectSubset<T, HodAssignmentFindFirstArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HodAssignment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentFindFirstOrThrowArgs} args - Arguments to find a HodAssignment
+     * @example
+     * // Get one HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HodAssignmentFindFirstOrThrowArgs>(args?: SelectSubset<T, HodAssignmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HodAssignments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HodAssignments
+     * const hodAssignments = await prisma.hodAssignment.findMany()
+     * 
+     * // Get first 10 HodAssignments
+     * const hodAssignments = await prisma.hodAssignment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const hodAssignmentWithIdOnly = await prisma.hodAssignment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HodAssignmentFindManyArgs>(args?: SelectSubset<T, HodAssignmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HodAssignment.
+     * @param {HodAssignmentCreateArgs} args - Arguments to create a HodAssignment.
+     * @example
+     * // Create one HodAssignment
+     * const HodAssignment = await prisma.hodAssignment.create({
+     *   data: {
+     *     // ... data to create a HodAssignment
+     *   }
+     * })
+     * 
+     */
+    create<T extends HodAssignmentCreateArgs>(args: SelectSubset<T, HodAssignmentCreateArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HodAssignments.
+     * @param {HodAssignmentCreateManyArgs} args - Arguments to create many HodAssignments.
+     * @example
+     * // Create many HodAssignments
+     * const hodAssignment = await prisma.hodAssignment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HodAssignmentCreateManyArgs>(args?: SelectSubset<T, HodAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HodAssignments and returns the data saved in the database.
+     * @param {HodAssignmentCreateManyAndReturnArgs} args - Arguments to create many HodAssignments.
+     * @example
+     * // Create many HodAssignments
+     * const hodAssignment = await prisma.hodAssignment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HodAssignments and only return the `id`
+     * const hodAssignmentWithIdOnly = await prisma.hodAssignment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HodAssignmentCreateManyAndReturnArgs>(args?: SelectSubset<T, HodAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HodAssignment.
+     * @param {HodAssignmentDeleteArgs} args - Arguments to delete one HodAssignment.
+     * @example
+     * // Delete one HodAssignment
+     * const HodAssignment = await prisma.hodAssignment.delete({
+     *   where: {
+     *     // ... filter to delete one HodAssignment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HodAssignmentDeleteArgs>(args: SelectSubset<T, HodAssignmentDeleteArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HodAssignment.
+     * @param {HodAssignmentUpdateArgs} args - Arguments to update one HodAssignment.
+     * @example
+     * // Update one HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HodAssignmentUpdateArgs>(args: SelectSubset<T, HodAssignmentUpdateArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HodAssignments.
+     * @param {HodAssignmentDeleteManyArgs} args - Arguments to filter HodAssignments to delete.
+     * @example
+     * // Delete a few HodAssignments
+     * const { count } = await prisma.hodAssignment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HodAssignmentDeleteManyArgs>(args?: SelectSubset<T, HodAssignmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HodAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HodAssignments
+     * const hodAssignment = await prisma.hodAssignment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HodAssignmentUpdateManyArgs>(args: SelectSubset<T, HodAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HodAssignments and returns the data updated in the database.
+     * @param {HodAssignmentUpdateManyAndReturnArgs} args - Arguments to update many HodAssignments.
+     * @example
+     * // Update many HodAssignments
+     * const hodAssignment = await prisma.hodAssignment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HodAssignments and only return the `id`
+     * const hodAssignmentWithIdOnly = await prisma.hodAssignment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HodAssignmentUpdateManyAndReturnArgs>(args: SelectSubset<T, HodAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HodAssignment.
+     * @param {HodAssignmentUpsertArgs} args - Arguments to update or create a HodAssignment.
+     * @example
+     * // Update or create a HodAssignment
+     * const hodAssignment = await prisma.hodAssignment.upsert({
+     *   create: {
+     *     // ... data to create a HodAssignment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HodAssignment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HodAssignmentUpsertArgs>(args: SelectSubset<T, HodAssignmentUpsertArgs<ExtArgs>>): Prisma__HodAssignmentClient<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HodAssignments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentCountArgs} args - Arguments to filter HodAssignments to count.
+     * @example
+     * // Count the number of HodAssignments
+     * const count = await prisma.hodAssignment.count({
+     *   where: {
+     *     // ... the filter for the HodAssignments we want to count
+     *   }
+     * })
+    **/
+    count<T extends HodAssignmentCountArgs>(
+      args?: Subset<T, HodAssignmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HodAssignmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HodAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HodAssignmentAggregateArgs>(args: Subset<T, HodAssignmentAggregateArgs>): Prisma.PrismaPromise<GetHodAssignmentAggregateType<T>>
+
+    /**
+     * Group by HodAssignment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HodAssignmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HodAssignmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HodAssignmentGroupByArgs['orderBy'] }
+        : { orderBy?: HodAssignmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HodAssignmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHodAssignmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HodAssignment model
+   */
+  readonly fields: HodAssignmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HodAssignment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HodAssignmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    assignedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HodAssignment model
+   */
+  interface HodAssignmentFieldRefs {
+    readonly id: FieldRef<"HodAssignment", 'String'>
+    readonly userId: FieldRef<"HodAssignment", 'String'>
+    readonly assignedById: FieldRef<"HodAssignment", 'String'>
+    readonly startDate: FieldRef<"HodAssignment", 'DateTime'>
+    readonly endDate: FieldRef<"HodAssignment", 'DateTime'>
+    readonly createdAt: FieldRef<"HodAssignment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HodAssignment findUnique
+   */
+  export type HodAssignmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which HodAssignment to fetch.
+     */
+    where: HodAssignmentWhereUniqueInput
+  }
+
+  /**
+   * HodAssignment findUniqueOrThrow
+   */
+  export type HodAssignmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which HodAssignment to fetch.
+     */
+    where: HodAssignmentWhereUniqueInput
+  }
+
+  /**
+   * HodAssignment findFirst
+   */
+  export type HodAssignmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which HodAssignment to fetch.
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HodAssignments to fetch.
+     */
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HodAssignments.
+     */
+    cursor?: HodAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HodAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HodAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HodAssignments.
+     */
+    distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * HodAssignment findFirstOrThrow
+   */
+  export type HodAssignmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which HodAssignment to fetch.
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HodAssignments to fetch.
+     */
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HodAssignments.
+     */
+    cursor?: HodAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HodAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HodAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HodAssignments.
+     */
+    distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * HodAssignment findMany
+   */
+  export type HodAssignmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter, which HodAssignments to fetch.
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HodAssignments to fetch.
+     */
+    orderBy?: HodAssignmentOrderByWithRelationInput | HodAssignmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HodAssignments.
+     */
+    cursor?: HodAssignmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HodAssignments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HodAssignments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HodAssignments.
+     */
+    distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * HodAssignment create
+   */
+  export type HodAssignmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HodAssignment.
+     */
+    data: XOR<HodAssignmentCreateInput, HodAssignmentUncheckedCreateInput>
+  }
+
+  /**
+   * HodAssignment createMany
+   */
+  export type HodAssignmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HodAssignments.
+     */
+    data: HodAssignmentCreateManyInput | HodAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HodAssignment createManyAndReturn
+   */
+  export type HodAssignmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many HodAssignments.
+     */
+    data: HodAssignmentCreateManyInput | HodAssignmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HodAssignment update
+   */
+  export type HodAssignmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HodAssignment.
+     */
+    data: XOR<HodAssignmentUpdateInput, HodAssignmentUncheckedUpdateInput>
+    /**
+     * Choose, which HodAssignment to update.
+     */
+    where: HodAssignmentWhereUniqueInput
+  }
+
+  /**
+   * HodAssignment updateMany
+   */
+  export type HodAssignmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HodAssignments.
+     */
+    data: XOR<HodAssignmentUpdateManyMutationInput, HodAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which HodAssignments to update
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * Limit how many HodAssignments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HodAssignment updateManyAndReturn
+   */
+  export type HodAssignmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * The data used to update HodAssignments.
+     */
+    data: XOR<HodAssignmentUpdateManyMutationInput, HodAssignmentUncheckedUpdateManyInput>
+    /**
+     * Filter which HodAssignments to update
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * Limit how many HodAssignments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HodAssignment upsert
+   */
+  export type HodAssignmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HodAssignment to update in case it exists.
+     */
+    where: HodAssignmentWhereUniqueInput
+    /**
+     * In case the HodAssignment found by the `where` argument doesn't exist, create a new HodAssignment with this data.
+     */
+    create: XOR<HodAssignmentCreateInput, HodAssignmentUncheckedCreateInput>
+    /**
+     * In case the HodAssignment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HodAssignmentUpdateInput, HodAssignmentUncheckedUpdateInput>
+  }
+
+  /**
+   * HodAssignment delete
+   */
+  export type HodAssignmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
+    /**
+     * Filter which HodAssignment to delete.
+     */
+    where: HodAssignmentWhereUniqueInput
+  }
+
+  /**
+   * HodAssignment deleteMany
+   */
+  export type HodAssignmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HodAssignments to delete
+     */
+    where?: HodAssignmentWhereInput
+    /**
+     * Limit how many HodAssignments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HodAssignment without action
+   */
+  export type HodAssignmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HodAssignment
+     */
+    select?: HodAssignmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HodAssignment
+     */
+    omit?: HodAssignmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HodAssignmentInclude<ExtArgs> | null
   }
 
 
@@ -5421,6 +7263,8 @@ export namespace Prisma {
     entrySession: string | null
     currentLevel: number | null
     status: $Enums.StudentStatus | null
+    creationMethod: $Enums.StudentCreationMethod | null
+    seedRowId: string | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5433,6 +7277,8 @@ export namespace Prisma {
     entrySession: string | null
     currentLevel: number | null
     status: $Enums.StudentStatus | null
+    creationMethod: $Enums.StudentCreationMethod | null
+    seedRowId: string | null
     createdById: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -5445,6 +7291,8 @@ export namespace Prisma {
     entrySession: number
     currentLevel: number
     status: number
+    creationMethod: number
+    seedRowId: number
     createdById: number
     createdAt: number
     updatedAt: number
@@ -5467,6 +7315,8 @@ export namespace Prisma {
     entrySession?: true
     currentLevel?: true
     status?: true
+    creationMethod?: true
+    seedRowId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -5479,6 +7329,8 @@ export namespace Prisma {
     entrySession?: true
     currentLevel?: true
     status?: true
+    creationMethod?: true
+    seedRowId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -5491,6 +7343,8 @@ export namespace Prisma {
     entrySession?: true
     currentLevel?: true
     status?: true
+    creationMethod?: true
+    seedRowId?: true
     createdById?: true
     createdAt?: true
     updatedAt?: true
@@ -5590,6 +7444,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status: $Enums.StudentStatus
+    creationMethod: $Enums.StudentCreationMethod
+    seedRowId: string | null
     createdById: string
     createdAt: Date
     updatedAt: Date
@@ -5621,9 +7477,12 @@ export namespace Prisma {
     entrySession?: boolean
     currentLevel?: boolean
     status?: boolean
+    creationMethod?: boolean
+    seedRowId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     results?: boolean | Student$resultsArgs<ExtArgs>
     uploadRows?: boolean | Student$uploadRowsArgs<ExtArgs>
@@ -5638,9 +7497,12 @@ export namespace Prisma {
     entrySession?: boolean
     currentLevel?: boolean
     status?: boolean
+    creationMethod?: boolean
+    seedRowId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -5651,9 +7513,12 @@ export namespace Prisma {
     entrySession?: boolean
     currentLevel?: boolean
     status?: boolean
+    creationMethod?: boolean
+    seedRowId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -5664,13 +7529,16 @@ export namespace Prisma {
     entrySession?: boolean
     currentLevel?: boolean
     status?: boolean
+    creationMethod?: boolean
+    seedRowId?: boolean
     createdById?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricNumber" | "fullName" | "entrySession" | "currentLevel" | "status" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matricNumber" | "fullName" | "entrySession" | "currentLevel" | "status" | "creationMethod" | "seedRowId" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
     results?: boolean | Student$resultsArgs<ExtArgs>
     uploadRows?: boolean | Student$uploadRowsArgs<ExtArgs>
@@ -5678,15 +7546,18 @@ export namespace Prisma {
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type StudentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seedRow?: boolean | Student$seedRowArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $StudentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Student"
     objects: {
+      seedRow: Prisma.$StudentSeedRowPayload<ExtArgs> | null
       createdBy: Prisma.$UserPayload<ExtArgs>
       results: Prisma.$StudentResultPayload<ExtArgs>[]
       uploadRows: Prisma.$UploadRowPayload<ExtArgs>[]
@@ -5699,6 +7570,8 @@ export namespace Prisma {
       entrySession: string
       currentLevel: number
       status: $Enums.StudentStatus
+      creationMethod: $Enums.StudentCreationMethod
+      seedRowId: string | null
       createdById: string
       createdAt: Date
       updatedAt: Date
@@ -6096,6 +7969,7 @@ export namespace Prisma {
    */
   export interface Prisma__StudentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    seedRow<T extends Student$seedRowArgs<ExtArgs> = {}>(args?: Subset<T, Student$seedRowArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     results<T extends Student$resultsArgs<ExtArgs> = {}>(args?: Subset<T, Student$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     uploadRows<T extends Student$uploadRowsArgs<ExtArgs> = {}>(args?: Subset<T, Student$uploadRowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6135,6 +8009,8 @@ export namespace Prisma {
     readonly entrySession: FieldRef<"Student", 'String'>
     readonly currentLevel: FieldRef<"Student", 'Int'>
     readonly status: FieldRef<"Student", 'StudentStatus'>
+    readonly creationMethod: FieldRef<"Student", 'StudentCreationMethod'>
+    readonly seedRowId: FieldRef<"Student", 'String'>
     readonly createdById: FieldRef<"Student", 'String'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
     readonly updatedAt: FieldRef<"Student", 'DateTime'>
@@ -6539,6 +8415,25 @@ export namespace Prisma {
   }
 
   /**
+   * Student.seedRow
+   */
+  export type Student$seedRowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    where?: StudentSeedRowWhereInput
+  }
+
+  /**
    * Student.results
    */
   export type Student$resultsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6626,6 +8521,4519 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: StudentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudentSeedBatch
+   */
+
+  export type AggregateStudentSeedBatch = {
+    _count: StudentSeedBatchCountAggregateOutputType | null
+    _min: StudentSeedBatchMinAggregateOutputType | null
+    _max: StudentSeedBatchMaxAggregateOutputType | null
+  }
+
+  export type StudentSeedBatchMinAggregateOutputType = {
+    id: string | null
+    entrySession: string | null
+    uploadedById: string | null
+    status: $Enums.StudentSeedBatchStatus | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type StudentSeedBatchMaxAggregateOutputType = {
+    id: string | null
+    entrySession: string | null
+    uploadedById: string | null
+    status: $Enums.StudentSeedBatchStatus | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type StudentSeedBatchCountAggregateOutputType = {
+    id: number
+    entrySession: number
+    uploadedById: number
+    status: number
+    createdAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type StudentSeedBatchMinAggregateInputType = {
+    id?: true
+    entrySession?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type StudentSeedBatchMaxAggregateInputType = {
+    id?: true
+    entrySession?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type StudentSeedBatchCountAggregateInputType = {
+    id?: true
+    entrySession?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type StudentSeedBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentSeedBatch to aggregate.
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedBatches to fetch.
+     */
+    orderBy?: StudentSeedBatchOrderByWithRelationInput | StudentSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudentSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudentSeedBatches
+    **/
+    _count?: true | StudentSeedBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudentSeedBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudentSeedBatchMaxAggregateInputType
+  }
+
+  export type GetStudentSeedBatchAggregateType<T extends StudentSeedBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudentSeedBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudentSeedBatch[P]>
+      : GetScalarType<T[P], AggregateStudentSeedBatch[P]>
+  }
+
+
+
+
+  export type StudentSeedBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentSeedBatchWhereInput
+    orderBy?: StudentSeedBatchOrderByWithAggregationInput | StudentSeedBatchOrderByWithAggregationInput[]
+    by: StudentSeedBatchScalarFieldEnum[] | StudentSeedBatchScalarFieldEnum
+    having?: StudentSeedBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudentSeedBatchCountAggregateInputType | true
+    _min?: StudentSeedBatchMinAggregateInputType
+    _max?: StudentSeedBatchMaxAggregateInputType
+  }
+
+  export type StudentSeedBatchGroupByOutputType = {
+    id: string
+    entrySession: string
+    uploadedById: string
+    status: $Enums.StudentSeedBatchStatus
+    createdAt: Date
+    completedAt: Date | null
+    _count: StudentSeedBatchCountAggregateOutputType | null
+    _min: StudentSeedBatchMinAggregateOutputType | null
+    _max: StudentSeedBatchMaxAggregateOutputType | null
+  }
+
+  type GetStudentSeedBatchGroupByPayload<T extends StudentSeedBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudentSeedBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudentSeedBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudentSeedBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], StudentSeedBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudentSeedBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entrySession?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rows?: boolean | StudentSeedBatch$rowsArgs<ExtArgs>
+    _count?: boolean | StudentSeedBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedBatch"]>
+
+  export type StudentSeedBatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entrySession?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedBatch"]>
+
+  export type StudentSeedBatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entrySession?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedBatch"]>
+
+  export type StudentSeedBatchSelectScalar = {
+    id?: boolean
+    entrySession?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type StudentSeedBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "entrySession" | "uploadedById" | "status" | "createdAt" | "completedAt", ExtArgs["result"]["studentSeedBatch"]>
+  export type StudentSeedBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rows?: boolean | StudentSeedBatch$rowsArgs<ExtArgs>
+    _count?: boolean | StudentSeedBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StudentSeedBatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type StudentSeedBatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $StudentSeedBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudentSeedBatch"
+    objects: {
+      uploadedBy: Prisma.$UserPayload<ExtArgs>
+      rows: Prisma.$StudentSeedRowPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      entrySession: string
+      uploadedById: string
+      status: $Enums.StudentSeedBatchStatus
+      createdAt: Date
+      completedAt: Date | null
+    }, ExtArgs["result"]["studentSeedBatch"]>
+    composites: {}
+  }
+
+  type StudentSeedBatchGetPayload<S extends boolean | null | undefined | StudentSeedBatchDefaultArgs> = $Result.GetResult<Prisma.$StudentSeedBatchPayload, S>
+
+  type StudentSeedBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudentSeedBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudentSeedBatchCountAggregateInputType | true
+    }
+
+  export interface StudentSeedBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudentSeedBatch'], meta: { name: 'StudentSeedBatch' } }
+    /**
+     * Find zero or one StudentSeedBatch that matches the filter.
+     * @param {StudentSeedBatchFindUniqueArgs} args - Arguments to find a StudentSeedBatch
+     * @example
+     * // Get one StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudentSeedBatchFindUniqueArgs>(args: SelectSubset<T, StudentSeedBatchFindUniqueArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudentSeedBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudentSeedBatchFindUniqueOrThrowArgs} args - Arguments to find a StudentSeedBatch
+     * @example
+     * // Get one StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudentSeedBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, StudentSeedBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentSeedBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchFindFirstArgs} args - Arguments to find a StudentSeedBatch
+     * @example
+     * // Get one StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudentSeedBatchFindFirstArgs>(args?: SelectSubset<T, StudentSeedBatchFindFirstArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentSeedBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchFindFirstOrThrowArgs} args - Arguments to find a StudentSeedBatch
+     * @example
+     * // Get one StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudentSeedBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, StudentSeedBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudentSeedBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudentSeedBatches
+     * const studentSeedBatches = await prisma.studentSeedBatch.findMany()
+     * 
+     * // Get first 10 StudentSeedBatches
+     * const studentSeedBatches = await prisma.studentSeedBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studentSeedBatchWithIdOnly = await prisma.studentSeedBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudentSeedBatchFindManyArgs>(args?: SelectSubset<T, StudentSeedBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudentSeedBatch.
+     * @param {StudentSeedBatchCreateArgs} args - Arguments to create a StudentSeedBatch.
+     * @example
+     * // Create one StudentSeedBatch
+     * const StudentSeedBatch = await prisma.studentSeedBatch.create({
+     *   data: {
+     *     // ... data to create a StudentSeedBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudentSeedBatchCreateArgs>(args: SelectSubset<T, StudentSeedBatchCreateArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudentSeedBatches.
+     * @param {StudentSeedBatchCreateManyArgs} args - Arguments to create many StudentSeedBatches.
+     * @example
+     * // Create many StudentSeedBatches
+     * const studentSeedBatch = await prisma.studentSeedBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudentSeedBatchCreateManyArgs>(args?: SelectSubset<T, StudentSeedBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudentSeedBatches and returns the data saved in the database.
+     * @param {StudentSeedBatchCreateManyAndReturnArgs} args - Arguments to create many StudentSeedBatches.
+     * @example
+     * // Create many StudentSeedBatches
+     * const studentSeedBatch = await prisma.studentSeedBatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudentSeedBatches and only return the `id`
+     * const studentSeedBatchWithIdOnly = await prisma.studentSeedBatch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudentSeedBatchCreateManyAndReturnArgs>(args?: SelectSubset<T, StudentSeedBatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudentSeedBatch.
+     * @param {StudentSeedBatchDeleteArgs} args - Arguments to delete one StudentSeedBatch.
+     * @example
+     * // Delete one StudentSeedBatch
+     * const StudentSeedBatch = await prisma.studentSeedBatch.delete({
+     *   where: {
+     *     // ... filter to delete one StudentSeedBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudentSeedBatchDeleteArgs>(args: SelectSubset<T, StudentSeedBatchDeleteArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudentSeedBatch.
+     * @param {StudentSeedBatchUpdateArgs} args - Arguments to update one StudentSeedBatch.
+     * @example
+     * // Update one StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudentSeedBatchUpdateArgs>(args: SelectSubset<T, StudentSeedBatchUpdateArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudentSeedBatches.
+     * @param {StudentSeedBatchDeleteManyArgs} args - Arguments to filter StudentSeedBatches to delete.
+     * @example
+     * // Delete a few StudentSeedBatches
+     * const { count } = await prisma.studentSeedBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudentSeedBatchDeleteManyArgs>(args?: SelectSubset<T, StudentSeedBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentSeedBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudentSeedBatches
+     * const studentSeedBatch = await prisma.studentSeedBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudentSeedBatchUpdateManyArgs>(args: SelectSubset<T, StudentSeedBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentSeedBatches and returns the data updated in the database.
+     * @param {StudentSeedBatchUpdateManyAndReturnArgs} args - Arguments to update many StudentSeedBatches.
+     * @example
+     * // Update many StudentSeedBatches
+     * const studentSeedBatch = await prisma.studentSeedBatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudentSeedBatches and only return the `id`
+     * const studentSeedBatchWithIdOnly = await prisma.studentSeedBatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudentSeedBatchUpdateManyAndReturnArgs>(args: SelectSubset<T, StudentSeedBatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudentSeedBatch.
+     * @param {StudentSeedBatchUpsertArgs} args - Arguments to update or create a StudentSeedBatch.
+     * @example
+     * // Update or create a StudentSeedBatch
+     * const studentSeedBatch = await prisma.studentSeedBatch.upsert({
+     *   create: {
+     *     // ... data to create a StudentSeedBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudentSeedBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudentSeedBatchUpsertArgs>(args: SelectSubset<T, StudentSeedBatchUpsertArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudentSeedBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchCountArgs} args - Arguments to filter StudentSeedBatches to count.
+     * @example
+     * // Count the number of StudentSeedBatches
+     * const count = await prisma.studentSeedBatch.count({
+     *   where: {
+     *     // ... the filter for the StudentSeedBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudentSeedBatchCountArgs>(
+      args?: Subset<T, StudentSeedBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudentSeedBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudentSeedBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudentSeedBatchAggregateArgs>(args: Subset<T, StudentSeedBatchAggregateArgs>): Prisma.PrismaPromise<GetStudentSeedBatchAggregateType<T>>
+
+    /**
+     * Group by StudentSeedBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudentSeedBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudentSeedBatchGroupByArgs['orderBy'] }
+        : { orderBy?: StudentSeedBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudentSeedBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudentSeedBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudentSeedBatch model
+   */
+  readonly fields: StudentSeedBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudentSeedBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudentSeedBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    uploadedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rows<T extends StudentSeedBatch$rowsArgs<ExtArgs> = {}>(args?: Subset<T, StudentSeedBatch$rowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudentSeedBatch model
+   */
+  interface StudentSeedBatchFieldRefs {
+    readonly id: FieldRef<"StudentSeedBatch", 'String'>
+    readonly entrySession: FieldRef<"StudentSeedBatch", 'String'>
+    readonly uploadedById: FieldRef<"StudentSeedBatch", 'String'>
+    readonly status: FieldRef<"StudentSeedBatch", 'StudentSeedBatchStatus'>
+    readonly createdAt: FieldRef<"StudentSeedBatch", 'DateTime'>
+    readonly completedAt: FieldRef<"StudentSeedBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudentSeedBatch findUnique
+   */
+  export type StudentSeedBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedBatch to fetch.
+     */
+    where: StudentSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedBatch findUniqueOrThrow
+   */
+  export type StudentSeedBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedBatch to fetch.
+     */
+    where: StudentSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedBatch findFirst
+   */
+  export type StudentSeedBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedBatch to fetch.
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedBatches to fetch.
+     */
+    orderBy?: StudentSeedBatchOrderByWithRelationInput | StudentSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentSeedBatches.
+     */
+    cursor?: StudentSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedBatches.
+     */
+    distinct?: StudentSeedBatchScalarFieldEnum | StudentSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedBatch findFirstOrThrow
+   */
+  export type StudentSeedBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedBatch to fetch.
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedBatches to fetch.
+     */
+    orderBy?: StudentSeedBatchOrderByWithRelationInput | StudentSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentSeedBatches.
+     */
+    cursor?: StudentSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedBatches.
+     */
+    distinct?: StudentSeedBatchScalarFieldEnum | StudentSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedBatch findMany
+   */
+  export type StudentSeedBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedBatches to fetch.
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedBatches to fetch.
+     */
+    orderBy?: StudentSeedBatchOrderByWithRelationInput | StudentSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudentSeedBatches.
+     */
+    cursor?: StudentSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedBatches.
+     */
+    distinct?: StudentSeedBatchScalarFieldEnum | StudentSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedBatch create
+   */
+  export type StudentSeedBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudentSeedBatch.
+     */
+    data: XOR<StudentSeedBatchCreateInput, StudentSeedBatchUncheckedCreateInput>
+  }
+
+  /**
+   * StudentSeedBatch createMany
+   */
+  export type StudentSeedBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudentSeedBatches.
+     */
+    data: StudentSeedBatchCreateManyInput | StudentSeedBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudentSeedBatch createManyAndReturn
+   */
+  export type StudentSeedBatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudentSeedBatches.
+     */
+    data: StudentSeedBatchCreateManyInput | StudentSeedBatchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentSeedBatch update
+   */
+  export type StudentSeedBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudentSeedBatch.
+     */
+    data: XOR<StudentSeedBatchUpdateInput, StudentSeedBatchUncheckedUpdateInput>
+    /**
+     * Choose, which StudentSeedBatch to update.
+     */
+    where: StudentSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedBatch updateMany
+   */
+  export type StudentSeedBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudentSeedBatches.
+     */
+    data: XOR<StudentSeedBatchUpdateManyMutationInput, StudentSeedBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentSeedBatches to update
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * Limit how many StudentSeedBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentSeedBatch updateManyAndReturn
+   */
+  export type StudentSeedBatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * The data used to update StudentSeedBatches.
+     */
+    data: XOR<StudentSeedBatchUpdateManyMutationInput, StudentSeedBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentSeedBatches to update
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * Limit how many StudentSeedBatches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentSeedBatch upsert
+   */
+  export type StudentSeedBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudentSeedBatch to update in case it exists.
+     */
+    where: StudentSeedBatchWhereUniqueInput
+    /**
+     * In case the StudentSeedBatch found by the `where` argument doesn't exist, create a new StudentSeedBatch with this data.
+     */
+    create: XOR<StudentSeedBatchCreateInput, StudentSeedBatchUncheckedCreateInput>
+    /**
+     * In case the StudentSeedBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudentSeedBatchUpdateInput, StudentSeedBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * StudentSeedBatch delete
+   */
+  export type StudentSeedBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter which StudentSeedBatch to delete.
+     */
+    where: StudentSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedBatch deleteMany
+   */
+  export type StudentSeedBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentSeedBatches to delete
+     */
+    where?: StudentSeedBatchWhereInput
+    /**
+     * Limit how many StudentSeedBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentSeedBatch.rows
+   */
+  export type StudentSeedBatch$rowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    where?: StudentSeedRowWhereInput
+    orderBy?: StudentSeedRowOrderByWithRelationInput | StudentSeedRowOrderByWithRelationInput[]
+    cursor?: StudentSeedRowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StudentSeedRowScalarFieldEnum | StudentSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedBatch without action
+   */
+  export type StudentSeedBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedBatch
+     */
+    select?: StudentSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedBatch
+     */
+    omit?: StudentSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model StudentSeedRow
+   */
+
+  export type AggregateStudentSeedRow = {
+    _count: StudentSeedRowCountAggregateOutputType | null
+    _avg: StudentSeedRowAvgAggregateOutputType | null
+    _sum: StudentSeedRowSumAggregateOutputType | null
+    _min: StudentSeedRowMinAggregateOutputType | null
+    _max: StudentSeedRowMaxAggregateOutputType | null
+  }
+
+  export type StudentSeedRowAvgAggregateOutputType = {
+    levelRaw: number | null
+  }
+
+  export type StudentSeedRowSumAggregateOutputType = {
+    levelRaw: number | null
+  }
+
+  export type StudentSeedRowMinAggregateOutputType = {
+    id: string | null
+    batchId: string | null
+    matricNumberRaw: string | null
+    fullNameRaw: string | null
+    levelRaw: number | null
+    status: $Enums.StudentSeedRowStatus | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type StudentSeedRowMaxAggregateOutputType = {
+    id: string | null
+    batchId: string | null
+    matricNumberRaw: string | null
+    fullNameRaw: string | null
+    levelRaw: number | null
+    status: $Enums.StudentSeedRowStatus | null
+    errorMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type StudentSeedRowCountAggregateOutputType = {
+    id: number
+    batchId: number
+    matricNumberRaw: number
+    fullNameRaw: number
+    levelRaw: number
+    status: number
+    errorMessage: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type StudentSeedRowAvgAggregateInputType = {
+    levelRaw?: true
+  }
+
+  export type StudentSeedRowSumAggregateInputType = {
+    levelRaw?: true
+  }
+
+  export type StudentSeedRowMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    matricNumberRaw?: true
+    fullNameRaw?: true
+    levelRaw?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type StudentSeedRowMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    matricNumberRaw?: true
+    fullNameRaw?: true
+    levelRaw?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+  }
+
+  export type StudentSeedRowCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    matricNumberRaw?: true
+    fullNameRaw?: true
+    levelRaw?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type StudentSeedRowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentSeedRow to aggregate.
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedRows to fetch.
+     */
+    orderBy?: StudentSeedRowOrderByWithRelationInput | StudentSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StudentSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StudentSeedRows
+    **/
+    _count?: true | StudentSeedRowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StudentSeedRowAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StudentSeedRowSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StudentSeedRowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StudentSeedRowMaxAggregateInputType
+  }
+
+  export type GetStudentSeedRowAggregateType<T extends StudentSeedRowAggregateArgs> = {
+        [P in keyof T & keyof AggregateStudentSeedRow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStudentSeedRow[P]>
+      : GetScalarType<T[P], AggregateStudentSeedRow[P]>
+  }
+
+
+
+
+  export type StudentSeedRowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StudentSeedRowWhereInput
+    orderBy?: StudentSeedRowOrderByWithAggregationInput | StudentSeedRowOrderByWithAggregationInput[]
+    by: StudentSeedRowScalarFieldEnum[] | StudentSeedRowScalarFieldEnum
+    having?: StudentSeedRowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StudentSeedRowCountAggregateInputType | true
+    _avg?: StudentSeedRowAvgAggregateInputType
+    _sum?: StudentSeedRowSumAggregateInputType
+    _min?: StudentSeedRowMinAggregateInputType
+    _max?: StudentSeedRowMaxAggregateInputType
+  }
+
+  export type StudentSeedRowGroupByOutputType = {
+    id: string
+    batchId: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw: number | null
+    status: $Enums.StudentSeedRowStatus
+    errorMessage: string | null
+    createdAt: Date
+    _count: StudentSeedRowCountAggregateOutputType | null
+    _avg: StudentSeedRowAvgAggregateOutputType | null
+    _sum: StudentSeedRowSumAggregateOutputType | null
+    _min: StudentSeedRowMinAggregateOutputType | null
+    _max: StudentSeedRowMaxAggregateOutputType | null
+  }
+
+  type GetStudentSeedRowGroupByPayload<T extends StudentSeedRowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StudentSeedRowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StudentSeedRowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StudentSeedRowGroupByOutputType[P]>
+            : GetScalarType<T[P], StudentSeedRowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StudentSeedRowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    matricNumberRaw?: boolean
+    fullNameRaw?: boolean
+    levelRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+    student?: boolean | StudentSeedRow$studentArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedRow"]>
+
+  export type StudentSeedRowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    matricNumberRaw?: boolean
+    fullNameRaw?: boolean
+    levelRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedRow"]>
+
+  export type StudentSeedRowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    matricNumberRaw?: boolean
+    fullNameRaw?: boolean
+    levelRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["studentSeedRow"]>
+
+  export type StudentSeedRowSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    matricNumberRaw?: boolean
+    fullNameRaw?: boolean
+    levelRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+  }
+
+  export type StudentSeedRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "matricNumberRaw" | "fullNameRaw" | "levelRaw" | "status" | "errorMessage" | "createdAt", ExtArgs["result"]["studentSeedRow"]>
+  export type StudentSeedRowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+    student?: boolean | StudentSeedRow$studentArgs<ExtArgs>
+  }
+  export type StudentSeedRowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+  }
+  export type StudentSeedRowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | StudentSeedBatchDefaultArgs<ExtArgs>
+  }
+
+  export type $StudentSeedRowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StudentSeedRow"
+    objects: {
+      batch: Prisma.$StudentSeedBatchPayload<ExtArgs>
+      student: Prisma.$StudentPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      batchId: string
+      matricNumberRaw: string
+      fullNameRaw: string
+      levelRaw: number | null
+      status: $Enums.StudentSeedRowStatus
+      errorMessage: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["studentSeedRow"]>
+    composites: {}
+  }
+
+  type StudentSeedRowGetPayload<S extends boolean | null | undefined | StudentSeedRowDefaultArgs> = $Result.GetResult<Prisma.$StudentSeedRowPayload, S>
+
+  type StudentSeedRowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StudentSeedRowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StudentSeedRowCountAggregateInputType | true
+    }
+
+  export interface StudentSeedRowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StudentSeedRow'], meta: { name: 'StudentSeedRow' } }
+    /**
+     * Find zero or one StudentSeedRow that matches the filter.
+     * @param {StudentSeedRowFindUniqueArgs} args - Arguments to find a StudentSeedRow
+     * @example
+     * // Get one StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StudentSeedRowFindUniqueArgs>(args: SelectSubset<T, StudentSeedRowFindUniqueArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one StudentSeedRow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StudentSeedRowFindUniqueOrThrowArgs} args - Arguments to find a StudentSeedRow
+     * @example
+     * // Get one StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StudentSeedRowFindUniqueOrThrowArgs>(args: SelectSubset<T, StudentSeedRowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentSeedRow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowFindFirstArgs} args - Arguments to find a StudentSeedRow
+     * @example
+     * // Get one StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StudentSeedRowFindFirstArgs>(args?: SelectSubset<T, StudentSeedRowFindFirstArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first StudentSeedRow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowFindFirstOrThrowArgs} args - Arguments to find a StudentSeedRow
+     * @example
+     * // Get one StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StudentSeedRowFindFirstOrThrowArgs>(args?: SelectSubset<T, StudentSeedRowFindFirstOrThrowArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StudentSeedRows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StudentSeedRows
+     * const studentSeedRows = await prisma.studentSeedRow.findMany()
+     * 
+     * // Get first 10 StudentSeedRows
+     * const studentSeedRows = await prisma.studentSeedRow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const studentSeedRowWithIdOnly = await prisma.studentSeedRow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StudentSeedRowFindManyArgs>(args?: SelectSubset<T, StudentSeedRowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a StudentSeedRow.
+     * @param {StudentSeedRowCreateArgs} args - Arguments to create a StudentSeedRow.
+     * @example
+     * // Create one StudentSeedRow
+     * const StudentSeedRow = await prisma.studentSeedRow.create({
+     *   data: {
+     *     // ... data to create a StudentSeedRow
+     *   }
+     * })
+     * 
+     */
+    create<T extends StudentSeedRowCreateArgs>(args: SelectSubset<T, StudentSeedRowCreateArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many StudentSeedRows.
+     * @param {StudentSeedRowCreateManyArgs} args - Arguments to create many StudentSeedRows.
+     * @example
+     * // Create many StudentSeedRows
+     * const studentSeedRow = await prisma.studentSeedRow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StudentSeedRowCreateManyArgs>(args?: SelectSubset<T, StudentSeedRowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StudentSeedRows and returns the data saved in the database.
+     * @param {StudentSeedRowCreateManyAndReturnArgs} args - Arguments to create many StudentSeedRows.
+     * @example
+     * // Create many StudentSeedRows
+     * const studentSeedRow = await prisma.studentSeedRow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StudentSeedRows and only return the `id`
+     * const studentSeedRowWithIdOnly = await prisma.studentSeedRow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StudentSeedRowCreateManyAndReturnArgs>(args?: SelectSubset<T, StudentSeedRowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a StudentSeedRow.
+     * @param {StudentSeedRowDeleteArgs} args - Arguments to delete one StudentSeedRow.
+     * @example
+     * // Delete one StudentSeedRow
+     * const StudentSeedRow = await prisma.studentSeedRow.delete({
+     *   where: {
+     *     // ... filter to delete one StudentSeedRow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StudentSeedRowDeleteArgs>(args: SelectSubset<T, StudentSeedRowDeleteArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one StudentSeedRow.
+     * @param {StudentSeedRowUpdateArgs} args - Arguments to update one StudentSeedRow.
+     * @example
+     * // Update one StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StudentSeedRowUpdateArgs>(args: SelectSubset<T, StudentSeedRowUpdateArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more StudentSeedRows.
+     * @param {StudentSeedRowDeleteManyArgs} args - Arguments to filter StudentSeedRows to delete.
+     * @example
+     * // Delete a few StudentSeedRows
+     * const { count } = await prisma.studentSeedRow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StudentSeedRowDeleteManyArgs>(args?: SelectSubset<T, StudentSeedRowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentSeedRows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StudentSeedRows
+     * const studentSeedRow = await prisma.studentSeedRow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StudentSeedRowUpdateManyArgs>(args: SelectSubset<T, StudentSeedRowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StudentSeedRows and returns the data updated in the database.
+     * @param {StudentSeedRowUpdateManyAndReturnArgs} args - Arguments to update many StudentSeedRows.
+     * @example
+     * // Update many StudentSeedRows
+     * const studentSeedRow = await prisma.studentSeedRow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more StudentSeedRows and only return the `id`
+     * const studentSeedRowWithIdOnly = await prisma.studentSeedRow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StudentSeedRowUpdateManyAndReturnArgs>(args: SelectSubset<T, StudentSeedRowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one StudentSeedRow.
+     * @param {StudentSeedRowUpsertArgs} args - Arguments to update or create a StudentSeedRow.
+     * @example
+     * // Update or create a StudentSeedRow
+     * const studentSeedRow = await prisma.studentSeedRow.upsert({
+     *   create: {
+     *     // ... data to create a StudentSeedRow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StudentSeedRow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StudentSeedRowUpsertArgs>(args: SelectSubset<T, StudentSeedRowUpsertArgs<ExtArgs>>): Prisma__StudentSeedRowClient<$Result.GetResult<Prisma.$StudentSeedRowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of StudentSeedRows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowCountArgs} args - Arguments to filter StudentSeedRows to count.
+     * @example
+     * // Count the number of StudentSeedRows
+     * const count = await prisma.studentSeedRow.count({
+     *   where: {
+     *     // ... the filter for the StudentSeedRows we want to count
+     *   }
+     * })
+    **/
+    count<T extends StudentSeedRowCountArgs>(
+      args?: Subset<T, StudentSeedRowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StudentSeedRowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StudentSeedRow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StudentSeedRowAggregateArgs>(args: Subset<T, StudentSeedRowAggregateArgs>): Prisma.PrismaPromise<GetStudentSeedRowAggregateType<T>>
+
+    /**
+     * Group by StudentSeedRow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StudentSeedRowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StudentSeedRowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StudentSeedRowGroupByArgs['orderBy'] }
+        : { orderBy?: StudentSeedRowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StudentSeedRowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStudentSeedRowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StudentSeedRow model
+   */
+  readonly fields: StudentSeedRowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StudentSeedRow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StudentSeedRowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends StudentSeedBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentSeedBatchDefaultArgs<ExtArgs>>): Prisma__StudentSeedBatchClient<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    student<T extends StudentSeedRow$studentArgs<ExtArgs> = {}>(args?: Subset<T, StudentSeedRow$studentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StudentSeedRow model
+   */
+  interface StudentSeedRowFieldRefs {
+    readonly id: FieldRef<"StudentSeedRow", 'String'>
+    readonly batchId: FieldRef<"StudentSeedRow", 'String'>
+    readonly matricNumberRaw: FieldRef<"StudentSeedRow", 'String'>
+    readonly fullNameRaw: FieldRef<"StudentSeedRow", 'String'>
+    readonly levelRaw: FieldRef<"StudentSeedRow", 'Int'>
+    readonly status: FieldRef<"StudentSeedRow", 'StudentSeedRowStatus'>
+    readonly errorMessage: FieldRef<"StudentSeedRow", 'String'>
+    readonly createdAt: FieldRef<"StudentSeedRow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StudentSeedRow findUnique
+   */
+  export type StudentSeedRowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedRow to fetch.
+     */
+    where: StudentSeedRowWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedRow findUniqueOrThrow
+   */
+  export type StudentSeedRowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedRow to fetch.
+     */
+    where: StudentSeedRowWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedRow findFirst
+   */
+  export type StudentSeedRowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedRow to fetch.
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedRows to fetch.
+     */
+    orderBy?: StudentSeedRowOrderByWithRelationInput | StudentSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentSeedRows.
+     */
+    cursor?: StudentSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedRows.
+     */
+    distinct?: StudentSeedRowScalarFieldEnum | StudentSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedRow findFirstOrThrow
+   */
+  export type StudentSeedRowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedRow to fetch.
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedRows to fetch.
+     */
+    orderBy?: StudentSeedRowOrderByWithRelationInput | StudentSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StudentSeedRows.
+     */
+    cursor?: StudentSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedRows.
+     */
+    distinct?: StudentSeedRowScalarFieldEnum | StudentSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedRow findMany
+   */
+  export type StudentSeedRowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which StudentSeedRows to fetch.
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StudentSeedRows to fetch.
+     */
+    orderBy?: StudentSeedRowOrderByWithRelationInput | StudentSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StudentSeedRows.
+     */
+    cursor?: StudentSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StudentSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StudentSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StudentSeedRows.
+     */
+    distinct?: StudentSeedRowScalarFieldEnum | StudentSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * StudentSeedRow create
+   */
+  export type StudentSeedRowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a StudentSeedRow.
+     */
+    data: XOR<StudentSeedRowCreateInput, StudentSeedRowUncheckedCreateInput>
+  }
+
+  /**
+   * StudentSeedRow createMany
+   */
+  export type StudentSeedRowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StudentSeedRows.
+     */
+    data: StudentSeedRowCreateManyInput | StudentSeedRowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StudentSeedRow createManyAndReturn
+   */
+  export type StudentSeedRowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * The data used to create many StudentSeedRows.
+     */
+    data: StudentSeedRowCreateManyInput | StudentSeedRowCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentSeedRow update
+   */
+  export type StudentSeedRowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a StudentSeedRow.
+     */
+    data: XOR<StudentSeedRowUpdateInput, StudentSeedRowUncheckedUpdateInput>
+    /**
+     * Choose, which StudentSeedRow to update.
+     */
+    where: StudentSeedRowWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedRow updateMany
+   */
+  export type StudentSeedRowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StudentSeedRows.
+     */
+    data: XOR<StudentSeedRowUpdateManyMutationInput, StudentSeedRowUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentSeedRows to update
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * Limit how many StudentSeedRows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentSeedRow updateManyAndReturn
+   */
+  export type StudentSeedRowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * The data used to update StudentSeedRows.
+     */
+    data: XOR<StudentSeedRowUpdateManyMutationInput, StudentSeedRowUncheckedUpdateManyInput>
+    /**
+     * Filter which StudentSeedRows to update
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * Limit how many StudentSeedRows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * StudentSeedRow upsert
+   */
+  export type StudentSeedRowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the StudentSeedRow to update in case it exists.
+     */
+    where: StudentSeedRowWhereUniqueInput
+    /**
+     * In case the StudentSeedRow found by the `where` argument doesn't exist, create a new StudentSeedRow with this data.
+     */
+    create: XOR<StudentSeedRowCreateInput, StudentSeedRowUncheckedCreateInput>
+    /**
+     * In case the StudentSeedRow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StudentSeedRowUpdateInput, StudentSeedRowUncheckedUpdateInput>
+  }
+
+  /**
+   * StudentSeedRow delete
+   */
+  export type StudentSeedRowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter which StudentSeedRow to delete.
+     */
+    where: StudentSeedRowWhereUniqueInput
+  }
+
+  /**
+   * StudentSeedRow deleteMany
+   */
+  export type StudentSeedRowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StudentSeedRows to delete
+     */
+    where?: StudentSeedRowWhereInput
+    /**
+     * Limit how many StudentSeedRows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * StudentSeedRow.student
+   */
+  export type StudentSeedRow$studentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Student
+     */
+    select?: StudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Student
+     */
+    omit?: StudentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentInclude<ExtArgs> | null
+    where?: StudentWhereInput
+  }
+
+  /**
+   * StudentSeedRow without action
+   */
+  export type StudentSeedRowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StudentSeedRow
+     */
+    select?: StudentSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StudentSeedRow
+     */
+    omit?: StudentSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StudentSeedRowInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserSeedBatch
+   */
+
+  export type AggregateUserSeedBatch = {
+    _count: UserSeedBatchCountAggregateOutputType | null
+    _min: UserSeedBatchMinAggregateOutputType | null
+    _max: UserSeedBatchMaxAggregateOutputType | null
+  }
+
+  export type UserSeedBatchMinAggregateOutputType = {
+    id: string | null
+    role: $Enums.UserRole | null
+    uploadedById: string | null
+    status: $Enums.UserSeedBatchStatus | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type UserSeedBatchMaxAggregateOutputType = {
+    id: string | null
+    role: $Enums.UserRole | null
+    uploadedById: string | null
+    status: $Enums.UserSeedBatchStatus | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type UserSeedBatchCountAggregateOutputType = {
+    id: number
+    role: number
+    uploadedById: number
+    status: number
+    createdAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type UserSeedBatchMinAggregateInputType = {
+    id?: true
+    role?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type UserSeedBatchMaxAggregateInputType = {
+    id?: true
+    role?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type UserSeedBatchCountAggregateInputType = {
+    id?: true
+    role?: true
+    uploadedById?: true
+    status?: true
+    createdAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type UserSeedBatchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSeedBatch to aggregate.
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedBatches to fetch.
+     */
+    orderBy?: UserSeedBatchOrderByWithRelationInput | UserSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserSeedBatches
+    **/
+    _count?: true | UserSeedBatchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserSeedBatchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserSeedBatchMaxAggregateInputType
+  }
+
+  export type GetUserSeedBatchAggregateType<T extends UserSeedBatchAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserSeedBatch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserSeedBatch[P]>
+      : GetScalarType<T[P], AggregateUserSeedBatch[P]>
+  }
+
+
+
+
+  export type UserSeedBatchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserSeedBatchWhereInput
+    orderBy?: UserSeedBatchOrderByWithAggregationInput | UserSeedBatchOrderByWithAggregationInput[]
+    by: UserSeedBatchScalarFieldEnum[] | UserSeedBatchScalarFieldEnum
+    having?: UserSeedBatchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserSeedBatchCountAggregateInputType | true
+    _min?: UserSeedBatchMinAggregateInputType
+    _max?: UserSeedBatchMaxAggregateInputType
+  }
+
+  export type UserSeedBatchGroupByOutputType = {
+    id: string
+    role: $Enums.UserRole
+    uploadedById: string
+    status: $Enums.UserSeedBatchStatus
+    createdAt: Date
+    completedAt: Date | null
+    _count: UserSeedBatchCountAggregateOutputType | null
+    _min: UserSeedBatchMinAggregateOutputType | null
+    _max: UserSeedBatchMaxAggregateOutputType | null
+  }
+
+  type GetUserSeedBatchGroupByPayload<T extends UserSeedBatchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserSeedBatchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserSeedBatchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserSeedBatchGroupByOutputType[P]>
+            : GetScalarType<T[P], UserSeedBatchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSeedBatchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    role?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rows?: boolean | UserSeedBatch$rowsArgs<ExtArgs>
+    _count?: boolean | UserSeedBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedBatch"]>
+
+  export type UserSeedBatchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    role?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedBatch"]>
+
+  export type UserSeedBatchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    role?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedBatch"]>
+
+  export type UserSeedBatchSelectScalar = {
+    id?: boolean
+    role?: boolean
+    uploadedById?: boolean
+    status?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type UserSeedBatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "role" | "uploadedById" | "status" | "createdAt" | "completedAt", ExtArgs["result"]["userSeedBatch"]>
+  export type UserSeedBatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+    rows?: boolean | UserSeedBatch$rowsArgs<ExtArgs>
+    _count?: boolean | UserSeedBatchCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserSeedBatchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserSeedBatchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    uploadedBy?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserSeedBatchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserSeedBatch"
+    objects: {
+      uploadedBy: Prisma.$UserPayload<ExtArgs>
+      rows: Prisma.$UserSeedRowPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      role: $Enums.UserRole
+      uploadedById: string
+      status: $Enums.UserSeedBatchStatus
+      createdAt: Date
+      completedAt: Date | null
+    }, ExtArgs["result"]["userSeedBatch"]>
+    composites: {}
+  }
+
+  type UserSeedBatchGetPayload<S extends boolean | null | undefined | UserSeedBatchDefaultArgs> = $Result.GetResult<Prisma.$UserSeedBatchPayload, S>
+
+  type UserSeedBatchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserSeedBatchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserSeedBatchCountAggregateInputType | true
+    }
+
+  export interface UserSeedBatchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserSeedBatch'], meta: { name: 'UserSeedBatch' } }
+    /**
+     * Find zero or one UserSeedBatch that matches the filter.
+     * @param {UserSeedBatchFindUniqueArgs} args - Arguments to find a UserSeedBatch
+     * @example
+     * // Get one UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserSeedBatchFindUniqueArgs>(args: SelectSubset<T, UserSeedBatchFindUniqueArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserSeedBatch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserSeedBatchFindUniqueOrThrowArgs} args - Arguments to find a UserSeedBatch
+     * @example
+     * // Get one UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserSeedBatchFindUniqueOrThrowArgs>(args: SelectSubset<T, UserSeedBatchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSeedBatch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchFindFirstArgs} args - Arguments to find a UserSeedBatch
+     * @example
+     * // Get one UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserSeedBatchFindFirstArgs>(args?: SelectSubset<T, UserSeedBatchFindFirstArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSeedBatch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchFindFirstOrThrowArgs} args - Arguments to find a UserSeedBatch
+     * @example
+     * // Get one UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserSeedBatchFindFirstOrThrowArgs>(args?: SelectSubset<T, UserSeedBatchFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserSeedBatches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserSeedBatches
+     * const userSeedBatches = await prisma.userSeedBatch.findMany()
+     * 
+     * // Get first 10 UserSeedBatches
+     * const userSeedBatches = await prisma.userSeedBatch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userSeedBatchWithIdOnly = await prisma.userSeedBatch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserSeedBatchFindManyArgs>(args?: SelectSubset<T, UserSeedBatchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserSeedBatch.
+     * @param {UserSeedBatchCreateArgs} args - Arguments to create a UserSeedBatch.
+     * @example
+     * // Create one UserSeedBatch
+     * const UserSeedBatch = await prisma.userSeedBatch.create({
+     *   data: {
+     *     // ... data to create a UserSeedBatch
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserSeedBatchCreateArgs>(args: SelectSubset<T, UserSeedBatchCreateArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserSeedBatches.
+     * @param {UserSeedBatchCreateManyArgs} args - Arguments to create many UserSeedBatches.
+     * @example
+     * // Create many UserSeedBatches
+     * const userSeedBatch = await prisma.userSeedBatch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserSeedBatchCreateManyArgs>(args?: SelectSubset<T, UserSeedBatchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserSeedBatches and returns the data saved in the database.
+     * @param {UserSeedBatchCreateManyAndReturnArgs} args - Arguments to create many UserSeedBatches.
+     * @example
+     * // Create many UserSeedBatches
+     * const userSeedBatch = await prisma.userSeedBatch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserSeedBatches and only return the `id`
+     * const userSeedBatchWithIdOnly = await prisma.userSeedBatch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserSeedBatchCreateManyAndReturnArgs>(args?: SelectSubset<T, UserSeedBatchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserSeedBatch.
+     * @param {UserSeedBatchDeleteArgs} args - Arguments to delete one UserSeedBatch.
+     * @example
+     * // Delete one UserSeedBatch
+     * const UserSeedBatch = await prisma.userSeedBatch.delete({
+     *   where: {
+     *     // ... filter to delete one UserSeedBatch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserSeedBatchDeleteArgs>(args: SelectSubset<T, UserSeedBatchDeleteArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserSeedBatch.
+     * @param {UserSeedBatchUpdateArgs} args - Arguments to update one UserSeedBatch.
+     * @example
+     * // Update one UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserSeedBatchUpdateArgs>(args: SelectSubset<T, UserSeedBatchUpdateArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserSeedBatches.
+     * @param {UserSeedBatchDeleteManyArgs} args - Arguments to filter UserSeedBatches to delete.
+     * @example
+     * // Delete a few UserSeedBatches
+     * const { count } = await prisma.userSeedBatch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserSeedBatchDeleteManyArgs>(args?: SelectSubset<T, UserSeedBatchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSeedBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserSeedBatches
+     * const userSeedBatch = await prisma.userSeedBatch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserSeedBatchUpdateManyArgs>(args: SelectSubset<T, UserSeedBatchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSeedBatches and returns the data updated in the database.
+     * @param {UserSeedBatchUpdateManyAndReturnArgs} args - Arguments to update many UserSeedBatches.
+     * @example
+     * // Update many UserSeedBatches
+     * const userSeedBatch = await prisma.userSeedBatch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserSeedBatches and only return the `id`
+     * const userSeedBatchWithIdOnly = await prisma.userSeedBatch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserSeedBatchUpdateManyAndReturnArgs>(args: SelectSubset<T, UserSeedBatchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserSeedBatch.
+     * @param {UserSeedBatchUpsertArgs} args - Arguments to update or create a UserSeedBatch.
+     * @example
+     * // Update or create a UserSeedBatch
+     * const userSeedBatch = await prisma.userSeedBatch.upsert({
+     *   create: {
+     *     // ... data to create a UserSeedBatch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserSeedBatch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserSeedBatchUpsertArgs>(args: SelectSubset<T, UserSeedBatchUpsertArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserSeedBatches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchCountArgs} args - Arguments to filter UserSeedBatches to count.
+     * @example
+     * // Count the number of UserSeedBatches
+     * const count = await prisma.userSeedBatch.count({
+     *   where: {
+     *     // ... the filter for the UserSeedBatches we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserSeedBatchCountArgs>(
+      args?: Subset<T, UserSeedBatchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserSeedBatchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserSeedBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserSeedBatchAggregateArgs>(args: Subset<T, UserSeedBatchAggregateArgs>): Prisma.PrismaPromise<GetUserSeedBatchAggregateType<T>>
+
+    /**
+     * Group by UserSeedBatch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedBatchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserSeedBatchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserSeedBatchGroupByArgs['orderBy'] }
+        : { orderBy?: UserSeedBatchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserSeedBatchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserSeedBatchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserSeedBatch model
+   */
+  readonly fields: UserSeedBatchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserSeedBatch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserSeedBatchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    uploadedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rows<T extends UserSeedBatch$rowsArgs<ExtArgs> = {}>(args?: Subset<T, UserSeedBatch$rowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserSeedBatch model
+   */
+  interface UserSeedBatchFieldRefs {
+    readonly id: FieldRef<"UserSeedBatch", 'String'>
+    readonly role: FieldRef<"UserSeedBatch", 'UserRole'>
+    readonly uploadedById: FieldRef<"UserSeedBatch", 'String'>
+    readonly status: FieldRef<"UserSeedBatch", 'UserSeedBatchStatus'>
+    readonly createdAt: FieldRef<"UserSeedBatch", 'DateTime'>
+    readonly completedAt: FieldRef<"UserSeedBatch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserSeedBatch findUnique
+   */
+  export type UserSeedBatchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedBatch to fetch.
+     */
+    where: UserSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * UserSeedBatch findUniqueOrThrow
+   */
+  export type UserSeedBatchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedBatch to fetch.
+     */
+    where: UserSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * UserSeedBatch findFirst
+   */
+  export type UserSeedBatchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedBatch to fetch.
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedBatches to fetch.
+     */
+    orderBy?: UserSeedBatchOrderByWithRelationInput | UserSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSeedBatches.
+     */
+    cursor?: UserSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedBatches.
+     */
+    distinct?: UserSeedBatchScalarFieldEnum | UserSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedBatch findFirstOrThrow
+   */
+  export type UserSeedBatchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedBatch to fetch.
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedBatches to fetch.
+     */
+    orderBy?: UserSeedBatchOrderByWithRelationInput | UserSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSeedBatches.
+     */
+    cursor?: UserSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedBatches.
+     */
+    distinct?: UserSeedBatchScalarFieldEnum | UserSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedBatch findMany
+   */
+  export type UserSeedBatchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedBatches to fetch.
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedBatches to fetch.
+     */
+    orderBy?: UserSeedBatchOrderByWithRelationInput | UserSeedBatchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserSeedBatches.
+     */
+    cursor?: UserSeedBatchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedBatches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedBatches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedBatches.
+     */
+    distinct?: UserSeedBatchScalarFieldEnum | UserSeedBatchScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedBatch create
+   */
+  export type UserSeedBatchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserSeedBatch.
+     */
+    data: XOR<UserSeedBatchCreateInput, UserSeedBatchUncheckedCreateInput>
+  }
+
+  /**
+   * UserSeedBatch createMany
+   */
+  export type UserSeedBatchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserSeedBatches.
+     */
+    data: UserSeedBatchCreateManyInput | UserSeedBatchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserSeedBatch createManyAndReturn
+   */
+  export type UserSeedBatchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserSeedBatches.
+     */
+    data: UserSeedBatchCreateManyInput | UserSeedBatchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSeedBatch update
+   */
+  export type UserSeedBatchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserSeedBatch.
+     */
+    data: XOR<UserSeedBatchUpdateInput, UserSeedBatchUncheckedUpdateInput>
+    /**
+     * Choose, which UserSeedBatch to update.
+     */
+    where: UserSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * UserSeedBatch updateMany
+   */
+  export type UserSeedBatchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserSeedBatches.
+     */
+    data: XOR<UserSeedBatchUpdateManyMutationInput, UserSeedBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSeedBatches to update
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * Limit how many UserSeedBatches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSeedBatch updateManyAndReturn
+   */
+  export type UserSeedBatchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * The data used to update UserSeedBatches.
+     */
+    data: XOR<UserSeedBatchUpdateManyMutationInput, UserSeedBatchUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSeedBatches to update
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * Limit how many UserSeedBatches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSeedBatch upsert
+   */
+  export type UserSeedBatchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserSeedBatch to update in case it exists.
+     */
+    where: UserSeedBatchWhereUniqueInput
+    /**
+     * In case the UserSeedBatch found by the `where` argument doesn't exist, create a new UserSeedBatch with this data.
+     */
+    create: XOR<UserSeedBatchCreateInput, UserSeedBatchUncheckedCreateInput>
+    /**
+     * In case the UserSeedBatch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserSeedBatchUpdateInput, UserSeedBatchUncheckedUpdateInput>
+  }
+
+  /**
+   * UserSeedBatch delete
+   */
+  export type UserSeedBatchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+    /**
+     * Filter which UserSeedBatch to delete.
+     */
+    where: UserSeedBatchWhereUniqueInput
+  }
+
+  /**
+   * UserSeedBatch deleteMany
+   */
+  export type UserSeedBatchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSeedBatches to delete
+     */
+    where?: UserSeedBatchWhereInput
+    /**
+     * Limit how many UserSeedBatches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSeedBatch.rows
+   */
+  export type UserSeedBatch$rowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    where?: UserSeedRowWhereInput
+    orderBy?: UserSeedRowOrderByWithRelationInput | UserSeedRowOrderByWithRelationInput[]
+    cursor?: UserSeedRowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserSeedRowScalarFieldEnum | UserSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedBatch without action
+   */
+  export type UserSeedBatchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedBatch
+     */
+    select?: UserSeedBatchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedBatch
+     */
+    omit?: UserSeedBatchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedBatchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserSeedRow
+   */
+
+  export type AggregateUserSeedRow = {
+    _count: UserSeedRowCountAggregateOutputType | null
+    _min: UserSeedRowMinAggregateOutputType | null
+    _max: UserSeedRowMaxAggregateOutputType | null
+  }
+
+  export type UserSeedRowMinAggregateOutputType = {
+    id: string | null
+    batchId: string | null
+    nameRaw: string | null
+    emailRaw: string | null
+    status: $Enums.UserSeedRowStatus | null
+    errorMessage: string | null
+    generatedPassword: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type UserSeedRowMaxAggregateOutputType = {
+    id: string | null
+    batchId: string | null
+    nameRaw: string | null
+    emailRaw: string | null
+    status: $Enums.UserSeedRowStatus | null
+    errorMessage: string | null
+    generatedPassword: string | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type UserSeedRowCountAggregateOutputType = {
+    id: number
+    batchId: number
+    nameRaw: number
+    emailRaw: number
+    status: number
+    errorMessage: number
+    generatedPassword: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type UserSeedRowMinAggregateInputType = {
+    id?: true
+    batchId?: true
+    nameRaw?: true
+    emailRaw?: true
+    status?: true
+    errorMessage?: true
+    generatedPassword?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type UserSeedRowMaxAggregateInputType = {
+    id?: true
+    batchId?: true
+    nameRaw?: true
+    emailRaw?: true
+    status?: true
+    errorMessage?: true
+    generatedPassword?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type UserSeedRowCountAggregateInputType = {
+    id?: true
+    batchId?: true
+    nameRaw?: true
+    emailRaw?: true
+    status?: true
+    errorMessage?: true
+    generatedPassword?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type UserSeedRowAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSeedRow to aggregate.
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedRows to fetch.
+     */
+    orderBy?: UserSeedRowOrderByWithRelationInput | UserSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserSeedRows
+    **/
+    _count?: true | UserSeedRowCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserSeedRowMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserSeedRowMaxAggregateInputType
+  }
+
+  export type GetUserSeedRowAggregateType<T extends UserSeedRowAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserSeedRow]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserSeedRow[P]>
+      : GetScalarType<T[P], AggregateUserSeedRow[P]>
+  }
+
+
+
+
+  export type UserSeedRowGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserSeedRowWhereInput
+    orderBy?: UserSeedRowOrderByWithAggregationInput | UserSeedRowOrderByWithAggregationInput[]
+    by: UserSeedRowScalarFieldEnum[] | UserSeedRowScalarFieldEnum
+    having?: UserSeedRowScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserSeedRowCountAggregateInputType | true
+    _min?: UserSeedRowMinAggregateInputType
+    _max?: UserSeedRowMaxAggregateInputType
+  }
+
+  export type UserSeedRowGroupByOutputType = {
+    id: string
+    batchId: string
+    nameRaw: string
+    emailRaw: string
+    status: $Enums.UserSeedRowStatus
+    errorMessage: string | null
+    generatedPassword: string | null
+    userId: string | null
+    createdAt: Date
+    _count: UserSeedRowCountAggregateOutputType | null
+    _min: UserSeedRowMinAggregateOutputType | null
+    _max: UserSeedRowMaxAggregateOutputType | null
+  }
+
+  type GetUserSeedRowGroupByPayload<T extends UserSeedRowGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserSeedRowGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserSeedRowGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserSeedRowGroupByOutputType[P]>
+            : GetScalarType<T[P], UserSeedRowGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserSeedRowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    nameRaw?: boolean
+    emailRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    generatedPassword?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedRow"]>
+
+  export type UserSeedRowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    nameRaw?: boolean
+    emailRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    generatedPassword?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedRow"]>
+
+  export type UserSeedRowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    batchId?: boolean
+    nameRaw?: boolean
+    emailRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    generatedPassword?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }, ExtArgs["result"]["userSeedRow"]>
+
+  export type UserSeedRowSelectScalar = {
+    id?: boolean
+    batchId?: boolean
+    nameRaw?: boolean
+    emailRaw?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    generatedPassword?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type UserSeedRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchId" | "nameRaw" | "emailRaw" | "status" | "errorMessage" | "generatedPassword" | "userId" | "createdAt", ExtArgs["result"]["userSeedRow"]>
+  export type UserSeedRowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }
+  export type UserSeedRowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }
+  export type UserSeedRowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    batch?: boolean | UserSeedBatchDefaultArgs<ExtArgs>
+    user?: boolean | UserSeedRow$userArgs<ExtArgs>
+  }
+
+  export type $UserSeedRowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserSeedRow"
+    objects: {
+      batch: Prisma.$UserSeedBatchPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      batchId: string
+      nameRaw: string
+      emailRaw: string
+      status: $Enums.UserSeedRowStatus
+      errorMessage: string | null
+      generatedPassword: string | null
+      userId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["userSeedRow"]>
+    composites: {}
+  }
+
+  type UserSeedRowGetPayload<S extends boolean | null | undefined | UserSeedRowDefaultArgs> = $Result.GetResult<Prisma.$UserSeedRowPayload, S>
+
+  type UserSeedRowCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserSeedRowFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserSeedRowCountAggregateInputType | true
+    }
+
+  export interface UserSeedRowDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserSeedRow'], meta: { name: 'UserSeedRow' } }
+    /**
+     * Find zero or one UserSeedRow that matches the filter.
+     * @param {UserSeedRowFindUniqueArgs} args - Arguments to find a UserSeedRow
+     * @example
+     * // Get one UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserSeedRowFindUniqueArgs>(args: SelectSubset<T, UserSeedRowFindUniqueArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserSeedRow that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserSeedRowFindUniqueOrThrowArgs} args - Arguments to find a UserSeedRow
+     * @example
+     * // Get one UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserSeedRowFindUniqueOrThrowArgs>(args: SelectSubset<T, UserSeedRowFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSeedRow that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowFindFirstArgs} args - Arguments to find a UserSeedRow
+     * @example
+     * // Get one UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserSeedRowFindFirstArgs>(args?: SelectSubset<T, UserSeedRowFindFirstArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserSeedRow that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowFindFirstOrThrowArgs} args - Arguments to find a UserSeedRow
+     * @example
+     * // Get one UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserSeedRowFindFirstOrThrowArgs>(args?: SelectSubset<T, UserSeedRowFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserSeedRows that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserSeedRows
+     * const userSeedRows = await prisma.userSeedRow.findMany()
+     * 
+     * // Get first 10 UserSeedRows
+     * const userSeedRows = await prisma.userSeedRow.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userSeedRowWithIdOnly = await prisma.userSeedRow.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserSeedRowFindManyArgs>(args?: SelectSubset<T, UserSeedRowFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserSeedRow.
+     * @param {UserSeedRowCreateArgs} args - Arguments to create a UserSeedRow.
+     * @example
+     * // Create one UserSeedRow
+     * const UserSeedRow = await prisma.userSeedRow.create({
+     *   data: {
+     *     // ... data to create a UserSeedRow
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserSeedRowCreateArgs>(args: SelectSubset<T, UserSeedRowCreateArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserSeedRows.
+     * @param {UserSeedRowCreateManyArgs} args - Arguments to create many UserSeedRows.
+     * @example
+     * // Create many UserSeedRows
+     * const userSeedRow = await prisma.userSeedRow.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserSeedRowCreateManyArgs>(args?: SelectSubset<T, UserSeedRowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserSeedRows and returns the data saved in the database.
+     * @param {UserSeedRowCreateManyAndReturnArgs} args - Arguments to create many UserSeedRows.
+     * @example
+     * // Create many UserSeedRows
+     * const userSeedRow = await prisma.userSeedRow.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserSeedRows and only return the `id`
+     * const userSeedRowWithIdOnly = await prisma.userSeedRow.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserSeedRowCreateManyAndReturnArgs>(args?: SelectSubset<T, UserSeedRowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserSeedRow.
+     * @param {UserSeedRowDeleteArgs} args - Arguments to delete one UserSeedRow.
+     * @example
+     * // Delete one UserSeedRow
+     * const UserSeedRow = await prisma.userSeedRow.delete({
+     *   where: {
+     *     // ... filter to delete one UserSeedRow
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserSeedRowDeleteArgs>(args: SelectSubset<T, UserSeedRowDeleteArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserSeedRow.
+     * @param {UserSeedRowUpdateArgs} args - Arguments to update one UserSeedRow.
+     * @example
+     * // Update one UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserSeedRowUpdateArgs>(args: SelectSubset<T, UserSeedRowUpdateArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserSeedRows.
+     * @param {UserSeedRowDeleteManyArgs} args - Arguments to filter UserSeedRows to delete.
+     * @example
+     * // Delete a few UserSeedRows
+     * const { count } = await prisma.userSeedRow.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserSeedRowDeleteManyArgs>(args?: SelectSubset<T, UserSeedRowDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSeedRows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserSeedRows
+     * const userSeedRow = await prisma.userSeedRow.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserSeedRowUpdateManyArgs>(args: SelectSubset<T, UserSeedRowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserSeedRows and returns the data updated in the database.
+     * @param {UserSeedRowUpdateManyAndReturnArgs} args - Arguments to update many UserSeedRows.
+     * @example
+     * // Update many UserSeedRows
+     * const userSeedRow = await prisma.userSeedRow.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserSeedRows and only return the `id`
+     * const userSeedRowWithIdOnly = await prisma.userSeedRow.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserSeedRowUpdateManyAndReturnArgs>(args: SelectSubset<T, UserSeedRowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserSeedRow.
+     * @param {UserSeedRowUpsertArgs} args - Arguments to update or create a UserSeedRow.
+     * @example
+     * // Update or create a UserSeedRow
+     * const userSeedRow = await prisma.userSeedRow.upsert({
+     *   create: {
+     *     // ... data to create a UserSeedRow
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserSeedRow we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserSeedRowUpsertArgs>(args: SelectSubset<T, UserSeedRowUpsertArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserSeedRows.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowCountArgs} args - Arguments to filter UserSeedRows to count.
+     * @example
+     * // Count the number of UserSeedRows
+     * const count = await prisma.userSeedRow.count({
+     *   where: {
+     *     // ... the filter for the UserSeedRows we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserSeedRowCountArgs>(
+      args?: Subset<T, UserSeedRowCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserSeedRowCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserSeedRow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserSeedRowAggregateArgs>(args: Subset<T, UserSeedRowAggregateArgs>): Prisma.PrismaPromise<GetUserSeedRowAggregateType<T>>
+
+    /**
+     * Group by UserSeedRow.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserSeedRowGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserSeedRowGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserSeedRowGroupByArgs['orderBy'] }
+        : { orderBy?: UserSeedRowGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserSeedRowGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserSeedRowGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserSeedRow model
+   */
+  readonly fields: UserSeedRowFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserSeedRow.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserSeedRowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    batch<T extends UserSeedBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserSeedBatchDefaultArgs<ExtArgs>>): Prisma__UserSeedBatchClient<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserSeedRow$userArgs<ExtArgs> = {}>(args?: Subset<T, UserSeedRow$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserSeedRow model
+   */
+  interface UserSeedRowFieldRefs {
+    readonly id: FieldRef<"UserSeedRow", 'String'>
+    readonly batchId: FieldRef<"UserSeedRow", 'String'>
+    readonly nameRaw: FieldRef<"UserSeedRow", 'String'>
+    readonly emailRaw: FieldRef<"UserSeedRow", 'String'>
+    readonly status: FieldRef<"UserSeedRow", 'UserSeedRowStatus'>
+    readonly errorMessage: FieldRef<"UserSeedRow", 'String'>
+    readonly generatedPassword: FieldRef<"UserSeedRow", 'String'>
+    readonly userId: FieldRef<"UserSeedRow", 'String'>
+    readonly createdAt: FieldRef<"UserSeedRow", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserSeedRow findUnique
+   */
+  export type UserSeedRowFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedRow to fetch.
+     */
+    where: UserSeedRowWhereUniqueInput
+  }
+
+  /**
+   * UserSeedRow findUniqueOrThrow
+   */
+  export type UserSeedRowFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedRow to fetch.
+     */
+    where: UserSeedRowWhereUniqueInput
+  }
+
+  /**
+   * UserSeedRow findFirst
+   */
+  export type UserSeedRowFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedRow to fetch.
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedRows to fetch.
+     */
+    orderBy?: UserSeedRowOrderByWithRelationInput | UserSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSeedRows.
+     */
+    cursor?: UserSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedRows.
+     */
+    distinct?: UserSeedRowScalarFieldEnum | UserSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedRow findFirstOrThrow
+   */
+  export type UserSeedRowFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedRow to fetch.
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedRows to fetch.
+     */
+    orderBy?: UserSeedRowOrderByWithRelationInput | UserSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserSeedRows.
+     */
+    cursor?: UserSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedRows.
+     */
+    distinct?: UserSeedRowScalarFieldEnum | UserSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedRow findMany
+   */
+  export type UserSeedRowFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter, which UserSeedRows to fetch.
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserSeedRows to fetch.
+     */
+    orderBy?: UserSeedRowOrderByWithRelationInput | UserSeedRowOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserSeedRows.
+     */
+    cursor?: UserSeedRowWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserSeedRows from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserSeedRows.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserSeedRows.
+     */
+    distinct?: UserSeedRowScalarFieldEnum | UserSeedRowScalarFieldEnum[]
+  }
+
+  /**
+   * UserSeedRow create
+   */
+  export type UserSeedRowCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserSeedRow.
+     */
+    data: XOR<UserSeedRowCreateInput, UserSeedRowUncheckedCreateInput>
+  }
+
+  /**
+   * UserSeedRow createMany
+   */
+  export type UserSeedRowCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserSeedRows.
+     */
+    data: UserSeedRowCreateManyInput | UserSeedRowCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserSeedRow createManyAndReturn
+   */
+  export type UserSeedRowCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserSeedRows.
+     */
+    data: UserSeedRowCreateManyInput | UserSeedRowCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSeedRow update
+   */
+  export type UserSeedRowUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserSeedRow.
+     */
+    data: XOR<UserSeedRowUpdateInput, UserSeedRowUncheckedUpdateInput>
+    /**
+     * Choose, which UserSeedRow to update.
+     */
+    where: UserSeedRowWhereUniqueInput
+  }
+
+  /**
+   * UserSeedRow updateMany
+   */
+  export type UserSeedRowUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserSeedRows.
+     */
+    data: XOR<UserSeedRowUpdateManyMutationInput, UserSeedRowUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSeedRows to update
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * Limit how many UserSeedRows to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSeedRow updateManyAndReturn
+   */
+  export type UserSeedRowUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * The data used to update UserSeedRows.
+     */
+    data: XOR<UserSeedRowUpdateManyMutationInput, UserSeedRowUncheckedUpdateManyInput>
+    /**
+     * Filter which UserSeedRows to update
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * Limit how many UserSeedRows to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserSeedRow upsert
+   */
+  export type UserSeedRowUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserSeedRow to update in case it exists.
+     */
+    where: UserSeedRowWhereUniqueInput
+    /**
+     * In case the UserSeedRow found by the `where` argument doesn't exist, create a new UserSeedRow with this data.
+     */
+    create: XOR<UserSeedRowCreateInput, UserSeedRowUncheckedCreateInput>
+    /**
+     * In case the UserSeedRow was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserSeedRowUpdateInput, UserSeedRowUncheckedUpdateInput>
+  }
+
+  /**
+   * UserSeedRow delete
+   */
+  export type UserSeedRowDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
+    /**
+     * Filter which UserSeedRow to delete.
+     */
+    where: UserSeedRowWhereUniqueInput
+  }
+
+  /**
+   * UserSeedRow deleteMany
+   */
+  export type UserSeedRowDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserSeedRows to delete
+     */
+    where?: UserSeedRowWhereInput
+    /**
+     * Limit how many UserSeedRows to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserSeedRow.user
+   */
+  export type UserSeedRow$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * UserSeedRow without action
+   */
+  export type UserSeedRowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserSeedRow
+     */
+    select?: UserSeedRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserSeedRow
+     */
+    omit?: UserSeedRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserSeedRowInclude<ExtArgs> | null
   }
 
 
@@ -19492,6 +25900,18 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const HodAssignmentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    assignedById: 'assignedById',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    createdAt: 'createdAt'
+  };
+
+  export type HodAssignmentScalarFieldEnum = (typeof HodAssignmentScalarFieldEnum)[keyof typeof HodAssignmentScalarFieldEnum]
+
+
   export const CourseScalarFieldEnum: {
     id: 'id',
     code: 'code',
@@ -19517,12 +25937,67 @@ export namespace Prisma {
     entrySession: 'entrySession',
     currentLevel: 'currentLevel',
     status: 'status',
+    creationMethod: 'creationMethod',
+    seedRowId: 'seedRowId',
     createdById: 'createdById',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
+
+
+  export const StudentSeedBatchScalarFieldEnum: {
+    id: 'id',
+    entrySession: 'entrySession',
+    uploadedById: 'uploadedById',
+    status: 'status',
+    createdAt: 'createdAt',
+    completedAt: 'completedAt'
+  };
+
+  export type StudentSeedBatchScalarFieldEnum = (typeof StudentSeedBatchScalarFieldEnum)[keyof typeof StudentSeedBatchScalarFieldEnum]
+
+
+  export const StudentSeedRowScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    matricNumberRaw: 'matricNumberRaw',
+    fullNameRaw: 'fullNameRaw',
+    levelRaw: 'levelRaw',
+    status: 'status',
+    errorMessage: 'errorMessage',
+    createdAt: 'createdAt'
+  };
+
+  export type StudentSeedRowScalarFieldEnum = (typeof StudentSeedRowScalarFieldEnum)[keyof typeof StudentSeedRowScalarFieldEnum]
+
+
+  export const UserSeedBatchScalarFieldEnum: {
+    id: 'id',
+    role: 'role',
+    uploadedById: 'uploadedById',
+    status: 'status',
+    createdAt: 'createdAt',
+    completedAt: 'completedAt'
+  };
+
+  export type UserSeedBatchScalarFieldEnum = (typeof UserSeedBatchScalarFieldEnum)[keyof typeof UserSeedBatchScalarFieldEnum]
+
+
+  export const UserSeedRowScalarFieldEnum: {
+    id: 'id',
+    batchId: 'batchId',
+    nameRaw: 'nameRaw',
+    emailRaw: 'emailRaw',
+    status: 'status',
+    errorMessage: 'errorMessage',
+    generatedPassword: 'generatedPassword',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type UserSeedRowScalarFieldEnum = (typeof UserSeedRowScalarFieldEnum)[keyof typeof UserSeedRowScalarFieldEnum]
 
 
   export const AdviserAssignmentScalarFieldEnum: {
@@ -19836,6 +26311,76 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'StudentCreationMethod'
+   */
+  export type EnumStudentCreationMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentCreationMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'StudentCreationMethod[]'
+   */
+  export type ListEnumStudentCreationMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentCreationMethod[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StudentSeedBatchStatus'
+   */
+  export type EnumStudentSeedBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentSeedBatchStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'StudentSeedBatchStatus[]'
+   */
+  export type ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentSeedBatchStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'StudentSeedRowStatus'
+   */
+  export type EnumStudentSeedRowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentSeedRowStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'StudentSeedRowStatus[]'
+   */
+  export type ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StudentSeedRowStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserSeedBatchStatus'
+   */
+  export type EnumUserSeedBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserSeedBatchStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserSeedBatchStatus[]'
+   */
+  export type ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserSeedBatchStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserSeedRowStatus'
+   */
+  export type EnumUserSeedRowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserSeedRowStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserSeedRowStatus[]'
+   */
+  export type ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserSeedRowStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'AdviserAssignmentStatus'
    */
   export type EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdviserAssignmentStatus'>
@@ -19989,6 +26534,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogListRelationFilter
     windowsOpened?: ResultSubmissionWindowListRelationFilter
     graduationRunsTriggered?: GraduationRunListRelationFilter
+    studentSeedBatches?: StudentSeedBatchListRelationFilter
+    userSeedBatchesUploaded?: UserSeedBatchListRelationFilter
+    createdViaSeedRow?: XOR<UserSeedRowNullableScalarRelationFilter, UserSeedRowWhereInput> | null
+    hodAssignmentsHeld?: HodAssignmentListRelationFilter
+    hodAssignmentsGiven?: HodAssignmentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -20013,6 +26563,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogOrderByRelationAggregateInput
     windowsOpened?: ResultSubmissionWindowOrderByRelationAggregateInput
     graduationRunsTriggered?: GraduationRunOrderByRelationAggregateInput
+    studentSeedBatches?: StudentSeedBatchOrderByRelationAggregateInput
+    userSeedBatchesUploaded?: UserSeedBatchOrderByRelationAggregateInput
+    createdViaSeedRow?: UserSeedRowOrderByWithRelationInput
+    hodAssignmentsHeld?: HodAssignmentOrderByRelationAggregateInput
+    hodAssignmentsGiven?: HodAssignmentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -20040,6 +26595,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogListRelationFilter
     windowsOpened?: ResultSubmissionWindowListRelationFilter
     graduationRunsTriggered?: GraduationRunListRelationFilter
+    studentSeedBatches?: StudentSeedBatchListRelationFilter
+    userSeedBatchesUploaded?: UserSeedBatchListRelationFilter
+    createdViaSeedRow?: XOR<UserSeedRowNullableScalarRelationFilter, UserSeedRowWhereInput> | null
+    hodAssignmentsHeld?: HodAssignmentListRelationFilter
+    hodAssignmentsGiven?: HodAssignmentListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20068,6 +26628,69 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type HodAssignmentWhereInput = {
+    AND?: HodAssignmentWhereInput | HodAssignmentWhereInput[]
+    OR?: HodAssignmentWhereInput[]
+    NOT?: HodAssignmentWhereInput | HodAssignmentWhereInput[]
+    id?: StringFilter<"HodAssignment"> | string
+    userId?: StringFilter<"HodAssignment"> | string
+    assignedById?: StringFilter<"HodAssignment"> | string
+    startDate?: DateTimeFilter<"HodAssignment"> | Date | string
+    endDate?: DateTimeNullableFilter<"HodAssignment"> | Date | string | null
+    createdAt?: DateTimeFilter<"HodAssignment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type HodAssignmentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    assignedById?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    assignedBy?: UserOrderByWithRelationInput
+  }
+
+  export type HodAssignmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HodAssignmentWhereInput | HodAssignmentWhereInput[]
+    OR?: HodAssignmentWhereInput[]
+    NOT?: HodAssignmentWhereInput | HodAssignmentWhereInput[]
+    userId?: StringFilter<"HodAssignment"> | string
+    assignedById?: StringFilter<"HodAssignment"> | string
+    startDate?: DateTimeFilter<"HodAssignment"> | Date | string
+    endDate?: DateTimeNullableFilter<"HodAssignment"> | Date | string | null
+    createdAt?: DateTimeFilter<"HodAssignment"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    assignedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type HodAssignmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    assignedById?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: HodAssignmentCountOrderByAggregateInput
+    _max?: HodAssignmentMaxOrderByAggregateInput
+    _min?: HodAssignmentMinOrderByAggregateInput
+  }
+
+  export type HodAssignmentScalarWhereWithAggregatesInput = {
+    AND?: HodAssignmentScalarWhereWithAggregatesInput | HodAssignmentScalarWhereWithAggregatesInput[]
+    OR?: HodAssignmentScalarWhereWithAggregatesInput[]
+    NOT?: HodAssignmentScalarWhereWithAggregatesInput | HodAssignmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HodAssignment"> | string
+    userId?: StringWithAggregatesFilter<"HodAssignment"> | string
+    assignedById?: StringWithAggregatesFilter<"HodAssignment"> | string
+    startDate?: DateTimeWithAggregatesFilter<"HodAssignment"> | Date | string
+    endDate?: DateTimeNullableWithAggregatesFilter<"HodAssignment"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"HodAssignment"> | Date | string
   }
 
   export type CourseWhereInput = {
@@ -20184,9 +26807,12 @@ export namespace Prisma {
     entrySession?: StringFilter<"Student"> | string
     currentLevel?: IntFilter<"Student"> | number
     status?: EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFilter<"Student"> | $Enums.StudentCreationMethod
+    seedRowId?: StringNullableFilter<"Student"> | string | null
     createdById?: StringFilter<"Student"> | string
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
+    seedRow?: XOR<StudentSeedRowNullableScalarRelationFilter, StudentSeedRowWhereInput> | null
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     results?: StudentResultListRelationFilter
     uploadRows?: UploadRowListRelationFilter
@@ -20200,9 +26826,12 @@ export namespace Prisma {
     entrySession?: SortOrder
     currentLevel?: SortOrder
     status?: SortOrder
+    creationMethod?: SortOrder
+    seedRowId?: SortOrderInput | SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    seedRow?: StudentSeedRowOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
     results?: StudentResultOrderByRelationAggregateInput
     uploadRows?: UploadRowOrderByRelationAggregateInput
@@ -20212,6 +26841,7 @@ export namespace Prisma {
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     matricNumber?: string
+    seedRowId?: string
     AND?: StudentWhereInput | StudentWhereInput[]
     OR?: StudentWhereInput[]
     NOT?: StudentWhereInput | StudentWhereInput[]
@@ -20219,14 +26849,16 @@ export namespace Prisma {
     entrySession?: StringFilter<"Student"> | string
     currentLevel?: IntFilter<"Student"> | number
     status?: EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFilter<"Student"> | $Enums.StudentCreationMethod
     createdById?: StringFilter<"Student"> | string
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
+    seedRow?: XOR<StudentSeedRowNullableScalarRelationFilter, StudentSeedRowWhereInput> | null
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
     results?: StudentResultListRelationFilter
     uploadRows?: UploadRowListRelationFilter
     eligibilityItems?: EligibilityRunItemListRelationFilter
-  }, "id" | "matricNumber">
+  }, "id" | "matricNumber" | "seedRowId">
 
   export type StudentOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20235,6 +26867,8 @@ export namespace Prisma {
     entrySession?: SortOrder
     currentLevel?: SortOrder
     status?: SortOrder
+    creationMethod?: SortOrder
+    seedRowId?: SortOrderInput | SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -20255,9 +26889,290 @@ export namespace Prisma {
     entrySession?: StringWithAggregatesFilter<"Student"> | string
     currentLevel?: IntWithAggregatesFilter<"Student"> | number
     status?: EnumStudentStatusWithAggregatesFilter<"Student"> | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodWithAggregatesFilter<"Student"> | $Enums.StudentCreationMethod
+    seedRowId?: StringNullableWithAggregatesFilter<"Student"> | string | null
     createdById?: StringWithAggregatesFilter<"Student"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
+  }
+
+  export type StudentSeedBatchWhereInput = {
+    AND?: StudentSeedBatchWhereInput | StudentSeedBatchWhereInput[]
+    OR?: StudentSeedBatchWhereInput[]
+    NOT?: StudentSeedBatchWhereInput | StudentSeedBatchWhereInput[]
+    id?: StringFilter<"StudentSeedBatch"> | string
+    entrySession?: StringFilter<"StudentSeedBatch"> | string
+    uploadedById?: StringFilter<"StudentSeedBatch"> | string
+    status?: EnumStudentSeedBatchStatusFilter<"StudentSeedBatch"> | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFilter<"StudentSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"StudentSeedBatch"> | Date | string | null
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rows?: StudentSeedRowListRelationFilter
+  }
+
+  export type StudentSeedBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    entrySession?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    uploadedBy?: UserOrderByWithRelationInput
+    rows?: StudentSeedRowOrderByRelationAggregateInput
+  }
+
+  export type StudentSeedBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StudentSeedBatchWhereInput | StudentSeedBatchWhereInput[]
+    OR?: StudentSeedBatchWhereInput[]
+    NOT?: StudentSeedBatchWhereInput | StudentSeedBatchWhereInput[]
+    entrySession?: StringFilter<"StudentSeedBatch"> | string
+    uploadedById?: StringFilter<"StudentSeedBatch"> | string
+    status?: EnumStudentSeedBatchStatusFilter<"StudentSeedBatch"> | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFilter<"StudentSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"StudentSeedBatch"> | Date | string | null
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rows?: StudentSeedRowListRelationFilter
+  }, "id">
+
+  export type StudentSeedBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    entrySession?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: StudentSeedBatchCountOrderByAggregateInput
+    _max?: StudentSeedBatchMaxOrderByAggregateInput
+    _min?: StudentSeedBatchMinOrderByAggregateInput
+  }
+
+  export type StudentSeedBatchScalarWhereWithAggregatesInput = {
+    AND?: StudentSeedBatchScalarWhereWithAggregatesInput | StudentSeedBatchScalarWhereWithAggregatesInput[]
+    OR?: StudentSeedBatchScalarWhereWithAggregatesInput[]
+    NOT?: StudentSeedBatchScalarWhereWithAggregatesInput | StudentSeedBatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudentSeedBatch"> | string
+    entrySession?: StringWithAggregatesFilter<"StudentSeedBatch"> | string
+    uploadedById?: StringWithAggregatesFilter<"StudentSeedBatch"> | string
+    status?: EnumStudentSeedBatchStatusWithAggregatesFilter<"StudentSeedBatch"> | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeWithAggregatesFilter<"StudentSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"StudentSeedBatch"> | Date | string | null
+  }
+
+  export type StudentSeedRowWhereInput = {
+    AND?: StudentSeedRowWhereInput | StudentSeedRowWhereInput[]
+    OR?: StudentSeedRowWhereInput[]
+    NOT?: StudentSeedRowWhereInput | StudentSeedRowWhereInput[]
+    id?: StringFilter<"StudentSeedRow"> | string
+    batchId?: StringFilter<"StudentSeedRow"> | string
+    matricNumberRaw?: StringFilter<"StudentSeedRow"> | string
+    fullNameRaw?: StringFilter<"StudentSeedRow"> | string
+    levelRaw?: IntNullableFilter<"StudentSeedRow"> | number | null
+    status?: EnumStudentSeedRowStatusFilter<"StudentSeedRow"> | $Enums.StudentSeedRowStatus
+    errorMessage?: StringNullableFilter<"StudentSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"StudentSeedRow"> | Date | string
+    batch?: XOR<StudentSeedBatchScalarRelationFilter, StudentSeedBatchWhereInput>
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+  }
+
+  export type StudentSeedRowOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    matricNumberRaw?: SortOrder
+    fullNameRaw?: SortOrder
+    levelRaw?: SortOrderInput | SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    batch?: StudentSeedBatchOrderByWithRelationInput
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type StudentSeedRowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StudentSeedRowWhereInput | StudentSeedRowWhereInput[]
+    OR?: StudentSeedRowWhereInput[]
+    NOT?: StudentSeedRowWhereInput | StudentSeedRowWhereInput[]
+    batchId?: StringFilter<"StudentSeedRow"> | string
+    matricNumberRaw?: StringFilter<"StudentSeedRow"> | string
+    fullNameRaw?: StringFilter<"StudentSeedRow"> | string
+    levelRaw?: IntNullableFilter<"StudentSeedRow"> | number | null
+    status?: EnumStudentSeedRowStatusFilter<"StudentSeedRow"> | $Enums.StudentSeedRowStatus
+    errorMessage?: StringNullableFilter<"StudentSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"StudentSeedRow"> | Date | string
+    batch?: XOR<StudentSeedBatchScalarRelationFilter, StudentSeedBatchWhereInput>
+    student?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+  }, "id">
+
+  export type StudentSeedRowOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    matricNumberRaw?: SortOrder
+    fullNameRaw?: SortOrder
+    levelRaw?: SortOrderInput | SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: StudentSeedRowCountOrderByAggregateInput
+    _avg?: StudentSeedRowAvgOrderByAggregateInput
+    _max?: StudentSeedRowMaxOrderByAggregateInput
+    _min?: StudentSeedRowMinOrderByAggregateInput
+    _sum?: StudentSeedRowSumOrderByAggregateInput
+  }
+
+  export type StudentSeedRowScalarWhereWithAggregatesInput = {
+    AND?: StudentSeedRowScalarWhereWithAggregatesInput | StudentSeedRowScalarWhereWithAggregatesInput[]
+    OR?: StudentSeedRowScalarWhereWithAggregatesInput[]
+    NOT?: StudentSeedRowScalarWhereWithAggregatesInput | StudentSeedRowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StudentSeedRow"> | string
+    batchId?: StringWithAggregatesFilter<"StudentSeedRow"> | string
+    matricNumberRaw?: StringWithAggregatesFilter<"StudentSeedRow"> | string
+    fullNameRaw?: StringWithAggregatesFilter<"StudentSeedRow"> | string
+    levelRaw?: IntNullableWithAggregatesFilter<"StudentSeedRow"> | number | null
+    status?: EnumStudentSeedRowStatusWithAggregatesFilter<"StudentSeedRow"> | $Enums.StudentSeedRowStatus
+    errorMessage?: StringNullableWithAggregatesFilter<"StudentSeedRow"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"StudentSeedRow"> | Date | string
+  }
+
+  export type UserSeedBatchWhereInput = {
+    AND?: UserSeedBatchWhereInput | UserSeedBatchWhereInput[]
+    OR?: UserSeedBatchWhereInput[]
+    NOT?: UserSeedBatchWhereInput | UserSeedBatchWhereInput[]
+    id?: StringFilter<"UserSeedBatch"> | string
+    role?: EnumUserRoleFilter<"UserSeedBatch"> | $Enums.UserRole
+    uploadedById?: StringFilter<"UserSeedBatch"> | string
+    status?: EnumUserSeedBatchStatusFilter<"UserSeedBatch"> | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFilter<"UserSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"UserSeedBatch"> | Date | string | null
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rows?: UserSeedRowListRelationFilter
+  }
+
+  export type UserSeedBatchOrderByWithRelationInput = {
+    id?: SortOrder
+    role?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    uploadedBy?: UserOrderByWithRelationInput
+    rows?: UserSeedRowOrderByRelationAggregateInput
+  }
+
+  export type UserSeedBatchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserSeedBatchWhereInput | UserSeedBatchWhereInput[]
+    OR?: UserSeedBatchWhereInput[]
+    NOT?: UserSeedBatchWhereInput | UserSeedBatchWhereInput[]
+    role?: EnumUserRoleFilter<"UserSeedBatch"> | $Enums.UserRole
+    uploadedById?: StringFilter<"UserSeedBatch"> | string
+    status?: EnumUserSeedBatchStatusFilter<"UserSeedBatch"> | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFilter<"UserSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"UserSeedBatch"> | Date | string | null
+    uploadedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rows?: UserSeedRowListRelationFilter
+  }, "id">
+
+  export type UserSeedBatchOrderByWithAggregationInput = {
+    id?: SortOrder
+    role?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: UserSeedBatchCountOrderByAggregateInput
+    _max?: UserSeedBatchMaxOrderByAggregateInput
+    _min?: UserSeedBatchMinOrderByAggregateInput
+  }
+
+  export type UserSeedBatchScalarWhereWithAggregatesInput = {
+    AND?: UserSeedBatchScalarWhereWithAggregatesInput | UserSeedBatchScalarWhereWithAggregatesInput[]
+    OR?: UserSeedBatchScalarWhereWithAggregatesInput[]
+    NOT?: UserSeedBatchScalarWhereWithAggregatesInput | UserSeedBatchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserSeedBatch"> | string
+    role?: EnumUserRoleWithAggregatesFilter<"UserSeedBatch"> | $Enums.UserRole
+    uploadedById?: StringWithAggregatesFilter<"UserSeedBatch"> | string
+    status?: EnumUserSeedBatchStatusWithAggregatesFilter<"UserSeedBatch"> | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeWithAggregatesFilter<"UserSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"UserSeedBatch"> | Date | string | null
+  }
+
+  export type UserSeedRowWhereInput = {
+    AND?: UserSeedRowWhereInput | UserSeedRowWhereInput[]
+    OR?: UserSeedRowWhereInput[]
+    NOT?: UserSeedRowWhereInput | UserSeedRowWhereInput[]
+    id?: StringFilter<"UserSeedRow"> | string
+    batchId?: StringFilter<"UserSeedRow"> | string
+    nameRaw?: StringFilter<"UserSeedRow"> | string
+    emailRaw?: StringFilter<"UserSeedRow"> | string
+    status?: EnumUserSeedRowStatusFilter<"UserSeedRow"> | $Enums.UserSeedRowStatus
+    errorMessage?: StringNullableFilter<"UserSeedRow"> | string | null
+    generatedPassword?: StringNullableFilter<"UserSeedRow"> | string | null
+    userId?: StringNullableFilter<"UserSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"UserSeedRow"> | Date | string
+    batch?: XOR<UserSeedBatchScalarRelationFilter, UserSeedBatchWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type UserSeedRowOrderByWithRelationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    nameRaw?: SortOrder
+    emailRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    generatedPassword?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    batch?: UserSeedBatchOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserSeedRowWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserSeedRowWhereInput | UserSeedRowWhereInput[]
+    OR?: UserSeedRowWhereInput[]
+    NOT?: UserSeedRowWhereInput | UserSeedRowWhereInput[]
+    batchId?: StringFilter<"UserSeedRow"> | string
+    nameRaw?: StringFilter<"UserSeedRow"> | string
+    emailRaw?: StringFilter<"UserSeedRow"> | string
+    status?: EnumUserSeedRowStatusFilter<"UserSeedRow"> | $Enums.UserSeedRowStatus
+    errorMessage?: StringNullableFilter<"UserSeedRow"> | string | null
+    generatedPassword?: StringNullableFilter<"UserSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"UserSeedRow"> | Date | string
+    batch?: XOR<UserSeedBatchScalarRelationFilter, UserSeedBatchWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "userId">
+
+  export type UserSeedRowOrderByWithAggregationInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    nameRaw?: SortOrder
+    emailRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    generatedPassword?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: UserSeedRowCountOrderByAggregateInput
+    _max?: UserSeedRowMaxOrderByAggregateInput
+    _min?: UserSeedRowMinOrderByAggregateInput
+  }
+
+  export type UserSeedRowScalarWhereWithAggregatesInput = {
+    AND?: UserSeedRowScalarWhereWithAggregatesInput | UserSeedRowScalarWhereWithAggregatesInput[]
+    OR?: UserSeedRowScalarWhereWithAggregatesInput[]
+    NOT?: UserSeedRowScalarWhereWithAggregatesInput | UserSeedRowScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserSeedRow"> | string
+    batchId?: StringWithAggregatesFilter<"UserSeedRow"> | string
+    nameRaw?: StringWithAggregatesFilter<"UserSeedRow"> | string
+    emailRaw?: StringWithAggregatesFilter<"UserSeedRow"> | string
+    status?: EnumUserSeedRowStatusWithAggregatesFilter<"UserSeedRow"> | $Enums.UserSeedRowStatus
+    errorMessage?: StringNullableWithAggregatesFilter<"UserSeedRow"> | string | null
+    generatedPassword?: StringNullableWithAggregatesFilter<"UserSeedRow"> | string | null
+    userId?: StringNullableWithAggregatesFilter<"UserSeedRow"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserSeedRow"> | Date | string
   }
 
   export type AdviserAssignmentWhereInput = {
@@ -21153,6 +28068,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -21177,6 +28097,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUpdateInput = {
@@ -21201,6 +28126,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -21225,6 +28155,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21258,6 +28193,67 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentCreateInput = {
+    id?: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutHodAssignmentsHeldInput
+    assignedBy: UserCreateNestedOneWithoutHodAssignmentsGivenInput
+  }
+
+  export type HodAssignmentUncheckedCreateInput = {
+    id?: string
+    userId: string
+    assignedById: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type HodAssignmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutHodAssignmentsHeldNestedInput
+    assignedBy?: UserUpdateOneRequiredWithoutHodAssignmentsGivenNestedInput
+  }
+
+  export type HodAssignmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    assignedById?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentCreateManyInput = {
+    id?: string
+    userId: string
+    assignedById: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type HodAssignmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    assignedById?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseCreateInput = {
@@ -21382,8 +28378,10 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    seedRow?: StudentSeedRowCreateNestedOneWithoutStudentInput
     createdBy: UserCreateNestedOneWithoutStudentsCreatedInput
     results?: StudentResultCreateNestedManyWithoutStudentInput
     uploadRows?: UploadRowCreateNestedManyWithoutMatchedStudentInput
@@ -21397,6 +28395,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21412,8 +28412,10 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seedRow?: StudentSeedRowUpdateOneWithoutStudentNestedInput
     createdBy?: UserUpdateOneRequiredWithoutStudentsCreatedNestedInput
     results?: StudentResultUpdateManyWithoutStudentNestedInput
     uploadRows?: UploadRowUpdateManyWithoutMatchedStudentNestedInput
@@ -21427,6 +28429,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21442,6 +28446,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21454,6 +28460,7 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -21465,9 +28472,305 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudentSeedBatchCreateInput = {
+    id?: string
+    entrySession: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    uploadedBy: UserCreateNestedOneWithoutStudentSeedBatchesInput
+    rows?: StudentSeedRowCreateNestedManyWithoutBatchInput
+  }
+
+  export type StudentSeedBatchUncheckedCreateInput = {
+    id?: string
+    entrySession: string
+    uploadedById: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: StudentSeedRowUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type StudentSeedBatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    uploadedBy?: UserUpdateOneRequiredWithoutStudentSeedBatchesNestedInput
+    rows?: StudentSeedRowUpdateManyWithoutBatchNestedInput
+  }
+
+  export type StudentSeedBatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: StudentSeedRowUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type StudentSeedBatchCreateManyInput = {
+    id?: string
+    entrySession: string
+    uploadedById: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type StudentSeedBatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StudentSeedBatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StudentSeedRowCreateInput = {
+    id?: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    batch: StudentSeedBatchCreateNestedOneWithoutRowsInput
+    student?: StudentCreateNestedOneWithoutSeedRowInput
+  }
+
+  export type StudentSeedRowUncheckedCreateInput = {
+    id?: string
+    batchId: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    student?: StudentUncheckedCreateNestedOneWithoutSeedRowInput
+  }
+
+  export type StudentSeedRowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batch?: StudentSeedBatchUpdateOneRequiredWithoutRowsNestedInput
+    student?: StudentUpdateOneWithoutSeedRowNestedInput
+  }
+
+  export type StudentSeedRowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUncheckedUpdateOneWithoutSeedRowNestedInput
+  }
+
+  export type StudentSeedRowCreateManyInput = {
+    id?: string
+    batchId: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type StudentSeedRowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StudentSeedRowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserSeedBatchCreateInput = {
+    id?: string
+    role?: $Enums.UserRole
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    uploadedBy: UserCreateNestedOneWithoutUserSeedBatchesUploadedInput
+    rows?: UserSeedRowCreateNestedManyWithoutBatchInput
+  }
+
+  export type UserSeedBatchUncheckedCreateInput = {
+    id?: string
+    role?: $Enums.UserRole
+    uploadedById: string
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: UserSeedRowUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type UserSeedBatchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    uploadedBy?: UserUpdateOneRequiredWithoutUserSeedBatchesUploadedNestedInput
+    rows?: UserSeedRowUpdateManyWithoutBatchNestedInput
+  }
+
+  export type UserSeedBatchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: UserSeedRowUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type UserSeedBatchCreateManyInput = {
+    id?: string
+    role?: $Enums.UserRole
+    uploadedById: string
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type UserSeedBatchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserSeedBatchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserSeedRowCreateInput = {
+    id?: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    createdAt?: Date | string
+    batch: UserSeedBatchCreateNestedOneWithoutRowsInput
+    user?: UserCreateNestedOneWithoutCreatedViaSeedRowInput
+  }
+
+  export type UserSeedRowUncheckedCreateInput = {
+    id?: string
+    batchId: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserSeedRowUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batch?: UserSeedBatchUpdateOneRequiredWithoutRowsNestedInput
+    user?: UserUpdateOneWithoutCreatedViaSeedRowNestedInput
+  }
+
+  export type UserSeedRowUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserSeedRowCreateManyInput = {
+    id?: string
+    batchId: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserSeedRowUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserSeedRowUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AdviserAssignmentCreateInput = {
@@ -22452,6 +29755,29 @@ export namespace Prisma {
     none?: GraduationRunWhereInput
   }
 
+  export type StudentSeedBatchListRelationFilter = {
+    every?: StudentSeedBatchWhereInput
+    some?: StudentSeedBatchWhereInput
+    none?: StudentSeedBatchWhereInput
+  }
+
+  export type UserSeedBatchListRelationFilter = {
+    every?: UserSeedBatchWhereInput
+    some?: UserSeedBatchWhereInput
+    none?: UserSeedBatchWhereInput
+  }
+
+  export type UserSeedRowNullableScalarRelationFilter = {
+    is?: UserSeedRowWhereInput | null
+    isNot?: UserSeedRowWhereInput | null
+  }
+
+  export type HodAssignmentListRelationFilter = {
+    every?: HodAssignmentWhereInput
+    some?: HodAssignmentWhereInput
+    none?: HodAssignmentWhereInput
+  }
+
   export type CourseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -22485,6 +29811,18 @@ export namespace Prisma {
   }
 
   export type GraduationRunOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudentSeedBatchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserSeedBatchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HodAssignmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -22571,6 +29909,68 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type HodAssignmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    assignedById?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HodAssignmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    assignedById?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HodAssignmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    assignedById?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -22611,11 +30011,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
-  }
-
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -22631,11 +30026,6 @@ export namespace Prisma {
     every?: UploadFileWhereInput
     some?: UploadFileWhereInput
     none?: UploadFileWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type StudentResultOrderByRelationAggregateInput = {
@@ -22762,6 +30152,18 @@ export namespace Prisma {
     not?: NestedEnumStudentStatusFilter<$PrismaModel> | $Enums.StudentStatus
   }
 
+  export type EnumStudentCreationMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentCreationMethod | EnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentCreationMethodFilter<$PrismaModel> | $Enums.StudentCreationMethod
+  }
+
+  export type StudentSeedRowNullableScalarRelationFilter = {
+    is?: StudentSeedRowWhereInput | null
+    isNot?: StudentSeedRowWhereInput | null
+  }
+
   export type UploadRowListRelationFilter = {
     every?: UploadRowWhereInput
     some?: UploadRowWhereInput
@@ -22789,6 +30191,8 @@ export namespace Prisma {
     entrySession?: SortOrder
     currentLevel?: SortOrder
     status?: SortOrder
+    creationMethod?: SortOrder
+    seedRowId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22805,6 +30209,8 @@ export namespace Prisma {
     entrySession?: SortOrder
     currentLevel?: SortOrder
     status?: SortOrder
+    creationMethod?: SortOrder
+    seedRowId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22817,6 +30223,8 @@ export namespace Prisma {
     entrySession?: SortOrder
     currentLevel?: SortOrder
     status?: SortOrder
+    creationMethod?: SortOrder
+    seedRowId?: SortOrder
     createdById?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22836,22 +30244,282 @@ export namespace Prisma {
     _max?: NestedEnumStudentStatusFilter<$PrismaModel>
   }
 
+  export type EnumStudentCreationMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentCreationMethod | EnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentCreationMethodWithAggregatesFilter<$PrismaModel> | $Enums.StudentCreationMethod
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStudentCreationMethodFilter<$PrismaModel>
+    _max?: NestedEnumStudentCreationMethodFilter<$PrismaModel>
+  }
+
+  export type EnumStudentSeedBatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedBatchStatus | EnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel> | $Enums.StudentSeedBatchStatus
+  }
+
+  export type StudentSeedRowListRelationFilter = {
+    every?: StudentSeedRowWhereInput
+    some?: StudentSeedRowWhereInput
+    none?: StudentSeedRowWhereInput
+  }
+
+  export type StudentSeedRowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StudentSeedBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    entrySession?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type StudentSeedBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    entrySession?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type StudentSeedBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    entrySession?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type EnumStudentSeedBatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedBatchStatus | EnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedBatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.StudentSeedBatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel>
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumStudentSeedRowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedRowStatus | EnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel> | $Enums.StudentSeedRowStatus
+  }
+
+  export type StudentSeedBatchScalarRelationFilter = {
+    is?: StudentSeedBatchWhereInput
+    isNot?: StudentSeedBatchWhereInput
+  }
+
+  export type StudentNullableScalarRelationFilter = {
+    is?: StudentWhereInput | null
+    isNot?: StudentWhereInput | null
+  }
+
+  export type StudentSeedRowCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    matricNumberRaw?: SortOrder
+    fullNameRaw?: SortOrder
+    levelRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StudentSeedRowAvgOrderByAggregateInput = {
+    levelRaw?: SortOrder
+  }
+
+  export type StudentSeedRowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    matricNumberRaw?: SortOrder
+    fullNameRaw?: SortOrder
+    levelRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StudentSeedRowMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    matricNumberRaw?: SortOrder
+    fullNameRaw?: SortOrder
+    levelRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StudentSeedRowSumOrderByAggregateInput = {
+    levelRaw?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumStudentSeedRowStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedRowStatus | EnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedRowStatusWithAggregatesFilter<$PrismaModel> | $Enums.StudentSeedRowStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel>
+    _max?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel>
+  }
+
+  export type EnumUserSeedBatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedBatchStatus | EnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel> | $Enums.UserSeedBatchStatus
+  }
+
+  export type UserSeedRowListRelationFilter = {
+    every?: UserSeedRowWhereInput
+    some?: UserSeedRowWhereInput
+    none?: UserSeedRowWhereInput
+  }
+
+  export type UserSeedRowOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserSeedBatchCountOrderByAggregateInput = {
+    id?: SortOrder
+    role?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type UserSeedBatchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    role?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type UserSeedBatchMinOrderByAggregateInput = {
+    id?: SortOrder
+    role?: SortOrder
+    uploadedById?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type EnumUserSeedBatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedBatchStatus | EnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedBatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserSeedBatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel>
+  }
+
+  export type EnumUserSeedRowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedRowStatus | EnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedRowStatusFilter<$PrismaModel> | $Enums.UserSeedRowStatus
+  }
+
+  export type UserSeedBatchScalarRelationFilter = {
+    is?: UserSeedBatchWhereInput
+    isNot?: UserSeedBatchWhereInput
+  }
+
+  export type UserSeedRowCountOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    nameRaw?: SortOrder
+    emailRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    generatedPassword?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserSeedRowMaxOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    nameRaw?: SortOrder
+    emailRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    generatedPassword?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type UserSeedRowMinOrderByAggregateInput = {
+    id?: SortOrder
+    batchId?: SortOrder
+    nameRaw?: SortOrder
+    emailRaw?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    generatedPassword?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumUserSeedRowStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedRowStatus | EnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedRowStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserSeedRowStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserSeedRowStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserSeedRowStatusFilter<$PrismaModel>
+  }
+
   export type EnumAdviserAssignmentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AdviserAssignmentStatus | EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel> | $Enums.AdviserAssignmentStatus
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type AdviserAssignmentCountOrderByAggregateInput = {
@@ -22907,20 +30575,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
     _max?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -23377,11 +31031,6 @@ export namespace Prisma {
     isNot?: UploadFileWhereInput
   }
 
-  export type StudentNullableScalarRelationFilter = {
-    is?: StudentWhereInput | null
-    isNot?: StudentWhereInput | null
-  }
-
   export type UploadRowCountOrderByAggregateInput = {
     id?: SortOrder
     uploadFileId?: SortOrder
@@ -23666,6 +31315,40 @@ export namespace Prisma {
     connect?: GraduationRunWhereUniqueInput | GraduationRunWhereUniqueInput[]
   }
 
+  export type StudentSeedBatchCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput> | StudentSeedBatchCreateWithoutUploadedByInput[] | StudentSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutUploadedByInput | StudentSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    createMany?: StudentSeedBatchCreateManyUploadedByInputEnvelope
+    connect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+  }
+
+  export type UserSeedBatchCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput> | UserSeedBatchCreateWithoutUploadedByInput[] | UserSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutUploadedByInput | UserSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    createMany?: UserSeedBatchCreateManyUploadedByInputEnvelope
+    connect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+  }
+
+  export type UserSeedRowCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutUserInput
+    connect?: UserSeedRowWhereUniqueInput
+  }
+
+  export type HodAssignmentCreateNestedManyWithoutUserInput = {
+    create?: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput> | HodAssignmentCreateWithoutUserInput[] | HodAssignmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutUserInput | HodAssignmentCreateOrConnectWithoutUserInput[]
+    createMany?: HodAssignmentCreateManyUserInputEnvelope
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+  }
+
+  export type HodAssignmentCreateNestedManyWithoutAssignedByInput = {
+    create?: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput> | HodAssignmentCreateWithoutAssignedByInput[] | HodAssignmentUncheckedCreateWithoutAssignedByInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutAssignedByInput | HodAssignmentCreateOrConnectWithoutAssignedByInput[]
+    createMany?: HodAssignmentCreateManyAssignedByInputEnvelope
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+  }
+
   export type CourseUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<CourseCreateWithoutCreatedByInput, CourseUncheckedCreateWithoutCreatedByInput> | CourseCreateWithoutCreatedByInput[] | CourseUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutCreatedByInput | CourseCreateOrConnectWithoutCreatedByInput[]
@@ -23755,6 +31438,40 @@ export namespace Prisma {
     connectOrCreate?: GraduationRunCreateOrConnectWithoutTriggeredByInput | GraduationRunCreateOrConnectWithoutTriggeredByInput[]
     createMany?: GraduationRunCreateManyTriggeredByInputEnvelope
     connect?: GraduationRunWhereUniqueInput | GraduationRunWhereUniqueInput[]
+  }
+
+  export type StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput> | StudentSeedBatchCreateWithoutUploadedByInput[] | StudentSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutUploadedByInput | StudentSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    createMany?: StudentSeedBatchCreateManyUploadedByInputEnvelope
+    connect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+  }
+
+  export type UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput> | UserSeedBatchCreateWithoutUploadedByInput[] | UserSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutUploadedByInput | UserSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    createMany?: UserSeedBatchCreateManyUploadedByInputEnvelope
+    connect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+  }
+
+  export type UserSeedRowUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutUserInput
+    connect?: UserSeedRowWhereUniqueInput
+  }
+
+  export type HodAssignmentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput> | HodAssignmentCreateWithoutUserInput[] | HodAssignmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutUserInput | HodAssignmentCreateOrConnectWithoutUserInput[]
+    createMany?: HodAssignmentCreateManyUserInputEnvelope
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+  }
+
+  export type HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput = {
+    create?: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput> | HodAssignmentCreateWithoutAssignedByInput[] | HodAssignmentUncheckedCreateWithoutAssignedByInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutAssignedByInput | HodAssignmentCreateOrConnectWithoutAssignedByInput[]
+    createMany?: HodAssignmentCreateManyAssignedByInputEnvelope
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -23955,6 +31672,72 @@ export namespace Prisma {
     deleteMany?: GraduationRunScalarWhereInput | GraduationRunScalarWhereInput[]
   }
 
+  export type StudentSeedBatchUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput> | StudentSeedBatchCreateWithoutUploadedByInput[] | StudentSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutUploadedByInput | StudentSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    upsert?: StudentSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput | StudentSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: StudentSeedBatchCreateManyUploadedByInputEnvelope
+    set?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    disconnect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    delete?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    connect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    update?: StudentSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput | StudentSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: StudentSeedBatchUpdateManyWithWhereWithoutUploadedByInput | StudentSeedBatchUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: StudentSeedBatchScalarWhereInput | StudentSeedBatchScalarWhereInput[]
+  }
+
+  export type UserSeedBatchUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput> | UserSeedBatchCreateWithoutUploadedByInput[] | UserSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutUploadedByInput | UserSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    upsert?: UserSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput | UserSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: UserSeedBatchCreateManyUploadedByInputEnvelope
+    set?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    disconnect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    delete?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    connect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    update?: UserSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput | UserSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: UserSeedBatchUpdateManyWithWhereWithoutUploadedByInput | UserSeedBatchUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: UserSeedBatchScalarWhereInput | UserSeedBatchScalarWhereInput[]
+  }
+
+  export type UserSeedRowUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutUserInput
+    upsert?: UserSeedRowUpsertWithoutUserInput
+    disconnect?: UserSeedRowWhereInput | boolean
+    delete?: UserSeedRowWhereInput | boolean
+    connect?: UserSeedRowWhereUniqueInput
+    update?: XOR<XOR<UserSeedRowUpdateToOneWithWhereWithoutUserInput, UserSeedRowUpdateWithoutUserInput>, UserSeedRowUncheckedUpdateWithoutUserInput>
+  }
+
+  export type HodAssignmentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput> | HodAssignmentCreateWithoutUserInput[] | HodAssignmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutUserInput | HodAssignmentCreateOrConnectWithoutUserInput[]
+    upsert?: HodAssignmentUpsertWithWhereUniqueWithoutUserInput | HodAssignmentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HodAssignmentCreateManyUserInputEnvelope
+    set?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    disconnect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    delete?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    update?: HodAssignmentUpdateWithWhereUniqueWithoutUserInput | HodAssignmentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HodAssignmentUpdateManyWithWhereWithoutUserInput | HodAssignmentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+  }
+
+  export type HodAssignmentUpdateManyWithoutAssignedByNestedInput = {
+    create?: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput> | HodAssignmentCreateWithoutAssignedByInput[] | HodAssignmentUncheckedCreateWithoutAssignedByInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutAssignedByInput | HodAssignmentCreateOrConnectWithoutAssignedByInput[]
+    upsert?: HodAssignmentUpsertWithWhereUniqueWithoutAssignedByInput | HodAssignmentUpsertWithWhereUniqueWithoutAssignedByInput[]
+    createMany?: HodAssignmentCreateManyAssignedByInputEnvelope
+    set?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    disconnect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    delete?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    update?: HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput | HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput[]
+    updateMany?: HodAssignmentUpdateManyWithWhereWithoutAssignedByInput | HodAssignmentUpdateManyWithWhereWithoutAssignedByInput[]
+    deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<CourseCreateWithoutCreatedByInput, CourseUncheckedCreateWithoutCreatedByInput> | CourseCreateWithoutCreatedByInput[] | CourseUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutCreatedByInput | CourseCreateOrConnectWithoutCreatedByInput[]
@@ -24137,6 +31920,104 @@ export namespace Prisma {
     deleteMany?: GraduationRunScalarWhereInput | GraduationRunScalarWhereInput[]
   }
 
+  export type StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput> | StudentSeedBatchCreateWithoutUploadedByInput[] | StudentSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutUploadedByInput | StudentSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    upsert?: StudentSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput | StudentSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: StudentSeedBatchCreateManyUploadedByInputEnvelope
+    set?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    disconnect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    delete?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    connect?: StudentSeedBatchWhereUniqueInput | StudentSeedBatchWhereUniqueInput[]
+    update?: StudentSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput | StudentSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: StudentSeedBatchUpdateManyWithWhereWithoutUploadedByInput | StudentSeedBatchUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: StudentSeedBatchScalarWhereInput | StudentSeedBatchScalarWhereInput[]
+  }
+
+  export type UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput> | UserSeedBatchCreateWithoutUploadedByInput[] | UserSeedBatchUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutUploadedByInput | UserSeedBatchCreateOrConnectWithoutUploadedByInput[]
+    upsert?: UserSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput | UserSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: UserSeedBatchCreateManyUploadedByInputEnvelope
+    set?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    disconnect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    delete?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    connect?: UserSeedBatchWhereUniqueInput | UserSeedBatchWhereUniqueInput[]
+    update?: UserSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput | UserSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: UserSeedBatchUpdateManyWithWhereWithoutUploadedByInput | UserSeedBatchUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: UserSeedBatchScalarWhereInput | UserSeedBatchScalarWhereInput[]
+  }
+
+  export type UserSeedRowUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutUserInput
+    upsert?: UserSeedRowUpsertWithoutUserInput
+    disconnect?: UserSeedRowWhereInput | boolean
+    delete?: UserSeedRowWhereInput | boolean
+    connect?: UserSeedRowWhereUniqueInput
+    update?: XOR<XOR<UserSeedRowUpdateToOneWithWhereWithoutUserInput, UserSeedRowUpdateWithoutUserInput>, UserSeedRowUncheckedUpdateWithoutUserInput>
+  }
+
+  export type HodAssignmentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput> | HodAssignmentCreateWithoutUserInput[] | HodAssignmentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutUserInput | HodAssignmentCreateOrConnectWithoutUserInput[]
+    upsert?: HodAssignmentUpsertWithWhereUniqueWithoutUserInput | HodAssignmentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HodAssignmentCreateManyUserInputEnvelope
+    set?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    disconnect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    delete?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    update?: HodAssignmentUpdateWithWhereUniqueWithoutUserInput | HodAssignmentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HodAssignmentUpdateManyWithWhereWithoutUserInput | HodAssignmentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+  }
+
+  export type HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput = {
+    create?: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput> | HodAssignmentCreateWithoutAssignedByInput[] | HodAssignmentUncheckedCreateWithoutAssignedByInput[]
+    connectOrCreate?: HodAssignmentCreateOrConnectWithoutAssignedByInput | HodAssignmentCreateOrConnectWithoutAssignedByInput[]
+    upsert?: HodAssignmentUpsertWithWhereUniqueWithoutAssignedByInput | HodAssignmentUpsertWithWhereUniqueWithoutAssignedByInput[]
+    createMany?: HodAssignmentCreateManyAssignedByInputEnvelope
+    set?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    disconnect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    delete?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+    update?: HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput | HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput[]
+    updateMany?: HodAssignmentUpdateManyWithWhereWithoutAssignedByInput | HodAssignmentUpdateManyWithWhereWithoutAssignedByInput[]
+    deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutHodAssignmentsHeldInput = {
+    create?: XOR<UserCreateWithoutHodAssignmentsHeldInput, UserUncheckedCreateWithoutHodAssignmentsHeldInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHodAssignmentsHeldInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutHodAssignmentsGivenInput = {
+    create?: XOR<UserCreateWithoutHodAssignmentsGivenInput, UserUncheckedCreateWithoutHodAssignmentsGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHodAssignmentsGivenInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutHodAssignmentsHeldNestedInput = {
+    create?: XOR<UserCreateWithoutHodAssignmentsHeldInput, UserUncheckedCreateWithoutHodAssignmentsHeldInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHodAssignmentsHeldInput
+    upsert?: UserUpsertWithoutHodAssignmentsHeldInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHodAssignmentsHeldInput, UserUpdateWithoutHodAssignmentsHeldInput>, UserUncheckedUpdateWithoutHodAssignmentsHeldInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutHodAssignmentsGivenNestedInput = {
+    create?: XOR<UserCreateWithoutHodAssignmentsGivenInput, UserUncheckedCreateWithoutHodAssignmentsGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHodAssignmentsGivenInput
+    upsert?: UserUpsertWithoutHodAssignmentsGivenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHodAssignmentsGivenInput, UserUpdateWithoutHodAssignmentsGivenInput>, UserUncheckedUpdateWithoutHodAssignmentsGivenInput>
+  }
+
   export type UserCreateNestedOneWithoutCoursesCreatedInput = {
     create?: XOR<UserCreateWithoutCoursesCreatedInput, UserUncheckedCreateWithoutCoursesCreatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutCoursesCreatedInput
@@ -24313,6 +32194,12 @@ export namespace Prisma {
     deleteMany?: ResultSubmissionWindowScalarWhereInput | ResultSubmissionWindowScalarWhereInput[]
   }
 
+  export type StudentSeedRowCreateNestedOneWithoutStudentInput = {
+    create?: XOR<StudentSeedRowCreateWithoutStudentInput, StudentSeedRowUncheckedCreateWithoutStudentInput>
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutStudentInput
+    connect?: StudentSeedRowWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutStudentsCreatedInput = {
     create?: XOR<UserCreateWithoutStudentsCreatedInput, UserUncheckedCreateWithoutStudentsCreatedInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudentsCreatedInput
@@ -24363,6 +32250,20 @@ export namespace Prisma {
 
   export type EnumStudentStatusFieldUpdateOperationsInput = {
     set?: $Enums.StudentStatus
+  }
+
+  export type EnumStudentCreationMethodFieldUpdateOperationsInput = {
+    set?: $Enums.StudentCreationMethod
+  }
+
+  export type StudentSeedRowUpdateOneWithoutStudentNestedInput = {
+    create?: XOR<StudentSeedRowCreateWithoutStudentInput, StudentSeedRowUncheckedCreateWithoutStudentInput>
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutStudentInput
+    upsert?: StudentSeedRowUpsertWithoutStudentInput
+    disconnect?: StudentSeedRowWhereInput | boolean
+    delete?: StudentSeedRowWhereInput | boolean
+    connect?: StudentSeedRowWhereUniqueInput
+    update?: XOR<XOR<StudentSeedRowUpdateToOneWithWhereWithoutStudentInput, StudentSeedRowUpdateWithoutStudentInput>, StudentSeedRowUncheckedUpdateWithoutStudentInput>
   }
 
   export type UserUpdateOneRequiredWithoutStudentsCreatedNestedInput = {
@@ -24457,6 +32358,218 @@ export namespace Prisma {
     deleteMany?: EligibilityRunItemScalarWhereInput | EligibilityRunItemScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutStudentSeedBatchesInput = {
+    create?: XOR<UserCreateWithoutStudentSeedBatchesInput, UserUncheckedCreateWithoutStudentSeedBatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudentSeedBatchesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type StudentSeedRowCreateNestedManyWithoutBatchInput = {
+    create?: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput> | StudentSeedRowCreateWithoutBatchInput[] | StudentSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutBatchInput | StudentSeedRowCreateOrConnectWithoutBatchInput[]
+    createMany?: StudentSeedRowCreateManyBatchInputEnvelope
+    connect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+  }
+
+  export type StudentSeedRowUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput> | StudentSeedRowCreateWithoutBatchInput[] | StudentSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutBatchInput | StudentSeedRowCreateOrConnectWithoutBatchInput[]
+    createMany?: StudentSeedRowCreateManyBatchInputEnvelope
+    connect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+  }
+
+  export type EnumStudentSeedBatchStatusFieldUpdateOperationsInput = {
+    set?: $Enums.StudentSeedBatchStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutStudentSeedBatchesNestedInput = {
+    create?: XOR<UserCreateWithoutStudentSeedBatchesInput, UserUncheckedCreateWithoutStudentSeedBatchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudentSeedBatchesInput
+    upsert?: UserUpsertWithoutStudentSeedBatchesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudentSeedBatchesInput, UserUpdateWithoutStudentSeedBatchesInput>, UserUncheckedUpdateWithoutStudentSeedBatchesInput>
+  }
+
+  export type StudentSeedRowUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput> | StudentSeedRowCreateWithoutBatchInput[] | StudentSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutBatchInput | StudentSeedRowCreateOrConnectWithoutBatchInput[]
+    upsert?: StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput | StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: StudentSeedRowCreateManyBatchInputEnvelope
+    set?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    disconnect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    delete?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    connect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    update?: StudentSeedRowUpdateWithWhereUniqueWithoutBatchInput | StudentSeedRowUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: StudentSeedRowUpdateManyWithWhereWithoutBatchInput | StudentSeedRowUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: StudentSeedRowScalarWhereInput | StudentSeedRowScalarWhereInput[]
+  }
+
+  export type StudentSeedRowUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput> | StudentSeedRowCreateWithoutBatchInput[] | StudentSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: StudentSeedRowCreateOrConnectWithoutBatchInput | StudentSeedRowCreateOrConnectWithoutBatchInput[]
+    upsert?: StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput | StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: StudentSeedRowCreateManyBatchInputEnvelope
+    set?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    disconnect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    delete?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    connect?: StudentSeedRowWhereUniqueInput | StudentSeedRowWhereUniqueInput[]
+    update?: StudentSeedRowUpdateWithWhereUniqueWithoutBatchInput | StudentSeedRowUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: StudentSeedRowUpdateManyWithWhereWithoutBatchInput | StudentSeedRowUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: StudentSeedRowScalarWhereInput | StudentSeedRowScalarWhereInput[]
+  }
+
+  export type StudentSeedBatchCreateNestedOneWithoutRowsInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutRowsInput, StudentSeedBatchUncheckedCreateWithoutRowsInput>
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutRowsInput
+    connect?: StudentSeedBatchWhereUniqueInput
+  }
+
+  export type StudentCreateNestedOneWithoutSeedRowInput = {
+    create?: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSeedRowInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type StudentUncheckedCreateNestedOneWithoutSeedRowInput = {
+    create?: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSeedRowInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumStudentSeedRowStatusFieldUpdateOperationsInput = {
+    set?: $Enums.StudentSeedRowStatus
+  }
+
+  export type StudentSeedBatchUpdateOneRequiredWithoutRowsNestedInput = {
+    create?: XOR<StudentSeedBatchCreateWithoutRowsInput, StudentSeedBatchUncheckedCreateWithoutRowsInput>
+    connectOrCreate?: StudentSeedBatchCreateOrConnectWithoutRowsInput
+    upsert?: StudentSeedBatchUpsertWithoutRowsInput
+    connect?: StudentSeedBatchWhereUniqueInput
+    update?: XOR<XOR<StudentSeedBatchUpdateToOneWithWhereWithoutRowsInput, StudentSeedBatchUpdateWithoutRowsInput>, StudentSeedBatchUncheckedUpdateWithoutRowsInput>
+  }
+
+  export type StudentUpdateOneWithoutSeedRowNestedInput = {
+    create?: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSeedRowInput
+    upsert?: StudentUpsertWithoutSeedRowInput
+    disconnect?: StudentWhereInput | boolean
+    delete?: StudentWhereInput | boolean
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutSeedRowInput, StudentUpdateWithoutSeedRowInput>, StudentUncheckedUpdateWithoutSeedRowInput>
+  }
+
+  export type StudentUncheckedUpdateOneWithoutSeedRowNestedInput = {
+    create?: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutSeedRowInput
+    upsert?: StudentUpsertWithoutSeedRowInput
+    disconnect?: StudentWhereInput | boolean
+    delete?: StudentWhereInput | boolean
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutSeedRowInput, StudentUpdateWithoutSeedRowInput>, StudentUncheckedUpdateWithoutSeedRowInput>
+  }
+
+  export type UserCreateNestedOneWithoutUserSeedBatchesUploadedInput = {
+    create?: XOR<UserCreateWithoutUserSeedBatchesUploadedInput, UserUncheckedCreateWithoutUserSeedBatchesUploadedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserSeedBatchesUploadedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserSeedRowCreateNestedManyWithoutBatchInput = {
+    create?: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput> | UserSeedRowCreateWithoutBatchInput[] | UserSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutBatchInput | UserSeedRowCreateOrConnectWithoutBatchInput[]
+    createMany?: UserSeedRowCreateManyBatchInputEnvelope
+    connect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+  }
+
+  export type UserSeedRowUncheckedCreateNestedManyWithoutBatchInput = {
+    create?: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput> | UserSeedRowCreateWithoutBatchInput[] | UserSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutBatchInput | UserSeedRowCreateOrConnectWithoutBatchInput[]
+    createMany?: UserSeedRowCreateManyBatchInputEnvelope
+    connect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+  }
+
+  export type EnumUserSeedBatchStatusFieldUpdateOperationsInput = {
+    set?: $Enums.UserSeedBatchStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutUserSeedBatchesUploadedNestedInput = {
+    create?: XOR<UserCreateWithoutUserSeedBatchesUploadedInput, UserUncheckedCreateWithoutUserSeedBatchesUploadedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUserSeedBatchesUploadedInput
+    upsert?: UserUpsertWithoutUserSeedBatchesUploadedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUserSeedBatchesUploadedInput, UserUpdateWithoutUserSeedBatchesUploadedInput>, UserUncheckedUpdateWithoutUserSeedBatchesUploadedInput>
+  }
+
+  export type UserSeedRowUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput> | UserSeedRowCreateWithoutBatchInput[] | UserSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutBatchInput | UserSeedRowCreateOrConnectWithoutBatchInput[]
+    upsert?: UserSeedRowUpsertWithWhereUniqueWithoutBatchInput | UserSeedRowUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: UserSeedRowCreateManyBatchInputEnvelope
+    set?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    disconnect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    delete?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    connect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    update?: UserSeedRowUpdateWithWhereUniqueWithoutBatchInput | UserSeedRowUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: UserSeedRowUpdateManyWithWhereWithoutBatchInput | UserSeedRowUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: UserSeedRowScalarWhereInput | UserSeedRowScalarWhereInput[]
+  }
+
+  export type UserSeedRowUncheckedUpdateManyWithoutBatchNestedInput = {
+    create?: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput> | UserSeedRowCreateWithoutBatchInput[] | UserSeedRowUncheckedCreateWithoutBatchInput[]
+    connectOrCreate?: UserSeedRowCreateOrConnectWithoutBatchInput | UserSeedRowCreateOrConnectWithoutBatchInput[]
+    upsert?: UserSeedRowUpsertWithWhereUniqueWithoutBatchInput | UserSeedRowUpsertWithWhereUniqueWithoutBatchInput[]
+    createMany?: UserSeedRowCreateManyBatchInputEnvelope
+    set?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    disconnect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    delete?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    connect?: UserSeedRowWhereUniqueInput | UserSeedRowWhereUniqueInput[]
+    update?: UserSeedRowUpdateWithWhereUniqueWithoutBatchInput | UserSeedRowUpdateWithWhereUniqueWithoutBatchInput[]
+    updateMany?: UserSeedRowUpdateManyWithWhereWithoutBatchInput | UserSeedRowUpdateManyWithWhereWithoutBatchInput[]
+    deleteMany?: UserSeedRowScalarWhereInput | UserSeedRowScalarWhereInput[]
+  }
+
+  export type UserSeedBatchCreateNestedOneWithoutRowsInput = {
+    create?: XOR<UserSeedBatchCreateWithoutRowsInput, UserSeedBatchUncheckedCreateWithoutRowsInput>
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutRowsInput
+    connect?: UserSeedBatchWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCreatedViaSeedRowInput = {
+    create?: XOR<UserCreateWithoutCreatedViaSeedRowInput, UserUncheckedCreateWithoutCreatedViaSeedRowInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedViaSeedRowInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumUserSeedRowStatusFieldUpdateOperationsInput = {
+    set?: $Enums.UserSeedRowStatus
+  }
+
+  export type UserSeedBatchUpdateOneRequiredWithoutRowsNestedInput = {
+    create?: XOR<UserSeedBatchCreateWithoutRowsInput, UserSeedBatchUncheckedCreateWithoutRowsInput>
+    connectOrCreate?: UserSeedBatchCreateOrConnectWithoutRowsInput
+    upsert?: UserSeedBatchUpsertWithoutRowsInput
+    connect?: UserSeedBatchWhereUniqueInput
+    update?: XOR<XOR<UserSeedBatchUpdateToOneWithWhereWithoutRowsInput, UserSeedBatchUpdateWithoutRowsInput>, UserSeedBatchUncheckedUpdateWithoutRowsInput>
+  }
+
+  export type UserUpdateOneWithoutCreatedViaSeedRowNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedViaSeedRowInput, UserUncheckedCreateWithoutCreatedViaSeedRowInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedViaSeedRowInput
+    upsert?: UserUpsertWithoutCreatedViaSeedRowInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedViaSeedRowInput, UserUpdateWithoutCreatedViaSeedRowInput>, UserUncheckedUpdateWithoutCreatedViaSeedRowInput>
+  }
+
   export type UserCreateNestedOneWithoutAdviserAssignmentsInput = {
     create?: XOR<UserCreateWithoutAdviserAssignmentsInput, UserUncheckedCreateWithoutAdviserAssignmentsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAdviserAssignmentsInput
@@ -24471,10 +32584,6 @@ export namespace Prisma {
 
   export type EnumAdviserAssignmentStatusFieldUpdateOperationsInput = {
     set?: $Enums.AdviserAssignmentStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutAdviserAssignmentsNestedInput = {
@@ -25278,6 +33387,42 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumSemesterFilter<$PrismaModel = never> = {
     equals?: $Enums.Semester | EnumSemesterFieldRefInput<$PrismaModel>
     in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
@@ -25370,22 +33515,18 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumStudentStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.StudentStatus | EnumStudentStatusFieldRefInput<$PrismaModel>
     in?: $Enums.StudentStatus[] | ListEnumStudentStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.StudentStatus[] | ListEnumStudentStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumStudentStatusFilter<$PrismaModel> | $Enums.StudentStatus
+  }
+
+  export type NestedEnumStudentCreationMethodFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentCreationMethod | EnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentCreationMethodFilter<$PrismaModel> | $Enums.StudentCreationMethod
   }
 
   export type NestedEnumStudentStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -25398,46 +33539,54 @@ export namespace Prisma {
     _max?: NestedEnumStudentStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumAdviserAssignmentStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.AdviserAssignmentStatus | EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel> | $Enums.AdviserAssignmentStatus
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedEnumAdviserAssignmentStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AdviserAssignmentStatus | EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumAdviserAssignmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AdviserAssignmentStatus
+  export type NestedEnumStudentCreationMethodWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentCreationMethod | EnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentCreationMethod[] | ListEnumStudentCreationMethodFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentCreationMethodWithAggregatesFilter<$PrismaModel> | $Enums.StudentCreationMethod
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
-    _max?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
+    _min?: NestedEnumStudentCreationMethodFilter<$PrismaModel>
+    _max?: NestedEnumStudentCreationMethodFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+  export type NestedEnumStudentSeedBatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedBatchStatus | EnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel> | $Enums.StudentSeedBatchStatus
+  }
+
+  export type NestedEnumStudentSeedBatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedBatchStatus | EnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedBatchStatus[] | ListEnumStudentSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedBatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.StudentSeedBatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumStudentSeedBatchStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStudentSeedRowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedRowStatus | EnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel> | $Enums.StudentSeedRowStatus
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -25449,6 +33598,67 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumStudentSeedRowStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.StudentSeedRowStatus | EnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StudentSeedRowStatus[] | ListEnumStudentSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStudentSeedRowStatusWithAggregatesFilter<$PrismaModel> | $Enums.StudentSeedRowStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel>
+    _max?: NestedEnumStudentSeedRowStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserSeedBatchStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedBatchStatus | EnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel> | $Enums.UserSeedBatchStatus
+  }
+
+  export type NestedEnumUserSeedBatchStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedBatchStatus | EnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedBatchStatus[] | ListEnumUserSeedBatchStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedBatchStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserSeedBatchStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserSeedBatchStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserSeedRowStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedRowStatus | EnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedRowStatusFilter<$PrismaModel> | $Enums.UserSeedRowStatus
+  }
+
+  export type NestedEnumUserSeedRowStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserSeedRowStatus | EnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserSeedRowStatus[] | ListEnumUserSeedRowStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserSeedRowStatusWithAggregatesFilter<$PrismaModel> | $Enums.UserSeedRowStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumUserSeedRowStatusFilter<$PrismaModel>
+    _max?: NestedEnumUserSeedRowStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAdviserAssignmentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AdviserAssignmentStatus | EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel> | $Enums.AdviserAssignmentStatus
+  }
+
+  export type NestedEnumAdviserAssignmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AdviserAssignmentStatus | EnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AdviserAssignmentStatus[] | ListEnumAdviserAssignmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAdviserAssignmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AdviserAssignmentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
+    _max?: NestedEnumAdviserAssignmentStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumResultStatusFilter<$PrismaModel = never> = {
@@ -25703,8 +33913,10 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    seedRow?: StudentSeedRowCreateNestedOneWithoutStudentInput
     results?: StudentResultCreateNestedManyWithoutStudentInput
     uploadRows?: UploadRowCreateNestedManyWithoutMatchedStudentInput
     eligibilityItems?: EligibilityRunItemCreateNestedManyWithoutStudentInput
@@ -25717,6 +33929,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     results?: StudentResultUncheckedCreateNestedManyWithoutStudentInput
@@ -26054,6 +34268,141 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type StudentSeedBatchCreateWithoutUploadedByInput = {
+    id?: string
+    entrySession: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: StudentSeedRowCreateNestedManyWithoutBatchInput
+  }
+
+  export type StudentSeedBatchUncheckedCreateWithoutUploadedByInput = {
+    id?: string
+    entrySession: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: StudentSeedRowUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type StudentSeedBatchCreateOrConnectWithoutUploadedByInput = {
+    where: StudentSeedBatchWhereUniqueInput
+    create: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type StudentSeedBatchCreateManyUploadedByInputEnvelope = {
+    data: StudentSeedBatchCreateManyUploadedByInput | StudentSeedBatchCreateManyUploadedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserSeedBatchCreateWithoutUploadedByInput = {
+    id?: string
+    role?: $Enums.UserRole
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: UserSeedRowCreateNestedManyWithoutBatchInput
+  }
+
+  export type UserSeedBatchUncheckedCreateWithoutUploadedByInput = {
+    id?: string
+    role?: $Enums.UserRole
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    rows?: UserSeedRowUncheckedCreateNestedManyWithoutBatchInput
+  }
+
+  export type UserSeedBatchCreateOrConnectWithoutUploadedByInput = {
+    where: UserSeedBatchWhereUniqueInput
+    create: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type UserSeedBatchCreateManyUploadedByInputEnvelope = {
+    data: UserSeedBatchCreateManyUploadedByInput | UserSeedBatchCreateManyUploadedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserSeedRowCreateWithoutUserInput = {
+    id?: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    createdAt?: Date | string
+    batch: UserSeedBatchCreateNestedOneWithoutRowsInput
+  }
+
+  export type UserSeedRowUncheckedCreateWithoutUserInput = {
+    id?: string
+    batchId: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserSeedRowCreateOrConnectWithoutUserInput = {
+    where: UserSeedRowWhereUniqueInput
+    create: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+  }
+
+  export type HodAssignmentCreateWithoutUserInput = {
+    id?: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    assignedBy: UserCreateNestedOneWithoutHodAssignmentsGivenInput
+  }
+
+  export type HodAssignmentUncheckedCreateWithoutUserInput = {
+    id?: string
+    assignedById: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type HodAssignmentCreateOrConnectWithoutUserInput = {
+    where: HodAssignmentWhereUniqueInput
+    create: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput>
+  }
+
+  export type HodAssignmentCreateManyUserInputEnvelope = {
+    data: HodAssignmentCreateManyUserInput | HodAssignmentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HodAssignmentCreateWithoutAssignedByInput = {
+    id?: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutHodAssignmentsHeldInput
+  }
+
+  export type HodAssignmentUncheckedCreateWithoutAssignedByInput = {
+    id?: string
+    userId: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type HodAssignmentCreateOrConnectWithoutAssignedByInput = {
+    where: HodAssignmentWhereUniqueInput
+    create: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput>
+  }
+
+  export type HodAssignmentCreateManyAssignedByInputEnvelope = {
+    data: HodAssignmentCreateManyAssignedByInput | HodAssignmentCreateManyAssignedByInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CourseUpsertWithWhereUniqueWithoutCreatedByInput = {
     where: CourseWhereUniqueInput
     update: XOR<CourseUpdateWithoutCreatedByInput, CourseUncheckedUpdateWithoutCreatedByInput>
@@ -26130,6 +34479,8 @@ export namespace Prisma {
     entrySession?: StringFilter<"Student"> | string
     currentLevel?: IntFilter<"Student"> | number
     status?: EnumStudentStatusFilter<"Student"> | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFilter<"Student"> | $Enums.StudentCreationMethod
+    seedRowId?: StringNullableFilter<"Student"> | string | null
     createdById?: StringFilter<"Student"> | string
     createdAt?: DateTimeFilter<"Student"> | Date | string
     updatedAt?: DateTimeFilter<"Student"> | Date | string
@@ -26393,6 +34744,395 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"GraduationRun"> | Date | string
   }
 
+  export type StudentSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput = {
+    where: StudentSeedBatchWhereUniqueInput
+    update: XOR<StudentSeedBatchUpdateWithoutUploadedByInput, StudentSeedBatchUncheckedUpdateWithoutUploadedByInput>
+    create: XOR<StudentSeedBatchCreateWithoutUploadedByInput, StudentSeedBatchUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type StudentSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput = {
+    where: StudentSeedBatchWhereUniqueInput
+    data: XOR<StudentSeedBatchUpdateWithoutUploadedByInput, StudentSeedBatchUncheckedUpdateWithoutUploadedByInput>
+  }
+
+  export type StudentSeedBatchUpdateManyWithWhereWithoutUploadedByInput = {
+    where: StudentSeedBatchScalarWhereInput
+    data: XOR<StudentSeedBatchUpdateManyMutationInput, StudentSeedBatchUncheckedUpdateManyWithoutUploadedByInput>
+  }
+
+  export type StudentSeedBatchScalarWhereInput = {
+    AND?: StudentSeedBatchScalarWhereInput | StudentSeedBatchScalarWhereInput[]
+    OR?: StudentSeedBatchScalarWhereInput[]
+    NOT?: StudentSeedBatchScalarWhereInput | StudentSeedBatchScalarWhereInput[]
+    id?: StringFilter<"StudentSeedBatch"> | string
+    entrySession?: StringFilter<"StudentSeedBatch"> | string
+    uploadedById?: StringFilter<"StudentSeedBatch"> | string
+    status?: EnumStudentSeedBatchStatusFilter<"StudentSeedBatch"> | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFilter<"StudentSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"StudentSeedBatch"> | Date | string | null
+  }
+
+  export type UserSeedBatchUpsertWithWhereUniqueWithoutUploadedByInput = {
+    where: UserSeedBatchWhereUniqueInput
+    update: XOR<UserSeedBatchUpdateWithoutUploadedByInput, UserSeedBatchUncheckedUpdateWithoutUploadedByInput>
+    create: XOR<UserSeedBatchCreateWithoutUploadedByInput, UserSeedBatchUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type UserSeedBatchUpdateWithWhereUniqueWithoutUploadedByInput = {
+    where: UserSeedBatchWhereUniqueInput
+    data: XOR<UserSeedBatchUpdateWithoutUploadedByInput, UserSeedBatchUncheckedUpdateWithoutUploadedByInput>
+  }
+
+  export type UserSeedBatchUpdateManyWithWhereWithoutUploadedByInput = {
+    where: UserSeedBatchScalarWhereInput
+    data: XOR<UserSeedBatchUpdateManyMutationInput, UserSeedBatchUncheckedUpdateManyWithoutUploadedByInput>
+  }
+
+  export type UserSeedBatchScalarWhereInput = {
+    AND?: UserSeedBatchScalarWhereInput | UserSeedBatchScalarWhereInput[]
+    OR?: UserSeedBatchScalarWhereInput[]
+    NOT?: UserSeedBatchScalarWhereInput | UserSeedBatchScalarWhereInput[]
+    id?: StringFilter<"UserSeedBatch"> | string
+    role?: EnumUserRoleFilter<"UserSeedBatch"> | $Enums.UserRole
+    uploadedById?: StringFilter<"UserSeedBatch"> | string
+    status?: EnumUserSeedBatchStatusFilter<"UserSeedBatch"> | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFilter<"UserSeedBatch"> | Date | string
+    completedAt?: DateTimeNullableFilter<"UserSeedBatch"> | Date | string | null
+  }
+
+  export type UserSeedRowUpsertWithoutUserInput = {
+    update: XOR<UserSeedRowUpdateWithoutUserInput, UserSeedRowUncheckedUpdateWithoutUserInput>
+    create: XOR<UserSeedRowCreateWithoutUserInput, UserSeedRowUncheckedCreateWithoutUserInput>
+    where?: UserSeedRowWhereInput
+  }
+
+  export type UserSeedRowUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserSeedRowWhereInput
+    data: XOR<UserSeedRowUpdateWithoutUserInput, UserSeedRowUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserSeedRowUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batch?: UserSeedBatchUpdateOneRequiredWithoutRowsNestedInput
+  }
+
+  export type UserSeedRowUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentUpsertWithWhereUniqueWithoutUserInput = {
+    where: HodAssignmentWhereUniqueInput
+    update: XOR<HodAssignmentUpdateWithoutUserInput, HodAssignmentUncheckedUpdateWithoutUserInput>
+    create: XOR<HodAssignmentCreateWithoutUserInput, HodAssignmentUncheckedCreateWithoutUserInput>
+  }
+
+  export type HodAssignmentUpdateWithWhereUniqueWithoutUserInput = {
+    where: HodAssignmentWhereUniqueInput
+    data: XOR<HodAssignmentUpdateWithoutUserInput, HodAssignmentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type HodAssignmentUpdateManyWithWhereWithoutUserInput = {
+    where: HodAssignmentScalarWhereInput
+    data: XOR<HodAssignmentUpdateManyMutationInput, HodAssignmentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type HodAssignmentScalarWhereInput = {
+    AND?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+    OR?: HodAssignmentScalarWhereInput[]
+    NOT?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+    id?: StringFilter<"HodAssignment"> | string
+    userId?: StringFilter<"HodAssignment"> | string
+    assignedById?: StringFilter<"HodAssignment"> | string
+    startDate?: DateTimeFilter<"HodAssignment"> | Date | string
+    endDate?: DateTimeNullableFilter<"HodAssignment"> | Date | string | null
+    createdAt?: DateTimeFilter<"HodAssignment"> | Date | string
+  }
+
+  export type HodAssignmentUpsertWithWhereUniqueWithoutAssignedByInput = {
+    where: HodAssignmentWhereUniqueInput
+    update: XOR<HodAssignmentUpdateWithoutAssignedByInput, HodAssignmentUncheckedUpdateWithoutAssignedByInput>
+    create: XOR<HodAssignmentCreateWithoutAssignedByInput, HodAssignmentUncheckedCreateWithoutAssignedByInput>
+  }
+
+  export type HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput = {
+    where: HodAssignmentWhereUniqueInput
+    data: XOR<HodAssignmentUpdateWithoutAssignedByInput, HodAssignmentUncheckedUpdateWithoutAssignedByInput>
+  }
+
+  export type HodAssignmentUpdateManyWithWhereWithoutAssignedByInput = {
+    where: HodAssignmentScalarWhereInput
+    data: XOR<HodAssignmentUpdateManyMutationInput, HodAssignmentUncheckedUpdateManyWithoutAssignedByInput>
+  }
+
+  export type UserCreateWithoutHodAssignmentsHeldInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserUncheckedCreateWithoutHodAssignmentsHeldInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserCreateOrConnectWithoutHodAssignmentsHeldInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHodAssignmentsHeldInput, UserUncheckedCreateWithoutHodAssignmentsHeldInput>
+  }
+
+  export type UserCreateWithoutHodAssignmentsGivenInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHodAssignmentsGivenInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHodAssignmentsGivenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHodAssignmentsGivenInput, UserUncheckedCreateWithoutHodAssignmentsGivenInput>
+  }
+
+  export type UserUpsertWithoutHodAssignmentsHeldInput = {
+    update: XOR<UserUpdateWithoutHodAssignmentsHeldInput, UserUncheckedUpdateWithoutHodAssignmentsHeldInput>
+    create: XOR<UserCreateWithoutHodAssignmentsHeldInput, UserUncheckedCreateWithoutHodAssignmentsHeldInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHodAssignmentsHeldInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHodAssignmentsHeldInput, UserUncheckedUpdateWithoutHodAssignmentsHeldInput>
+  }
+
+  export type UserUpdateWithoutHodAssignmentsHeldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHodAssignmentsHeldInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUpsertWithoutHodAssignmentsGivenInput = {
+    update: XOR<UserUpdateWithoutHodAssignmentsGivenInput, UserUncheckedUpdateWithoutHodAssignmentsGivenInput>
+    create: XOR<UserCreateWithoutHodAssignmentsGivenInput, UserUncheckedCreateWithoutHodAssignmentsGivenInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHodAssignmentsGivenInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHodAssignmentsGivenInput, UserUncheckedUpdateWithoutHodAssignmentsGivenInput>
+  }
+
+  export type UserUpdateWithoutHodAssignmentsGivenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHodAssignmentsGivenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type UserCreateWithoutCoursesCreatedInput = {
     id?: string
     name: string
@@ -26414,6 +35154,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutCoursesCreatedInput = {
@@ -26437,6 +35182,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutCoursesCreatedInput = {
@@ -26465,6 +35215,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutCoursesUpdatedInput = {
@@ -26488,6 +35243,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutCoursesUpdatedInput = {
@@ -26639,6 +35399,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesCreatedInput = {
@@ -26662,6 +35427,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUpsertWithoutCoursesUpdatedInput = {
@@ -26696,6 +35466,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesUpdatedInput = {
@@ -26719,6 +35494,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type StudentResultUpsertWithWhereUniqueWithoutCourseInput = {
@@ -26803,6 +35583,33 @@ export namespace Prisma {
     data: XOR<ResultSubmissionWindowUpdateManyMutationInput, ResultSubmissionWindowUncheckedUpdateManyWithoutCourseInput>
   }
 
+  export type StudentSeedRowCreateWithoutStudentInput = {
+    id?: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    batch: StudentSeedBatchCreateNestedOneWithoutRowsInput
+  }
+
+  export type StudentSeedRowUncheckedCreateWithoutStudentInput = {
+    id?: string
+    batchId: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type StudentSeedRowCreateOrConnectWithoutStudentInput = {
+    where: StudentSeedRowWhereUniqueInput
+    create: XOR<StudentSeedRowCreateWithoutStudentInput, StudentSeedRowUncheckedCreateWithoutStudentInput>
+  }
+
   export type UserCreateWithoutStudentsCreatedInput = {
     id?: string
     name: string
@@ -26824,6 +35631,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutStudentsCreatedInput = {
@@ -26847,6 +35659,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutStudentsCreatedInput = {
@@ -26958,6 +35775,39 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type StudentSeedRowUpsertWithoutStudentInput = {
+    update: XOR<StudentSeedRowUpdateWithoutStudentInput, StudentSeedRowUncheckedUpdateWithoutStudentInput>
+    create: XOR<StudentSeedRowCreateWithoutStudentInput, StudentSeedRowUncheckedCreateWithoutStudentInput>
+    where?: StudentSeedRowWhereInput
+  }
+
+  export type StudentSeedRowUpdateToOneWithWhereWithoutStudentInput = {
+    where?: StudentSeedRowWhereInput
+    data: XOR<StudentSeedRowUpdateWithoutStudentInput, StudentSeedRowUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type StudentSeedRowUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batch?: StudentSeedBatchUpdateOneRequiredWithoutRowsNestedInput
+  }
+
+  export type StudentSeedRowUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchId?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpsertWithoutStudentsCreatedInput = {
     update: XOR<UserUpdateWithoutStudentsCreatedInput, UserUncheckedUpdateWithoutStudentsCreatedInput>
     create: XOR<UserCreateWithoutStudentsCreatedInput, UserUncheckedCreateWithoutStudentsCreatedInput>
@@ -26990,6 +35840,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentsCreatedInput = {
@@ -27013,6 +35868,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type StudentResultUpsertWithWhereUniqueWithoutStudentInput = {
@@ -27090,6 +35950,699 @@ export namespace Prisma {
     remarks?: JsonNullableFilter<"EligibilityRunItem">
   }
 
+  export type UserCreateWithoutStudentSeedBatchesInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserUncheckedCreateWithoutStudentSeedBatchesInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserCreateOrConnectWithoutStudentSeedBatchesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStudentSeedBatchesInput, UserUncheckedCreateWithoutStudentSeedBatchesInput>
+  }
+
+  export type StudentSeedRowCreateWithoutBatchInput = {
+    id?: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    student?: StudentCreateNestedOneWithoutSeedRowInput
+  }
+
+  export type StudentSeedRowUncheckedCreateWithoutBatchInput = {
+    id?: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    student?: StudentUncheckedCreateNestedOneWithoutSeedRowInput
+  }
+
+  export type StudentSeedRowCreateOrConnectWithoutBatchInput = {
+    where: StudentSeedRowWhereUniqueInput
+    create: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput>
+  }
+
+  export type StudentSeedRowCreateManyBatchInputEnvelope = {
+    data: StudentSeedRowCreateManyBatchInput | StudentSeedRowCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutStudentSeedBatchesInput = {
+    update: XOR<UserUpdateWithoutStudentSeedBatchesInput, UserUncheckedUpdateWithoutStudentSeedBatchesInput>
+    create: XOR<UserCreateWithoutStudentSeedBatchesInput, UserUncheckedCreateWithoutStudentSeedBatchesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStudentSeedBatchesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStudentSeedBatchesInput, UserUncheckedUpdateWithoutStudentSeedBatchesInput>
+  }
+
+  export type UserUpdateWithoutStudentSeedBatchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStudentSeedBatchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput = {
+    where: StudentSeedRowWhereUniqueInput
+    update: XOR<StudentSeedRowUpdateWithoutBatchInput, StudentSeedRowUncheckedUpdateWithoutBatchInput>
+    create: XOR<StudentSeedRowCreateWithoutBatchInput, StudentSeedRowUncheckedCreateWithoutBatchInput>
+  }
+
+  export type StudentSeedRowUpdateWithWhereUniqueWithoutBatchInput = {
+    where: StudentSeedRowWhereUniqueInput
+    data: XOR<StudentSeedRowUpdateWithoutBatchInput, StudentSeedRowUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type StudentSeedRowUpdateManyWithWhereWithoutBatchInput = {
+    where: StudentSeedRowScalarWhereInput
+    data: XOR<StudentSeedRowUpdateManyMutationInput, StudentSeedRowUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type StudentSeedRowScalarWhereInput = {
+    AND?: StudentSeedRowScalarWhereInput | StudentSeedRowScalarWhereInput[]
+    OR?: StudentSeedRowScalarWhereInput[]
+    NOT?: StudentSeedRowScalarWhereInput | StudentSeedRowScalarWhereInput[]
+    id?: StringFilter<"StudentSeedRow"> | string
+    batchId?: StringFilter<"StudentSeedRow"> | string
+    matricNumberRaw?: StringFilter<"StudentSeedRow"> | string
+    fullNameRaw?: StringFilter<"StudentSeedRow"> | string
+    levelRaw?: IntNullableFilter<"StudentSeedRow"> | number | null
+    status?: EnumStudentSeedRowStatusFilter<"StudentSeedRow"> | $Enums.StudentSeedRowStatus
+    errorMessage?: StringNullableFilter<"StudentSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"StudentSeedRow"> | Date | string
+  }
+
+  export type StudentSeedBatchCreateWithoutRowsInput = {
+    id?: string
+    entrySession: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    uploadedBy: UserCreateNestedOneWithoutStudentSeedBatchesInput
+  }
+
+  export type StudentSeedBatchUncheckedCreateWithoutRowsInput = {
+    id?: string
+    entrySession: string
+    uploadedById: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type StudentSeedBatchCreateOrConnectWithoutRowsInput = {
+    where: StudentSeedBatchWhereUniqueInput
+    create: XOR<StudentSeedBatchCreateWithoutRowsInput, StudentSeedBatchUncheckedCreateWithoutRowsInput>
+  }
+
+  export type StudentCreateWithoutSeedRowInput = {
+    id?: string
+    matricNumber: string
+    fullName: string
+    entrySession: string
+    currentLevel: number
+    status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy: UserCreateNestedOneWithoutStudentsCreatedInput
+    results?: StudentResultCreateNestedManyWithoutStudentInput
+    uploadRows?: UploadRowCreateNestedManyWithoutMatchedStudentInput
+    eligibilityItems?: EligibilityRunItemCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutSeedRowInput = {
+    id?: string
+    matricNumber: string
+    fullName: string
+    entrySession: string
+    currentLevel: number
+    status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    createdById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    results?: StudentResultUncheckedCreateNestedManyWithoutStudentInput
+    uploadRows?: UploadRowUncheckedCreateNestedManyWithoutMatchedStudentInput
+    eligibilityItems?: EligibilityRunItemUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutSeedRowInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+  }
+
+  export type StudentSeedBatchUpsertWithoutRowsInput = {
+    update: XOR<StudentSeedBatchUpdateWithoutRowsInput, StudentSeedBatchUncheckedUpdateWithoutRowsInput>
+    create: XOR<StudentSeedBatchCreateWithoutRowsInput, StudentSeedBatchUncheckedCreateWithoutRowsInput>
+    where?: StudentSeedBatchWhereInput
+  }
+
+  export type StudentSeedBatchUpdateToOneWithWhereWithoutRowsInput = {
+    where?: StudentSeedBatchWhereInput
+    data: XOR<StudentSeedBatchUpdateWithoutRowsInput, StudentSeedBatchUncheckedUpdateWithoutRowsInput>
+  }
+
+  export type StudentSeedBatchUpdateWithoutRowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    uploadedBy?: UserUpdateOneRequiredWithoutStudentSeedBatchesNestedInput
+  }
+
+  export type StudentSeedBatchUncheckedUpdateWithoutRowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StudentUpsertWithoutSeedRowInput = {
+    update: XOR<StudentUpdateWithoutSeedRowInput, StudentUncheckedUpdateWithoutSeedRowInput>
+    create: XOR<StudentCreateWithoutSeedRowInput, StudentUncheckedCreateWithoutSeedRowInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutSeedRowInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutSeedRowInput, StudentUncheckedUpdateWithoutSeedRowInput>
+  }
+
+  export type StudentUpdateWithoutSeedRowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumber?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    currentLevel?: IntFieldUpdateOperationsInput | number
+    status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: UserUpdateOneRequiredWithoutStudentsCreatedNestedInput
+    results?: StudentResultUpdateManyWithoutStudentNestedInput
+    uploadRows?: UploadRowUpdateManyWithoutMatchedStudentNestedInput
+    eligibilityItems?: EligibilityRunItemUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutSeedRowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumber?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    currentLevel?: IntFieldUpdateOperationsInput | number
+    status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    createdById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    results?: StudentResultUncheckedUpdateManyWithoutStudentNestedInput
+    uploadRows?: UploadRowUncheckedUpdateManyWithoutMatchedStudentNestedInput
+    eligibilityItems?: EligibilityRunItemUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserCreateWithoutUserSeedBatchesUploadedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserUncheckedCreateWithoutUserSeedBatchesUploadedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserCreateOrConnectWithoutUserSeedBatchesUploadedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUserSeedBatchesUploadedInput, UserUncheckedCreateWithoutUserSeedBatchesUploadedInput>
+  }
+
+  export type UserSeedRowCreateWithoutBatchInput = {
+    id?: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutCreatedViaSeedRowInput
+  }
+
+  export type UserSeedRowUncheckedCreateWithoutBatchInput = {
+    id?: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserSeedRowCreateOrConnectWithoutBatchInput = {
+    where: UserSeedRowWhereUniqueInput
+    create: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput>
+  }
+
+  export type UserSeedRowCreateManyBatchInputEnvelope = {
+    data: UserSeedRowCreateManyBatchInput | UserSeedRowCreateManyBatchInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutUserSeedBatchesUploadedInput = {
+    update: XOR<UserUpdateWithoutUserSeedBatchesUploadedInput, UserUncheckedUpdateWithoutUserSeedBatchesUploadedInput>
+    create: XOR<UserCreateWithoutUserSeedBatchesUploadedInput, UserUncheckedCreateWithoutUserSeedBatchesUploadedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUserSeedBatchesUploadedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUserSeedBatchesUploadedInput, UserUncheckedUpdateWithoutUserSeedBatchesUploadedInput>
+  }
+
+  export type UserUpdateWithoutUserSeedBatchesUploadedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUserSeedBatchesUploadedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserSeedRowUpsertWithWhereUniqueWithoutBatchInput = {
+    where: UserSeedRowWhereUniqueInput
+    update: XOR<UserSeedRowUpdateWithoutBatchInput, UserSeedRowUncheckedUpdateWithoutBatchInput>
+    create: XOR<UserSeedRowCreateWithoutBatchInput, UserSeedRowUncheckedCreateWithoutBatchInput>
+  }
+
+  export type UserSeedRowUpdateWithWhereUniqueWithoutBatchInput = {
+    where: UserSeedRowWhereUniqueInput
+    data: XOR<UserSeedRowUpdateWithoutBatchInput, UserSeedRowUncheckedUpdateWithoutBatchInput>
+  }
+
+  export type UserSeedRowUpdateManyWithWhereWithoutBatchInput = {
+    where: UserSeedRowScalarWhereInput
+    data: XOR<UserSeedRowUpdateManyMutationInput, UserSeedRowUncheckedUpdateManyWithoutBatchInput>
+  }
+
+  export type UserSeedRowScalarWhereInput = {
+    AND?: UserSeedRowScalarWhereInput | UserSeedRowScalarWhereInput[]
+    OR?: UserSeedRowScalarWhereInput[]
+    NOT?: UserSeedRowScalarWhereInput | UserSeedRowScalarWhereInput[]
+    id?: StringFilter<"UserSeedRow"> | string
+    batchId?: StringFilter<"UserSeedRow"> | string
+    nameRaw?: StringFilter<"UserSeedRow"> | string
+    emailRaw?: StringFilter<"UserSeedRow"> | string
+    status?: EnumUserSeedRowStatusFilter<"UserSeedRow"> | $Enums.UserSeedRowStatus
+    errorMessage?: StringNullableFilter<"UserSeedRow"> | string | null
+    generatedPassword?: StringNullableFilter<"UserSeedRow"> | string | null
+    userId?: StringNullableFilter<"UserSeedRow"> | string | null
+    createdAt?: DateTimeFilter<"UserSeedRow"> | Date | string
+  }
+
+  export type UserSeedBatchCreateWithoutRowsInput = {
+    id?: string
+    role?: $Enums.UserRole
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    uploadedBy: UserCreateNestedOneWithoutUserSeedBatchesUploadedInput
+  }
+
+  export type UserSeedBatchUncheckedCreateWithoutRowsInput = {
+    id?: string
+    role?: $Enums.UserRole
+    uploadedById: string
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type UserSeedBatchCreateOrConnectWithoutRowsInput = {
+    where: UserSeedBatchWhereUniqueInput
+    create: XOR<UserSeedBatchCreateWithoutRowsInput, UserSeedBatchUncheckedCreateWithoutRowsInput>
+  }
+
+  export type UserCreateWithoutCreatedViaSeedRowInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedViaSeedRowInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedViaSeedRowInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedViaSeedRowInput, UserUncheckedCreateWithoutCreatedViaSeedRowInput>
+  }
+
+  export type UserSeedBatchUpsertWithoutRowsInput = {
+    update: XOR<UserSeedBatchUpdateWithoutRowsInput, UserSeedBatchUncheckedUpdateWithoutRowsInput>
+    create: XOR<UserSeedBatchCreateWithoutRowsInput, UserSeedBatchUncheckedCreateWithoutRowsInput>
+    where?: UserSeedBatchWhereInput
+  }
+
+  export type UserSeedBatchUpdateToOneWithWhereWithoutRowsInput = {
+    where?: UserSeedBatchWhereInput
+    data: XOR<UserSeedBatchUpdateWithoutRowsInput, UserSeedBatchUncheckedUpdateWithoutRowsInput>
+  }
+
+  export type UserSeedBatchUpdateWithoutRowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    uploadedBy?: UserUpdateOneRequiredWithoutUserSeedBatchesUploadedNestedInput
+  }
+
+  export type UserSeedBatchUncheckedUpdateWithoutRowsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    uploadedById?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUpsertWithoutCreatedViaSeedRowInput = {
+    update: XOR<UserUpdateWithoutCreatedViaSeedRowInput, UserUncheckedUpdateWithoutCreatedViaSeedRowInput>
+    create: XOR<UserCreateWithoutCreatedViaSeedRowInput, UserUncheckedCreateWithoutCreatedViaSeedRowInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedViaSeedRowInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedViaSeedRowInput, UserUncheckedUpdateWithoutCreatedViaSeedRowInput>
+  }
+
+  export type UserUpdateWithoutCreatedViaSeedRowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedViaSeedRowInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+  }
+
   export type UserCreateWithoutAdviserAssignmentsInput = {
     id?: string
     name: string
@@ -27111,6 +36664,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutAdviserAssignmentsInput = {
@@ -27134,6 +36692,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutAdviserAssignmentsInput = {
@@ -27162,6 +36725,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutAssignmentsAssignedInput = {
@@ -27185,6 +36753,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutAssignmentsAssignedInput = {
@@ -27224,6 +36797,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdviserAssignmentsInput = {
@@ -27247,6 +36825,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUpsertWithoutAssignmentsAssignedInput = {
@@ -27281,6 +36864,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignmentsAssignedInput = {
@@ -27304,6 +36892,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type StudentCreateWithoutResultsInput = {
@@ -27313,8 +36906,10 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    seedRow?: StudentSeedRowCreateNestedOneWithoutStudentInput
     createdBy: UserCreateNestedOneWithoutStudentsCreatedInput
     uploadRows?: UploadRowCreateNestedManyWithoutMatchedStudentInput
     eligibilityItems?: EligibilityRunItemCreateNestedManyWithoutStudentInput
@@ -27327,6 +36922,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27574,8 +37171,10 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seedRow?: StudentSeedRowUpdateOneWithoutStudentNestedInput
     createdBy?: UserUpdateOneRequiredWithoutStudentsCreatedNestedInput
     uploadRows?: UploadRowUpdateManyWithoutMatchedStudentNestedInput
     eligibilityItems?: EligibilityRunItemUpdateManyWithoutStudentNestedInput
@@ -27588,6 +37187,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27844,6 +37445,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutCorrectionsRequestedInput = {
@@ -27867,6 +37473,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutCorrectionsRequestedInput = {
@@ -27895,6 +37506,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutCorrectionsApprovedInput = {
@@ -27918,6 +37534,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutCorrectionsApprovedInput = {
@@ -28029,6 +37650,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCorrectionsRequestedInput = {
@@ -28052,6 +37678,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUpsertWithoutCorrectionsApprovedInput = {
@@ -28086,6 +37717,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCorrectionsApprovedInput = {
@@ -28109,6 +37745,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type OverrideTokenUpsertWithoutCorrectionRequestsInput = {
@@ -28163,6 +37804,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutTokensGeneratedInput = {
@@ -28186,6 +37832,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutTokensGeneratedInput = {
@@ -28214,6 +37865,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutTokensIssuedToInput = {
@@ -28237,6 +37893,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutTokensIssuedToInput = {
@@ -28312,6 +37973,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensGeneratedInput = {
@@ -28335,6 +38001,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUpsertWithoutTokensIssuedToInput = {
@@ -28369,6 +38040,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensIssuedToInput = {
@@ -28392,6 +38068,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type CorrectionRequestUpsertWithWhereUniqueWithoutOverrideTokenInput = {
@@ -28472,6 +38153,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutResultChangesInput = {
@@ -28495,6 +38181,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutResultChangesInput = {
@@ -28581,6 +38272,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResultChangesInput = {
@@ -28604,6 +38300,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type CourseCreateWithoutSubmissionWindowsInput = {
@@ -28666,6 +38367,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutWindowsOpenedInput = {
@@ -28689,6 +38395,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutWindowsOpenedInput = {
@@ -28773,6 +38484,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWindowsOpenedInput = {
@@ -28796,6 +38512,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserCreateWithoutUploadBatchesInput = {
@@ -28819,6 +38540,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutUploadBatchesInput = {
@@ -28842,6 +38568,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutUploadBatchesInput = {
@@ -28917,6 +38648,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadBatchesInput = {
@@ -28940,6 +38676,11 @@ export namespace Prisma {
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UploadFileUpsertWithWhereUniqueWithoutUploadBatchInput = {
@@ -29172,8 +38913,10 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    seedRow?: StudentSeedRowCreateNestedOneWithoutStudentInput
     createdBy: UserCreateNestedOneWithoutStudentsCreatedInput
     results?: StudentResultCreateNestedManyWithoutStudentInput
     eligibilityItems?: EligibilityRunItemCreateNestedManyWithoutStudentInput
@@ -29186,6 +38929,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29294,8 +39039,10 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seedRow?: StudentSeedRowUpdateOneWithoutStudentNestedInput
     createdBy?: UserUpdateOneRequiredWithoutStudentsCreatedNestedInput
     results?: StudentResultUpdateManyWithoutStudentNestedInput
     eligibilityItems?: EligibilityRunItemUpdateManyWithoutStudentNestedInput
@@ -29308,6 +39055,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29383,6 +39132,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserUncheckedCreateWithoutGraduationRunsTriggeredInput = {
@@ -29406,6 +39160,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
     windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
   }
 
   export type UserCreateOrConnectWithoutGraduationRunsTriggeredInput = {
@@ -29471,6 +39230,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGraduationRunsTriggeredInput = {
@@ -29494,6 +39258,11 @@ export namespace Prisma {
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
     windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
   }
 
   export type EligibilityRunItemUpsertWithWhereUniqueWithoutGraduationRunInput = {
@@ -29544,8 +39313,10 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
     createdAt?: Date | string
     updatedAt?: Date | string
+    seedRow?: StudentSeedRowCreateNestedOneWithoutStudentInput
     createdBy: UserCreateNestedOneWithoutStudentsCreatedInput
     results?: StudentResultCreateNestedManyWithoutStudentInput
     uploadRows?: UploadRowCreateNestedManyWithoutMatchedStudentInput
@@ -29558,6 +39329,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdById: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29619,8 +39392,10 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seedRow?: StudentSeedRowUpdateOneWithoutStudentNestedInput
     createdBy?: UserUpdateOneRequiredWithoutStudentsCreatedNestedInput
     results?: StudentResultUpdateManyWithoutStudentNestedInput
     uploadRows?: UploadRowUpdateManyWithoutMatchedStudentNestedInput
@@ -29633,6 +39408,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29675,6 +39452,8 @@ export namespace Prisma {
     entrySession: string
     currentLevel: number
     status?: $Enums.StudentStatus
+    creationMethod?: $Enums.StudentCreationMethod
+    seedRowId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29785,6 +39564,38 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type StudentSeedBatchCreateManyUploadedByInput = {
+    id?: string
+    entrySession: string
+    status?: $Enums.StudentSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type UserSeedBatchCreateManyUploadedByInput = {
+    id?: string
+    role?: $Enums.UserRole
+    status?: $Enums.UserSeedBatchStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type HodAssignmentCreateManyUserInput = {
+    id?: string
+    assignedById: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type HodAssignmentCreateManyAssignedByInput = {
+    id?: string
+    userId: string
+    startDate?: Date | string
+    endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type CourseUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -29888,8 +39699,10 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    seedRow?: StudentSeedRowUpdateOneWithoutStudentNestedInput
     results?: StudentResultUpdateManyWithoutStudentNestedInput
     uploadRows?: UploadRowUpdateManyWithoutMatchedStudentNestedInput
     eligibilityItems?: EligibilityRunItemUpdateManyWithoutStudentNestedInput
@@ -29902,6 +39715,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     results?: StudentResultUncheckedUpdateManyWithoutStudentNestedInput
@@ -29916,6 +39731,8 @@ export namespace Prisma {
     entrySession?: StringFieldUpdateOperationsInput | string
     currentLevel?: IntFieldUpdateOperationsInput | number
     status?: EnumStudentStatusFieldUpdateOperationsInput | $Enums.StudentStatus
+    creationMethod?: EnumStudentCreationMethodFieldUpdateOperationsInput | $Enums.StudentCreationMethod
+    seedRowId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30246,6 +40063,106 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StudentSeedBatchUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: StudentSeedRowUpdateManyWithoutBatchNestedInput
+  }
+
+  export type StudentSeedBatchUncheckedUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: StudentSeedRowUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type StudentSeedBatchUncheckedUpdateManyWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entrySession?: StringFieldUpdateOperationsInput | string
+    status?: EnumStudentSeedBatchStatusFieldUpdateOperationsInput | $Enums.StudentSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserSeedBatchUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: UserSeedRowUpdateManyWithoutBatchNestedInput
+  }
+
+  export type UserSeedBatchUncheckedUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rows?: UserSeedRowUncheckedUpdateManyWithoutBatchNestedInput
+  }
+
+  export type UserSeedBatchUncheckedUpdateManyWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    status?: EnumUserSeedBatchStatusFieldUpdateOperationsInput | $Enums.UserSeedBatchStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type HodAssignmentUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedBy?: UserUpdateOneRequiredWithoutHodAssignmentsGivenNestedInput
+  }
+
+  export type HodAssignmentUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedById?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    assignedById?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentUpdateWithoutAssignedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutHodAssignmentsHeldNestedInput
+  }
+
+  export type HodAssignmentUncheckedUpdateWithoutAssignedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HodAssignmentUncheckedUpdateManyWithoutAssignedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentResultCreateManyCourseInput = {
     id?: string
     studentId: string
@@ -30538,6 +40455,92 @@ export namespace Prisma {
     cgpa?: FloatFieldUpdateOperationsInput | number
     eligible?: BoolFieldUpdateOperationsInput | boolean
     remarks?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type StudentSeedRowCreateManyBatchInput = {
+    id?: string
+    matricNumberRaw: string
+    fullNameRaw: string
+    levelRaw?: number | null
+    status?: $Enums.StudentSeedRowStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+  }
+
+  export type StudentSeedRowUpdateWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneWithoutSeedRowNestedInput
+  }
+
+  export type StudentSeedRowUncheckedUpdateWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUncheckedUpdateOneWithoutSeedRowNestedInput
+  }
+
+  export type StudentSeedRowUncheckedUpdateManyWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    fullNameRaw?: StringFieldUpdateOperationsInput | string
+    levelRaw?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStudentSeedRowStatusFieldUpdateOperationsInput | $Enums.StudentSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserSeedRowCreateManyBatchInput = {
+    id?: string
+    nameRaw: string
+    emailRaw: string
+    status?: $Enums.UserSeedRowStatus
+    errorMessage?: string | null
+    generatedPassword?: string | null
+    userId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UserSeedRowUpdateWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutCreatedViaSeedRowNestedInput
+  }
+
+  export type UserSeedRowUncheckedUpdateWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserSeedRowUncheckedUpdateManyWithoutBatchInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nameRaw?: StringFieldUpdateOperationsInput | string
+    emailRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUserSeedRowStatusFieldUpdateOperationsInput | $Enums.UserSeedRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UploadRowCreateManyStudentResultInput = {

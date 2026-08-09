@@ -6,7 +6,7 @@ import { SessionSelect } from "@/app/_components/session-select";
 import { SidebarNav } from "@/app/_components/sidebar-nav";
 import { PortalRole } from "@/types/navbar-role";
 import { DashboardHeader } from "./dashboard-title";
-
+import { LogoutButton } from "./LogoutButton";
 
 type PortalShellProps = {
   title: string;
@@ -19,7 +19,6 @@ type PortalShellProps = {
 export function PortalShell({
   title,
   children,
-  rightSlot,
   role,
   showSessionSelect = false,
 }: PortalShellProps) {
@@ -62,8 +61,8 @@ export function PortalShell({
             </div>
 
             <div className="flex items-center gap-3">
-              {rightSlot}
               {showSessionSelect ? <SessionSelect /> : null}
+              <LogoutButton />
             </div>
           </div>
         </header>
