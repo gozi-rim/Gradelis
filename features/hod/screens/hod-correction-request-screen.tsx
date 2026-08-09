@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { HodSessionBadge } from "@/features/hod/components/session-badge";
-import { PortalShell } from "@/features/portal/components/portal-shell";
+import { PortalShell } from "@/app/_components/portal-shell";
 
 export function HodCorrectionRequestScreen() {
   return (

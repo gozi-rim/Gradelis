@@ -1,5 +1,5 @@
 import { UserOutlineIcon } from "@/shared/icons/ui-icons";
-import LoginFormComponent from "@/features/auth/screens/login-component";
+import LoginFormComponent from "@/app/auth/login/login-component";
 
 const highlights = [
   {

@@ -1,4 +1,4 @@
-import { PortalShell } from "@/features/portal/components/portal-shell";
+import { PortalShell } from "@/app/_components/portal-shell";
 import { UploadSectionCard } from "@/features/upload-result/components/upload-section-card";
 import { UploadStepper } from "@/features/upload-result/components/upload-stepper";
 

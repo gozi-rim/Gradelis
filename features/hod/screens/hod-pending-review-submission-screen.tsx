@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { HodSessionBadge } from "@/features/hod/components/session-badge";
-import { PortalShell } from "@/features/portal/components/portal-shell";
+import { PortalShell } from "@/app/_components/portal-shell";
 
 const rows = [
   ["U2021/3020020", "Adebayo, John", "ECE 402", "18", "62", "80", "A", "3"],

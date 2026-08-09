@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from "@/shared/icons/ui-icons";
 
-export function ProgramSelect() {
+export function SessionSelect() {
   return (
     <button
       type="button"

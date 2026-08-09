@@ -2,32 +2,32 @@
 
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { SessionSelect } from "@/app/_components/session-select";
+import { SidebarNav } from "@/app/_components/sidebar-nav";
+import { PortalRole } from "@/types/navbar-role";
+import { DashboardHeader } from "./dashboard-title";
 
-import { ProgramSelect } from "@/features/portal/components/program-select";
-import { SidebarNav } from "@/features/portal/components/sidebar-nav";
-
-type PortalRole = "student" | "hod";
 
 type PortalShellProps = {
   title: string;
   children: ReactNode;
   rightSlot?: ReactNode;
-  role?: PortalRole;
-  showProgramSelect?: boolean;
+  role: PortalRole;
+  showSessionSelect?: boolean;
 };
 
 export function PortalShell({
   title,
   children,
   rightSlot,
-  role = "student",
-  showProgramSelect = true,
+  role,
+  showSessionSelect = false,
 }: PortalShellProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#f5f8fc] text-slate-700">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[228px] lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden lg:block">
         <SidebarNav role={role} />
       </aside>
 
@@ -38,7 +38,7 @@ export function PortalShell({
             className="absolute inset-0 bg-slate-900/50"
             onClick={() => setIsOpen(false)}
           />
-          <aside className="relative h-full w-[280px]">
+          <aside className="relative h-full w-6xl">
             <SidebarNav role={role} onNavigate={() => setIsOpen(false)} />
           </aside>
         </div>
@@ -56,14 +56,14 @@ export function PortalShell({
               >
                 ☰
               </button>
-              <h1 className="text-2xl font-semibold text-slate-700 sm:text-[40px] sm:leading-none">
-                {title}
+              <h1 className="font-semibold text-slate-700 sm:text-[40px] sm:leading-none">
+                <DashboardHeader role={role} title={title} />
               </h1>
             </div>
 
             <div className="flex items-center gap-3">
               {rightSlot}
-              {showProgramSelect ? <ProgramSelect /> : null}
+              {showSessionSelect ? <SessionSelect /> : null}
             </div>
           </div>
         </header>

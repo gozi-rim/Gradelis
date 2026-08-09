@@ -1,4 +1,4 @@
-import { PortalShell } from "@/features/portal/components/portal-shell";
+import { PortalShell } from "@/app/_components/portal-shell";
 
 export function HodStudentRecordDetailsScreen() {
   return (
