@@ -1,7 +1,13 @@
 import * as XLSX from "xlsx";
-import type { PreviewRow } from "@/features/upload-result/store/upload-wizard-store";
+import type {
+  PreviewRow,
+  UploadMetadata,
+} from "@/features/upload-result/store/upload-wizard-store";
 
-const HEADER_ALIASES: Record<keyof PreviewRow, string[]> = {
+const HEADER_ALIASES: Record<
+  keyof PreviewRow,
+  string[]
+> = {
   matricNo: [
     "matricno",
     "matric no",
@@ -11,47 +17,60 @@ const HEADER_ALIASES: Record<keyof PreviewRow, string[]> = {
     "registration number",
   ],
 
-  score: ["score", "total", "total score", "total score 100"],
+  totalScore: [
+    "score",
+    "total",
+    "total score",
+    "total score 100",
+  ],
 
   grade: ["grade"],
-
-  ca: ["ca", "c.a", "ca score", "ca score 30", "continuous assessment"],
-
-  exam: ["exam", "exam score", "exam score 70"],
 };
 
-function normalizeHeader(header: string): string {
-  return (
-    header
-      .trim()
-      .toLowerCase()
-      // Remove things like "(30)", "(70)", "(100)"
-      .replace(/\([^)]*\)/g, "")
-      // Normalize punctuation
-      .replace(/[.:_-]/g, " ")
-      // Collapse multiple spaces
-      .replace(/\s+/g, " ")
-      .trim()
-  );
+function normalizeHeader(
+  header: string,
+): string {
+  return header
+    .trim()
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, "")
+    .replace(/[.:\_-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function buildHeaderMap(
   sheetHeaders: string[],
-): Partial<Record<keyof PreviewRow, string>> {
-  const map: Partial<Record<keyof PreviewRow, string>> = {};
+): Partial<
+  Record<keyof PreviewRow, string>
+> {
+  const map: Partial<
+    Record<keyof PreviewRow, string>
+  > = {};
 
   for (const header of sheetHeaders) {
-    const normalized = normalizeHeader(header);
+    const normalized =
+      normalizeHeader(header);
 
-    for (const [field, aliases] of Object.entries(HEADER_ALIASES) as [
+    for (const [
+      field,
+      aliases,
+    ] of Object.entries(
+      HEADER_ALIASES,
+    ) as [
       keyof PreviewRow,
       string[],
     ][]) {
       if (map[field]) continue;
 
-      const normalizedAliases = aliases.map(normalizeHeader);
+      const normalizedAliases =
+        aliases.map(normalizeHeader);
 
-      if (normalizedAliases.includes(normalized)) {
+      if (
+        normalizedAliases.includes(
+          normalized,
+        )
+      ) {
         map[field] = header;
       }
     }
@@ -60,53 +79,48 @@ function buildHeaderMap(
   return map;
 }
 
-function computeGrade(score: number): string {
-  if (score >= 70) return "A";
-  if (score >= 60) return "B";
-  if (score >= 50) return "C";
-  if (score >= 45) return "D";
-  if (score >= 40) return "E";
+function findHeaderRow(
+  sheet: XLSX.WorkSheet,
+): number {
+  const range =
+    XLSX.utils.decode_range(
+      sheet["!ref"] ?? "A1:A1",
+    );
 
-  return "F";
-}
+  for (
+    let row = range.s.r;
+    row <= range.e.r;
+    row++
+  ) {
+    for (
+      let col = range.s.c;
+      col <= range.e.c;
+      col++
+    ) {
+      const cellAddress =
+        XLSX.utils.encode_cell({
+          r: row,
+          c: col,
+        });
 
-function parseNumber(value: unknown): number {
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : 0;
-  }
-
-  if (typeof value !== "string") {
-    return 0;
-  }
-
-  const cleaned = value.trim();
-
-  if (!cleaned) {
-    return 0;
-  }
-
-  const number = Number(cleaned);
-
-  return Number.isFinite(number) ? number : 0;
-}
-
-function findHeaderRow(sheet: XLSX.WorkSheet): number {
-  const range = XLSX.utils.decode_range(sheet["!ref"] ?? "A1:A1");
-
-  for (let row = range.s.r; row <= range.e.r; row++) {
-    for (let col = range.s.c; col <= range.e.c; col++) {
-      const cellAddress = XLSX.utils.encode_cell({
-        r: row,
-        c: col,
-      });
-
-      const cell = sheet[cellAddress];
+      const cell =
+        sheet[cellAddress];
 
       if (!cell) continue;
 
-      const value = String(cell.v ?? "").trim();
+      const value = String(
+        cell.v ?? "",
+      ).trim();
 
-      if (normalizeHeader(value) === "matric number") {
+      const normalized =
+        normalizeHeader(value);
+
+      if (
+        normalized ===
+          "matric number" ||
+        normalized ===
+          "matric no"
+      ) {
         return row;
       }
     }
@@ -115,10 +129,38 @@ function findHeaderRow(sheet: XLSX.WorkSheet): number {
   return -1;
 }
 
+function getCellValue(
+  sheet: XLSX.WorkSheet,
+  address: string,
+): string {
+  const cell = sheet[address];
+
+  if (!cell) {
+    return "";
+  }
+
+  if (
+    cell.v === null ||
+    cell.v === undefined
+  ) {
+    return "";
+  }
+
+  return String(cell.v).trim();
+}
+
 export class ExcelParseError extends Error {}
 
-export async function parseExcelFile(file: File): Promise<PreviewRow[]> {
-  const buffer = await file.arrayBuffer();
+export type ParsedExcelFile = {
+  metadata: UploadMetadata;
+  rows: PreviewRow[];
+};
+
+export async function parseExcelFile(
+  file: File,
+): Promise<ParsedExcelFile> {
+  const buffer =
+    await file.arrayBuffer();
 
   let workbook: XLSX.WorkBook;
 
@@ -132,23 +174,73 @@ export async function parseExcelFile(file: File): Promise<PreviewRow[]> {
     );
   }
 
-  const sheetName = workbook.SheetNames[0];
+  const sheetName =
+    workbook.SheetNames[0];
 
   if (!sheetName) {
-    throw new ExcelParseError("The workbook has no sheets.");
+    throw new ExcelParseError(
+      "The workbook has no sheets.",
+    );
   }
 
-  const sheet = workbook.Sheets[sheetName];
+  const sheet =
+    workbook.Sheets[sheetName];
 
   if (!sheet) {
-    throw new ExcelParseError("Could not read the first worksheet.");
+    throw new ExcelParseError(
+      "Could not read the first worksheet.",
+    );
   }
 
   /*
-   * Find the actual table header instead of assuming
-   * that row 1 contains the headers.
+   * --------------------------------------------------
+   * READ SHARED COURSE METADATA
+   * --------------------------------------------------
+   *
+   * B3 = Course Code
+   * E3 = Academic Session
+   * E4 = Semester
+   * E5 = Credit Unit
+   *
+   * These values belong to the entire upload,
+   * not to individual student rows.
    */
-  const headerRow = findHeaderRow(sheet);
+
+  const courseCode = getCellValue(
+    sheet,
+    "B3",
+  );
+
+  const session = getCellValue(
+    sheet,
+    "E3",
+  );
+
+  const semester = getCellValue(
+    sheet,
+    "E4",
+  );
+
+  const creditUnit = getCellValue(
+    sheet,
+    "E5",
+  );
+
+  const metadata: UploadMetadata = {
+    courseCode,
+    session,
+    semester,
+    creditUnit,
+  };
+
+  /*
+   * --------------------------------------------------
+   * FIND THE STUDENT RESULT TABLE
+   * --------------------------------------------------
+   */
+
+  const headerRow =
+    findHeaderRow(sheet);
 
   if (headerRow === -1) {
     throw new ExcelParseError(
@@ -157,25 +249,36 @@ export async function parseExcelFile(file: File): Promise<PreviewRow[]> {
   }
 
   /*
-   * Convert the sheet to JSON starting from the actual
-   * header row.
-   *
-   * headerRow is zero-based, which is exactly what
-   * SheetJS expects for the `range` option.
+   * Convert the worksheet into JSON starting
+   * from the actual result-table header row.
    */
-  const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, {
-    range: headerRow,
-    defval: "",
-    raw: true,
-  });
+
+  const rows =
+    XLSX.utils.sheet_to_json<
+      Record<string, unknown>
+    >(sheet, {
+      range: headerRow,
+      defval: "",
+      raw: true,
+    });
 
   if (rows.length === 0) {
-    throw new ExcelParseError("This sheet has no student result rows.");
+    throw new ExcelParseError(
+      "This sheet has no student result rows.",
+    );
   }
 
-  const sheetHeaders = Object.keys(rows[0]);
+  const sheetHeaders =
+    Object.keys(rows[0]);
 
-  const headerMap = buildHeaderMap(sheetHeaders);
+  const headerMap =
+    buildHeaderMap(sheetHeaders);
+
+  /*
+   * Matric number is required because it is
+   * what we use to identify students during
+   * database validation.
+   */
 
   if (!headerMap.matricNo) {
     throw new ExcelParseError(
@@ -183,79 +286,115 @@ export async function parseExcelFile(file: File): Promise<PreviewRow[]> {
     );
   }
 
-  return rows
-    .map((row): PreviewRow | null => {
-      const matricNo = String(row[headerMap.matricNo!] ?? "").trim();
+  /*
+   * Total score and grade are also expected
+   * columns in the result template.
+   */
 
-      // Ignore completely empty rows
-      if (!matricNo) {
-        return null;
-      }
+  if (!headerMap.totalScore) {
+    throw new ExcelParseError(
+      "Couldn't find a Total Score column. Check the sheet's headers.",
+    );
+  }
 
-      /*
-       * CA and Exam are actual numeric cells in your template,
-       * so we calculate the total ourselves instead of relying
-       * on the Excel formula in "Total Score (100)".
-       */
-      const ca = headerMap.ca ? parseNumber(row[headerMap.ca]) : 0;
+  if (!headerMap.grade) {
+    throw new ExcelParseError(
+      "Couldn't find a Grade column. Check the sheet's headers.",
+    );
+  }
 
-      const exam = headerMap.exam ? parseNumber(row[headerMap.exam]) : 0;
+  /*
+   * --------------------------------------------------
+   * PARSE STUDENT RESULTS
+   * --------------------------------------------------
+   */
 
-      let score: number;
-
-      if (headerMap.score) {
-        const scoreValue = row[headerMap.score];
+  const parsedRows = rows
+    .map(
+      (
+        row,
+      ): PreviewRow | null => {
+        const matricNo =
+          String(
+            row[
+              headerMap.matricNo!
+            ] ?? "",
+          ).trim();
 
         /*
-         * If the total cell contains an actual numeric value,
-         * use it. If it contains an Excel formula/string,
-         * calculate from CA + Exam.
+         * Completely empty rows are ignored.
+         *
+         * However, if a row has a matric number
+         * but its score is blank, we KEEP the row.
+         *
+         * The validation stage will later flag
+         * the missing score.
          */
-        const parsedScore = parseNumber(scoreValue);
 
-        if (
-          typeof scoreValue === "number" ||
-          (typeof scoreValue === "string" &&
-            scoreValue.trim() !== "" &&
-            !scoreValue.trim().startsWith("="))
-        ) {
-          score = parsedScore;
-        } else {
-          score = ca + exam;
+        if (!matricNo) {
+          return null;
         }
-      } else {
-        score = ca + exam;
-      }
 
-      /*
-       * Your Excel template has a Grade formula.
-       * SheetJS may return the formula itself rather than
-       * evaluating it, so only use the supplied grade if it
-       * is actually a simple letter.
-       */
-      let grade = "";
+        /*
+         * IMPORTANT:
+         *
+         * We do NOT convert an empty score to 0.
+         *
+         * Blank = missing result.
+         */
 
-      if (headerMap.grade) {
-        const suppliedGrade = String(row[headerMap.grade] ?? "")
-          .trim()
-          .toUpperCase();
+        const rawScore =
+          row[
+            headerMap.totalScore!
+          ];
 
-        if (/^[A-F]$/.test(suppliedGrade)) {
-          grade = suppliedGrade;
-        }
-      }
+        const totalScore =
+          rawScore === null ||
+          rawScore === undefined ||
+          String(rawScore).trim() === ""
+            ? ""
+            : String(rawScore).trim();
 
-      if (!grade) {
-        grade = computeGrade(score);
-      }
+        /*
+         * Grade is also kept blank if it is
+         * missing from the Excel sheet.
+         */
 
-      return {
-        matricNo,
-        score: String(score),
-        grade,
-        ca: String(ca),
-        exam: String(exam),
-      };
-    })
-    .filter((row): row is PreviewRow => row !== null);
+        const rawGrade =
+          row[
+            headerMap.grade!
+          ];
+
+        const grade =
+          rawGrade === null ||
+          rawGrade === undefined
+            ? ""
+            : String(rawGrade)
+                .trim()
+                .toUpperCase();
+
+        return {
+          matricNo,
+          totalScore,
+          grade,
+        };
+      },
+    )
+    .filter(
+      (
+        row,
+      ): row is PreviewRow =>
+        row !== null,
+    );
+
+  if (parsedRows.length === 0) {
+    throw new ExcelParseError(
+      "No student result records were found.",
+    );
+  }
+
+  return {
+    metadata,
+    rows: parsedRows,
+  };
 }
