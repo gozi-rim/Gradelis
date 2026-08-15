@@ -4,12 +4,20 @@ import { FormState, login } from "@/lib/actions/login"
 import { cn } from "@/shared/lib/cn"
 import { LoaderCircle } from "lucide-react"
 import Link from "next/link"
-import { useActionState } from "react"
+import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 const initialState: FormState = {}
 
 export default function LoginFormComponent() {
+  const router = useRouter()
   const [state, formAction, pending] = useActionState(login, initialState)
+
+  useEffect(() => {
+    if (state.message === "success") {
+      router.push("/")
+    }
+  }, [state.message, router])
 
   return <form action={formAction} className="space-y-3.5 pt-1">
     {state.message && state.message !== "success" && (

@@ -1,7 +1,6 @@
 "use server"
 import { signIn, } from "@/auth"
 import { AuthError } from "next-auth"
-import { redirect } from "next/navigation"
 import { loginSchema } from "../zod/schema"
 import z from "zod"
 import { Prisma } from "@/generated/prisma"
@@ -45,5 +44,5 @@ export async function login(prevState: FormState, formData: FormData): Promise<F
     return { message: "Unexpected server error. Please try again." }
   }
 
-  redirect("/")
+  return { message: "success" }
 }
