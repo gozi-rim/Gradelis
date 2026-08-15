@@ -10,15 +10,22 @@ type WizardHydratorProps = {
 
 export function WizardHydrator({ children }: WizardHydratorProps) {
   const [hydrated, setHydrated] = useState(() =>
-    useUploadWizardStore.persist.hasHydrated(),
+    typeof window !== "undefined"
+      ? (useUploadWizardStore.persist?.hasHydrated() ?? false)
+      : false,
   );
 
   useEffect(() => {
-    const unsubFinish = useUploadWizardStore.persist.onFinishHydration(() => {
+    if (hydrated) return;
+
+    const persist = useUploadWizardStore.persist;
+    if (!persist) return;
+
+    const unsubFinish = persist.onFinishHydration(() => {
       setHydrated(true);
     });
     return unsubFinish;
-  }, []);
+  }, [hydrated]);
 
   if (!hydrated) return null;
   return <>{children}</>;

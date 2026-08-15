@@ -154,11 +154,10 @@ export default function UploadConfirmSubmitScreen() {
         </dl>
 
         <div
-          className={`mt-8 rounded-xl px-6 py-4 text-center ${
-            isSubmitted || canSubmit
+          className={`mt-8 rounded-xl px-6 py-4 text-center ${isSubmitted || canSubmit
               ? "bg-[#d9f6f0] text-[#57c4b4]"
               : "bg-red-50 text-red-500"
-          }`}
+            }`}
         >
           <p className="text-lg font-semibold">ⓘ {statusMessage}</p>
         </div>
@@ -169,7 +168,7 @@ export default function UploadConfirmSubmitScreen() {
           isSubmitting ? "Submitting..." : isSubmitted ? "Submitted" : "Submit"
         }
         disabled={!canSubmit || isSubmitting}
-        onNext={handleSubmit}
+        onNext={async () => { await handleSubmit(); return true; }}
       />
     </WizardShell>
   );
