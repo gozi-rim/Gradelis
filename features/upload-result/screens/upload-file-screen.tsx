@@ -44,6 +44,7 @@ export function UploadFileScreen() {
   const setCurrentStep = useUploadWizardStore((s) => s.setCurrentStep);
   const setUploadedFile = useUploadWizardStore((s) => s.setUploadedFile);
   const setPreviewRows = useUploadWizardStore((s) => s.setPreviewRows);
+  const setUploadMetadata = useUploadWizardStore((s) => s.setUploadMetadata);
 
   const [parseError, setParseError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -69,8 +70,9 @@ export function UploadFileScreen() {
     setParseError(null);
 
     try {
-      const rows = await parseExcelFile(file);
+      const { metadata, rows } = await parseExcelFile(file);
       setUploadedFile({ name: file.name, size: file.size });
+      setUploadMetadata(metadata);
       setPreviewRows(rows);
       setCurrentStep("preview");
       const previewStep = WIZARD_STEPS.find((s) => s.id === "preview");
