@@ -35,7 +35,9 @@ const uploadSchema = z.object({
     ),
 });
 
-type UploadFormValues = z.infer<typeof uploadSchema>;
+type UploadFormValues = {
+  file: File | null;
+};
 
 export function UploadFileScreen() {
   const router = useRouter();

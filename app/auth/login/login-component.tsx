@@ -54,6 +54,13 @@ export default function LoginFormComponent() {
       {pending ? <p className="flex gap-1 items-center justify-center">Submitting <LoaderCircle className="animate-spin" /></p> : "Sign In"}
     </button>
 
+    <Link
+      href="/administrator/dashboard"
+      className="flex h-11 w-full items-center justify-center rounded-xl border border-slate-300 text-base font-semibold text-slate-600 transition hover:border-slate-400 hover:bg-slate-50"
+    >
+      View as Administrator
+    </Link>
+
 
 
     <div className="rounded-xl border border-slate-200 bg-slate-50 mt-10 px-4 py-3 text-left">

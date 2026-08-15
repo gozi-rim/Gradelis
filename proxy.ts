@@ -14,7 +14,7 @@ export default NextAuth(authConfig).auth((req) => {
   const isAuthRoute = nextUrl.pathname.startsWith("/auth/login");
   const isRoot = nextUrl.pathname === "/";
   const matchedPrefix = protectedPrefixes.find((prefix) =>
-    nextUrl.pathname.startsWith(prefix),
+    nextUrl.pathname === prefix || nextUrl.pathname.startsWith(prefix + "/"),
   );
 
   // root: send to login if logged out, or straight to their dashboard if logged in

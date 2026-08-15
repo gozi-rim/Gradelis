@@ -38,7 +38,13 @@ const navConfig: Record<PortalRole, NavItem[]> = {
     { label: "Notifications", href: "#", icon: BellIcon, disabled: true },
     { label: "Settings", href: "/hod/settings", icon: SettingsIcon, disabled: true },
   ],
-  admin: []
+  admin: [
+    { label: "Dashboard", href: "/administrator/dashboard", exact: true, icon: DashboardIcon },
+    { label: "User Management", href: "/administrator/user-management", icon: StudentsIcon },
+    { label: "Academic Sessions", href: "/administrator/academic-sessions", icon: ReportIcon },
+    { label: "System Logs", href: "/administrator/system-logs", icon: BellIcon },
+    { label: "Settings", href: "/administrator/settings", icon: SettingsIcon },
+  ],
 };
 
 function isNavItemActive(pathname: string, item: NavItem) {
@@ -113,6 +119,17 @@ export function SidebarNav({ role = "adviser", onNavigate, badges }: SidebarNavP
             <div>
               <p className="text-sm font-semibold">Dr. Ibrahim Musa</p>
               <p className="text-xs text-slate-300">Head of Department</p>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {role === "admin" ? (
+        <div className="mt-auto border-t border-white/10 px-2 pt-4">
+          <div className="flex items-center gap-2.5">
+            <div className="size-8 rounded-full bg-slate-200" />
+            <div>
+              <p className="text-sm font-semibold">Admin User</p>
+              <p className="text-xs text-slate-300">System Administrator</p>
             </div>
           </div>
         </div>
