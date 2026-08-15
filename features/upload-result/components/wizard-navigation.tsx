@@ -12,12 +12,14 @@ import {
 type WizardNavigationProps = {
   nextLabel?: string;
   showCancel?: boolean;
+  disabled?: boolean;
   onNext?: () => boolean | Promise<boolean>;
 };
 
 export function WizardNavigation({
   nextLabel = "Proceed",
   showCancel = true,
+  disabled = false,
   onNext,
 }: WizardNavigationProps) {
   const router = useRouter();
@@ -80,8 +82,9 @@ export function WizardNavigation({
         <button
           type="button"
           onClick={handleNext}
+          disabled={disabled}
           className={cn(
-            "h-12 rounded-xl bg-[#2e63e5] text-lg font-semibold text-white",
+            "h-12 rounded-xl bg-[#2e63e5] text-lg font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50",
             isFinalStep ? "px-12" : "px-8",
           )}
         >
