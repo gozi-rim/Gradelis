@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import type { ReactNode } from "react";
 
 import { WizardHydrator } from "@/features/upload-result/components/wizard-hydrator";
