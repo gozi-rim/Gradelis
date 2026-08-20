@@ -106,6 +106,8 @@ export async function ingestResultFile(actorId: string, file: File): Promise<Ing
             rows: {
               create: classified.map((row) => ({
                 matricNumberRaw: row.matricNumberRaw,
+                caScoreRaw: row.caScoreRaw,
+                examScoreRaw: row.examScoreRaw,
                 gradeRaw: row.gradeRaw,
                 score: row.score,
                 matchedStudentId: row.matchedStudentId,

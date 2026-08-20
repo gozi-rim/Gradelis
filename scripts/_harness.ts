@@ -45,3 +45,28 @@ export function sheetFile(
   const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
   return new File([buf], `${courseCode}.xlsx`, { type: "application/vnd.ms-excel" });
 }
+
+/** The real UNIPORT template: CA (30) + Exam (70), Total and Grade left blank. */
+export function componentSheetFile(
+  courseCode: string,
+  session: string,
+  rows: (string | number)[][],
+  semester = "1st Semester",
+): File {
+  const aoa: (string | number)[][] = [
+    ["DEPARTMENTAL COURSE RESULT SHEET"],
+    [],
+    ["Course Code:", courseCode, "", "Academic Session:", session],
+    ["Course Title:", "Software Engineering", "", "Semester:", semester],
+    ["", "", "", "Credit Units:", 3],
+    [],
+    [],
+    ["S/N", "Matric Number", "CA Score (30)", "Exam Score (70)", "Total Score (100)", "Grade"],
+    ...rows,
+  ];
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Course Result Upload");
+  const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
+  return new File([buf], `${courseCode}.xlsx`, { type: "application/vnd.ms-excel" });
+}

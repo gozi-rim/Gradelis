@@ -576,7 +576,11 @@ model UploadRow {
 
   matricNumberRaw String
   score           Float?
-  gradeRaw        String?
+
+  // Straight from the sheet. score is CA + Exam, worked out by us.
+  caScoreRaw   String?
+  examScoreRaw String?
+  gradeRaw     String?
 
   matchedStudentId String?
   matchedStudent   Student? @relation(fields: [matchedStudentId], references: [id])

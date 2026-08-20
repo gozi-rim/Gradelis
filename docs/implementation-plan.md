@@ -17,13 +17,17 @@ this document, which is why this document exists.
 
 ## Build status
 
-**All six batches are built.** 87 unit tests and 137 integration assertions pass;
+**All six batches are built.** 112 unit tests and 148 integration assertions pass;
 `tsc`, ESLint and `next build` are clean.
+
+> **Scoring rule revised after the fact.** The real result template turned out to
+> supply CA and Exam rather than a filled-in Total. See **D2a** below — it changed
+> ingestion, so read it before touching `classify.ts` or `parse-excel.ts`.
 
 | Batch | State | Evidence |
 |---|---|---|
-| 0 — Foundations | ✅ Built | Migration `20260820155658`. Auth callbacks consolidated along the way. |
-| 1 — Ingestion | ✅ Built | 37 unit tests · 28 integration assertions |
+| 0 — Foundations | ✅ Built | Migrations `20260820155658`, `20260820222233`. Auth callbacks consolidated along the way. |
+| 1 — Ingestion | ✅ Built | 57 unit tests · 39 integration assertions |
 | 2 — Auto-commit | ✅ Built | 30 integration assertions |
 | 3 — Queue read | ✅ Built | 16 unit tests, shared suite below |
 | 4 — Queue resolve | ✅ Built | 51 integration assertions (3 + 4 together) |
@@ -89,6 +93,24 @@ action receives the raw `File` and runs `parseExcelFile` again server-side.
 `parseExcelFile` is already isomorphic (`File.arrayBuffer()` + `XLSX.read`), so
 this needs no rewrite. Scores are permanent academic record; a client-supplied
 number is an unsigned assertion.
+
+**D2a — CA + Exam is authoritative; the total is recomputed.** ⚠️ **Revised
+2026-08-20 against the real template.** The repo's parser assumed the sheet
+carried a filled-in Total Score. `Pro_Course_Result_Sheet_Template.xlsx` does not:
+it has `CA Score (30)`, `Exam Score (70)`, `Total Score (100)` and `Grade`, and
+the lecturer fills only the first two. Total and Grade are blank cells — not even
+formulas. So every row parsed as "missing score".
+
+`lib/upload/score.ts` now owns this. When CA and Exam are present the total is
+`CA + Exam` and a typed Total is ignored; if a typed Total disagrees, the row is
+flagged rather than one of them silently winning. CA is range-checked 0–30 and
+Exam 0–70, because a CA of 45 would otherwise inflate a total into a
+plausible-looking number that nobody would catch. Sheets carrying only a Total
+still work — that path is the fallback.
+
+Raw `caScoreRaw` / `examScoreRaw` are stored on `UploadRow` alongside `gradeRaw`,
+so re-classification after an HOD course-code fix reproduces the original reason
+instead of degrading to "no score recorded".
 
 **D2 — Score is authoritative; grade is recomputed.** The sheet's Grade column
 is stored raw for audit but never used for CGPA. `gradePoint` is derived from
@@ -438,10 +460,10 @@ bcrypt accepting the right password and rejecting the wrong one, and `id` + `rol
 surviving the jwt → session round trip.
 
 > **`tsx` does not load `.env`.** Only `prisma.config.ts` does, via
-> `import "dotenv/config"`. So `prisma db seed` works while a plain
-> `npx tsx script.ts` silently gets no `DATABASE_URL` and fails with
-> `database "<your-username>" does not exist`. Prefix with
-> `set -a; . ./.env; set +a`.
+> `import "dotenv/config"` — which is why `prisma db seed` works while a plain
+> `npx tsx script.ts` does not. Every script in `scripts/` is therefore run
+> through an npm script carrying `--env-file-if-exists=.env`. If you invoke one
+> with bare `tsx`, pass that flag yourself.
 
 ---
 
@@ -2236,7 +2258,8 @@ Test files sit next to their subjects. What exists:
 
 | File | Tests |
 |---|---|
-| `lib/upload/classify.test.ts` | 22 |
+| `lib/upload/classify.test.ts` | 27 |
+| `lib/upload/score.test.ts` | 20 |
 | `lib/upload/normalize.test.ts` | 15 |
 | `lib/upload/candidates.test.ts` | 16 |
 | `lib/graduation/evaluate.test.ts` | 34 |
@@ -2248,8 +2271,9 @@ the dev database and print a pass/fail line per assertion. Two things to know:
 - Run them with `--conditions=react-server` (the npm scripts already do).
   Without it, `import "server-only"` throws — the package's default entry is a
   `throw`, and only that export condition resolves it to a no-op.
-- `tsx` does not load `.env`. Prefix with `set -a; . ./.env; set +a`, or run
-  through the npm scripts from a shell that already has `DATABASE_URL`.
+- `tsx` does not load `.env` on its own. The npm scripts pass
+  `--env-file-if-exists=.env`, which Node reads *before* any module evaluates —
+  important, because `lib/prisma.ts` reads `DATABASE_URL` at import time.
 
 **What gets unit tests vs. what gets checked by hand.** Pure modules — grading,
 classification, candidates, the eligibility engine — carry the suite. Server
@@ -2299,11 +2323,10 @@ Small pre-existing issues that bite during this work. Two are now fixed.
    but has no nav entry, and the admin Dashboard entry is `href: "/admin/"` with
    `exact: true`, so it never highlights.
 
-8. **`lib/prisma.ts` fails unhelpfully with no `DATABASE_URL`.** It reads
-   `process.env.DATABASE_URL!` at module load, so a missing value falls through to
-   `pg`'s defaults and the error is `database "<your-username>" does not exist` —
-   which sends you looking at Postgres instead of at your environment. One
-   explicit throw would save the detour. Found while running Batch 0's checks.
+8. ~~**`lib/prisma.ts` fails unhelpfully with no `DATABASE_URL`.**~~ ✅ **Fixed.**
+   The non-null assertion let a missing value fall through to `pg`'s defaults,
+   producing `database "<your-username>" does not exist` — which sends you
+   debugging Postgres instead of your environment. It now throws by name.
 
 ---
 

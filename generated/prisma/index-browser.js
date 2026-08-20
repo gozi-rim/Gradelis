@@ -313,6 +313,8 @@ exports.Prisma.UploadRowScalarFieldEnum = {
   uploadFileId: 'uploadFileId',
   matricNumberRaw: 'matricNumberRaw',
   score: 'score',
+  caScoreRaw: 'caScoreRaw',
+  examScoreRaw: 'examScoreRaw',
   gradeRaw: 'gradeRaw',
   matchedStudentId: 'matchedStudentId',
   studentResultId: 'studentResultId',

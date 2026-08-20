@@ -42,6 +42,13 @@ export type WizardStepId =
  */
 export type PreviewRow = {
   matricNo: string;
+
+  /*
+   * Straight from the sheet. The total is worked out
+   * from CA + Exam, not read from the Total column.
+   */
+  caScore: string;
+  examScore: string;
   totalScore: string;
   grade: string;
 };

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { LoaderCircle } from "lucide-react";
 
 import { gradeForScore } from "@/lib/grading";
+import { resolveScore } from "@/lib/upload/score";
 
 import { UploadSectionCard } from "@/features/upload-result/components/upload-section-card";
 import { WizardShell } from "@/features/upload-result/components/wizard-shell";
@@ -39,7 +40,6 @@ function validateRows(rows: PreviewRow[]): ValidationIssue[] {
     const rowNumber = index + 2;
 
     const matricNo = String(row.matricNo ?? "").trim();
-    const totalScore = String(row.totalScore ?? "").trim();
     const grade = String(row.grade ?? "").trim().toUpperCase();
 
     const studentName = matricNo || `Row ${rowNumber}`;
@@ -75,92 +75,43 @@ function validateRows(rows: PreviewRow[]): ValidationIssue[] {
     }
 
     /*
-     * --------------------------------------------------
-     * TOTAL SCORE
-     * --------------------------------------------------
+     * SCORE
      *
-     * This is the important change.
-     *
-     * We only check the Total Score from Excel.
-     *
-     * We DO NOT check CA.
-     * We DO NOT check Exam.
-     *
-     * A blank score is ONE issue.
+     * The sheet gives CA and Exam. We add them up
+     * ourselves rather than trusting the Total column.
      */
 
-    if (!totalScore) {
+    const resolved = resolveScore({
+      ca: row.caScore ?? "",
+      exam: row.examScore ?? "",
+      total: row.totalScore ?? "",
+    });
+
+    if (!resolved.ok) {
       issues.push({
         matricNo,
         studentName,
-        issue: "Missing result/score",
+        issue: resolved.reason,
       });
-
-      /*
-       * There is no score to validate further.
-       *
-       * Continue to the next row after checking
-       * the grade below.
-       */
-    } else {
-      const numericScore = Number(totalScore);
-
-      /*
-       * Make sure the score is actually numeric.
-       */
-      if (!Number.isFinite(numericScore)) {
-        issues.push({
-          matricNo,
-          studentName,
-          issue: "Invalid total score",
-        });
-      } else if (
-        numericScore < 0 ||
-        numericScore > 100
-      ) {
-        /*
-         * 0 is valid.
-         *
-         * Only values outside 0-100 are invalid.
-         */
-        issues.push({
-          matricNo,
-          studentName,
-          issue:
-            "Total score must be between 0 and 100",
-        });
-      }
     }
 
     /*
-     * --------------------------------------------------
      * GRADE
-     * --------------------------------------------------
+     *
+     * We work the grade out from the score, so a blank
+     * grade column is fine. We only check the sheet's
+     * grade when it's there, to catch a typo.
      */
 
-    if (!grade) {
-      issues.push({
-        matricNo,
-        studentName,
-        issue: "Missing grade",
-      });
-    } else if (totalScore) {
-      /*
-       * Only compare the grade if a score exists.
-       */
-      const numericScore = Number(totalScore);
+    if (grade && resolved.ok) {
+      const expectedGrade = gradeForScore(resolved.score);
 
-      if (Number.isFinite(numericScore)) {
-        const expectedGrade =
-          gradeForScore(numericScore);
-
-        if (grade !== expectedGrade) {
-          issues.push({
-            matricNo,
-            studentName,
-            issue: `Grade ${grade} does not match total score ${numericScore}. Expected ${expectedGrade}`,
-          });
-        }
+      if (grade !== expectedGrade) {
+        issues.push({
+          matricNo,
+          studentName,
+          issue: `Grade ${grade} does not match a score of ${resolved.score}. Expected ${expectedGrade}`,
+        });
       }
     }
   });

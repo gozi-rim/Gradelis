@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { ingestResultFile } from "@/lib/upload/ingest";
-import { check, report, sheetFile } from "./_harness";
+import { check, componentSheetFile, report, sheetFile } from "./_harness";
 
 async function reset() {
   await prisma.uploadRow.deleteMany({});
@@ -92,6 +92,35 @@ async function main() {
     const f = await prisma.uploadFile.findFirstOrThrow({ where: { uploadBatchId: dupe.batchId }, include: { rows: true } });
     check("row flagged DUPLICATE", f.rows[0].status, "DUPLICATE");
     check("still only two results", await prisma.studentResult.count(), 2);
+  }
+
+  console.log("\n--- the real template shape: CA + Exam, no Total column filled ---");
+  await reset();
+  const components = await ingestResultFile(lecturer.id, componentSheetFile("CSC401", "2025/2026", [
+    [1, "U2021/3020001", 25, 55],   // 80 -> A
+    [2, "U2021/3020002", 18, 20],   // 38 -> F, a real fail not a missing score
+    [3, "U2021/3020003", 45, 40],   // CA above 30
+    [4, "U2021/3020004", 20],       // exam blank
+  ]));
+  check("ok", components.ok, true);
+  if (components.ok) {
+    check("two clean rows imported", components.imported, 2);
+    const f = await prisma.uploadFile.findFirstOrThrow({ where: { uploadBatchId: components.batchId }, include: { rows: true } });
+    const by = new Map(f.rows.map((r) => [r.matricNumberRaw, r]));
+
+    check("25 + 55 stored as 80", by.get("U2021/3020001")!.score, 80);
+    check("18 + 20 stored as 38", by.get("U2021/3020002")!.score, 38);
+    check("raw components kept for audit", [by.get("U2021/3020001")!.caScoreRaw, by.get("U2021/3020001")!.examScoreRaw], ["25", "55"]);
+
+    const derived = await prisma.studentResult.findFirstOrThrow({ where: { score: 80 } });
+    check("grade derived from the computed total", [derived.grade, derived.gradePoint], ["A", 5]);
+    const failing = await prisma.studentResult.findFirstOrThrow({ where: { score: 38 } });
+    check("a genuine fail is imported, not flagged", [failing.grade, failing.gradePoint], ["F", 0]);
+
+    check("CA above 30 flagged", by.get("U2021/3020003")!.status, "INVALID_SCORE");
+    check("and says which component", by.get("U2021/3020003")!.errorMessage?.includes("0-30"), true);
+    check("half-filled row flagged", by.get("U2021/3020004")!.status, "INVALID_SCORE");
+    check("and says which half", by.get("U2021/3020004")!.errorMessage?.includes("exam score is blank"), true);
   }
 
   await reset();

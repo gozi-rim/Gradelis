@@ -9,10 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check:ingest": "tsx --conditions=react-server scripts/check-commit.ts",
-    "check:queue": "tsx --conditions=react-server scripts/check-review-queue.ts",
-    "check:graduation": "tsx --conditions=react-server scripts/check-graduation.ts",
-    "demo": "tsx --conditions=react-server scripts/demo-data.ts"
+    "check:ingest": "tsx --env-file-if-exists=.env --conditions=react-server scripts/check-commit.ts",
+    "check:queue": "tsx --env-file-if-exists=.env --conditions=react-server scripts/check-review-queue.ts",
+    "check:graduation": "tsx --env-file-if-exists=.env --conditions=react-server scripts/check-graduation.ts",
+    "demo": "tsx --env-file-if-exists=.env --conditions=react-server scripts/demo-data.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",

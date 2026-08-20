@@ -22605,6 +22605,8 @@ export namespace Prisma {
     uploadFileId: string | null
     matricNumberRaw: string | null
     score: number | null
+    caScoreRaw: string | null
+    examScoreRaw: string | null
     gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
@@ -22621,6 +22623,8 @@ export namespace Prisma {
     uploadFileId: string | null
     matricNumberRaw: string | null
     score: number | null
+    caScoreRaw: string | null
+    examScoreRaw: string | null
     gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
@@ -22637,6 +22641,8 @@ export namespace Prisma {
     uploadFileId: number
     matricNumberRaw: number
     score: number
+    caScoreRaw: number
+    examScoreRaw: number
     gradeRaw: number
     matchedStudentId: number
     studentResultId: number
@@ -22663,6 +22669,8 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    caScoreRaw?: true
+    examScoreRaw?: true
     gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
@@ -22679,6 +22687,8 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    caScoreRaw?: true
+    examScoreRaw?: true
     gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
@@ -22695,6 +22705,8 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    caScoreRaw?: true
+    examScoreRaw?: true
     gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
@@ -22798,6 +22810,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score: number | null
+    caScoreRaw: string | null
+    examScoreRaw: string | null
     gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
@@ -22833,6 +22847,8 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    caScoreRaw?: boolean
+    examScoreRaw?: boolean
     gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
@@ -22853,6 +22869,8 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    caScoreRaw?: boolean
+    examScoreRaw?: boolean
     gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
@@ -22873,6 +22891,8 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    caScoreRaw?: boolean
+    examScoreRaw?: boolean
     gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
@@ -22893,6 +22913,8 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    caScoreRaw?: boolean
+    examScoreRaw?: boolean
     gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
@@ -22904,7 +22926,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type UploadRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadFileId" | "matricNumberRaw" | "score" | "gradeRaw" | "matchedStudentId" | "studentResultId" | "status" | "errorMessage" | "resolvedById" | "resolvedAt" | "resolutionNote" | "createdAt", ExtArgs["result"]["uploadRow"]>
+  export type UploadRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadFileId" | "matricNumberRaw" | "score" | "caScoreRaw" | "examScoreRaw" | "gradeRaw" | "matchedStudentId" | "studentResultId" | "status" | "errorMessage" | "resolvedById" | "resolvedAt" | "resolutionNote" | "createdAt", ExtArgs["result"]["uploadRow"]>
   export type UploadRowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
@@ -22937,6 +22959,8 @@ export namespace Prisma {
       uploadFileId: string
       matricNumberRaw: string
       score: number | null
+      caScoreRaw: string | null
+      examScoreRaw: string | null
       gradeRaw: string | null
       matchedStudentId: string | null
       studentResultId: string | null
@@ -23377,6 +23401,8 @@ export namespace Prisma {
     readonly uploadFileId: FieldRef<"UploadRow", 'String'>
     readonly matricNumberRaw: FieldRef<"UploadRow", 'String'>
     readonly score: FieldRef<"UploadRow", 'Float'>
+    readonly caScoreRaw: FieldRef<"UploadRow", 'String'>
+    readonly examScoreRaw: FieldRef<"UploadRow", 'String'>
     readonly gradeRaw: FieldRef<"UploadRow", 'String'>
     readonly matchedStudentId: FieldRef<"UploadRow", 'String'>
     readonly studentResultId: FieldRef<"UploadRow", 'String'>
@@ -26359,6 +26385,8 @@ export namespace Prisma {
     uploadFileId: 'uploadFileId',
     matricNumberRaw: 'matricNumberRaw',
     score: 'score',
+    caScoreRaw: 'caScoreRaw',
+    examScoreRaw: 'examScoreRaw',
     gradeRaw: 'gradeRaw',
     matchedStudentId: 'matchedStudentId',
     studentResultId: 'studentResultId',
@@ -28101,6 +28129,8 @@ export namespace Prisma {
     uploadFileId?: StringFilter<"UploadRow"> | string
     matricNumberRaw?: StringFilter<"UploadRow"> | string
     score?: FloatNullableFilter<"UploadRow"> | number | null
+    caScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
+    examScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
     gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableFilter<"UploadRow"> | string | null
@@ -28121,6 +28151,8 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrderInput | SortOrder
+    caScoreRaw?: SortOrderInput | SortOrder
+    examScoreRaw?: SortOrderInput | SortOrder
     gradeRaw?: SortOrderInput | SortOrder
     matchedStudentId?: SortOrderInput | SortOrder
     studentResultId?: SortOrderInput | SortOrder
@@ -28144,6 +28176,8 @@ export namespace Prisma {
     uploadFileId?: StringFilter<"UploadRow"> | string
     matricNumberRaw?: StringFilter<"UploadRow"> | string
     score?: FloatNullableFilter<"UploadRow"> | number | null
+    caScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
+    examScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
     gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableFilter<"UploadRow"> | string | null
@@ -28164,6 +28198,8 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrderInput | SortOrder
+    caScoreRaw?: SortOrderInput | SortOrder
+    examScoreRaw?: SortOrderInput | SortOrder
     gradeRaw?: SortOrderInput | SortOrder
     matchedStudentId?: SortOrderInput | SortOrder
     studentResultId?: SortOrderInput | SortOrder
@@ -28188,6 +28224,8 @@ export namespace Prisma {
     uploadFileId?: StringWithAggregatesFilter<"UploadRow"> | string
     matricNumberRaw?: StringWithAggregatesFilter<"UploadRow"> | string
     score?: FloatNullableWithAggregatesFilter<"UploadRow"> | number | null
+    caScoreRaw?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
+    examScoreRaw?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     gradeRaw?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
@@ -29772,6 +29810,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
@@ -29789,6 +29829,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -29804,6 +29846,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29821,6 +29865,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29837,6 +29883,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -29852,6 +29900,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29865,6 +29915,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31399,6 +31451,8 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    caScoreRaw?: SortOrder
+    examScoreRaw?: SortOrder
     gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
@@ -31419,6 +31473,8 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    caScoreRaw?: SortOrder
+    examScoreRaw?: SortOrder
     gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
@@ -31435,6 +31491,8 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    caScoreRaw?: SortOrder
+    examScoreRaw?: SortOrder
     gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
@@ -34943,6 +35001,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
@@ -34959,6 +35019,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -35513,6 +35575,8 @@ export namespace Prisma {
     uploadFileId?: StringFilter<"UploadRow"> | string
     matricNumberRaw?: StringFilter<"UploadRow"> | string
     score?: FloatNullableFilter<"UploadRow"> | number | null
+    caScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
+    examScoreRaw?: StringNullableFilter<"UploadRow"> | string | null
     gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableFilter<"UploadRow"> | string | null
@@ -36394,6 +36458,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
@@ -36410,6 +36476,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
@@ -37771,6 +37839,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
@@ -37787,6 +37857,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     status?: $Enums.UploadRowStatus
@@ -39606,6 +39678,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
@@ -39621,6 +39695,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -40701,6 +40777,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -41332,6 +41410,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41348,6 +41428,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41363,6 +41445,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41558,6 +41642,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
@@ -41630,6 +41716,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41646,6 +41734,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
@@ -41661,6 +41751,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
@@ -41786,6 +41878,8 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     status?: $Enums.UploadRowStatus
@@ -41822,6 +41916,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41838,6 +41934,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
@@ -41853,6 +41951,8 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
@@ -42047,6 +42147,8 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    caScoreRaw?: string | null
+    examScoreRaw?: string | null
     gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
@@ -42062,6 +42164,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42077,6 +42181,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42092,6 +42198,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    caScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    examScoreRaw?: NullableStringFieldUpdateOperationsInput | string | null
     gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null

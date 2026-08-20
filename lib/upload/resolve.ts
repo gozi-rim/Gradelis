@@ -48,9 +48,13 @@ export async function applyFileResolution(
   const reclassifiable = file.rows.filter((r) => !SETTLED_ROWS.includes(r.status));
 
   const reclassified = classifyRows({
+    // Re-check from what the sheet actually said, so a row keeps its real reason.
     rows: reclassifiable.map((r) => ({
       matricNo: r.matricNumberRaw,
-      totalScore: r.score === null ? "" : String(r.score),
+      caScore: r.caScoreRaw ?? "",
+      examScore: r.examScoreRaw ?? "",
+      totalScore:
+        r.caScoreRaw || r.examScoreRaw ? "" : r.score === null ? "" : String(r.score),
       grade: r.gradeRaw ?? "",
     })),
     studentsByMatric,

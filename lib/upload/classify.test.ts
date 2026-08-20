@@ -136,3 +136,70 @@ describe("purity", () => {
     expect(rows).toEqual(before);
   });
 });
+
+describe("CA + Exam sheets (the real UNIPORT template)", () => {
+  it("adds the components instead of reading the Total column", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "25", examScore: "55", totalScore: "", grade: "" },
+    ]);
+    expect(row.status).toBe("VALID");
+    expect(row.score).toBe(80);
+    expect([row.caScore, row.examScore]).toEqual([25, 55]);
+  });
+
+  it("keeps the components on a flagged row too", () => {
+    const [row] = run([
+      { matricNo: "U2099/9999999", caScore: "25", examScore: "55", totalScore: "", grade: "" },
+    ]);
+    expect(row.status).toBe("UNMATCHED_STUDENT");
+    expect(row.score).toBe(80);
+  });
+
+  it("checks the derived total against the grade column", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "18", examScore: "20", totalScore: "", grade: "A" },
+    ]);
+    expect(row.status).toBe("GRADE_MISMATCH");
+    expect(row.errorMessage).toContain("is a F");
+  });
+
+  it("flags an out-of-range CA", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "45", examScore: "40", totalScore: "", grade: "" },
+    ]);
+    expect(row.status).toBe("INVALID_SCORE");
+    expect(row.errorMessage).toContain("0-30");
+  });
+
+  it("flags a typed Total that contradicts the components", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "25", examScore: "55", totalScore: "90", grade: "" },
+    ]);
+    expect(row.status).toBe("INVALID_SCORE");
+    expect(row.errorMessage).toContain("does not match");
+  });
+});
+
+describe("a blank grade column is normal, not an error", () => {
+  it("accepts the real template, which never fills Grade", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "25", examScore: "55", totalScore: "", grade: "" },
+    ]);
+    expect(row.status).toBe("VALID");
+    expect(row.gradeRaw).toBeNull();
+  });
+
+  it("still catches a sheet grade that contradicts the score", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "25", examScore: "55", totalScore: "", grade: "C" },
+    ]);
+    expect(row.status).toBe("GRADE_MISMATCH");
+  });
+
+  it("accepts a sheet grade that agrees", () => {
+    const [row] = run([
+      { matricNo: "U2018/3020002", caScore: "25", examScore: "55", totalScore: "", grade: "a" },
+    ]);
+    expect(row.status).toBe("VALID");
+  });
+});
