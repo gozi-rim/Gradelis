@@ -1,7 +1,8 @@
 # Gradelis — Implementation Plan
 
 Covers PRD **§9 Review Queue (HOD)** and **§11 Graduation Evaluation**, plus the
-ingestion pipeline both depend on and which does not exist yet.
+ingestion pipeline both depend on — which did not exist when this was written and
+was built in Batch 1.
 
 Everything follows the existing server-action convention established in
 [`lib/actions/login.ts`](../lib/actions/login.ts): `"use server"`, zod-parse the
@@ -14,32 +15,69 @@ this document, which is why this document exists.
 
 ---
 
+## Build status
+
+**All six batches are built.** 87 unit tests and 137 integration assertions pass;
+`tsc`, ESLint and `next build` are clean.
+
+| Batch | State | Evidence |
+|---|---|---|
+| 0 — Foundations | ✅ Built | Migration `20260820155658`. Auth callbacks consolidated along the way. |
+| 1 — Ingestion | ✅ Built | 37 unit tests · 28 integration assertions |
+| 2 — Auto-commit | ✅ Built | 30 integration assertions |
+| 3 — Queue read | ✅ Built | 16 unit tests, shared suite below |
+| 4 — Queue resolve | ✅ Built | 51 integration assertions (3 + 4 together) |
+| 5 — Graduation engine | ✅ Built | 34 unit tests |
+| 6 — Graduation run + views | ✅ Built | 28 integration assertions |
+
+```bash
+npm test                  # 87 unit tests, pure functions, ~300ms
+npm run check:ingest      # Batches 1-2 against real Postgres
+npm run check:queue       # Batches 3-4
+npm run check:graduation  # Batches 5-6
+```
+
+The three `check:*` scripts are the per-batch "how to test" sections made
+executable. They need Postgres up and the seed applied.
+
+**Deviation running through the whole build:** every server action is a thin
+wrapper — guard, validate, delegate, `refresh()`. The work lives in a plain
+`async` function next to it (`ingest.ts`, `resolve.ts`, `run.ts`). `requireRole`
+needs a request context, so an action that does its work inline can only be
+exercised through a browser; with the core split out, all of it is reachable from
+a script. Each section notes where this applies.
+
+---
+
 ## 0. What actually has to be built
 
-The PRD describes the *back half* of a pipeline whose *front half* is missing.
-Today the adviser wizard parses Excel in the browser, validates in the browser,
-and then calls `markSubmitted()` — a Zustand flag.
-[`confirm-submit/page.tsx:66`](../app/adviser/upload-result/confirm-submit/page.tsx)
-still carries `TODO: Replace this with your server action/API call`. No
-`UploadBatch`, `UploadFile` or `UploadRow` row is ever written, so there is
-nothing for a review queue to review.
+The PRD describes the *back half* of a pipeline whose *front half* was missing.
+The adviser wizard parsed Excel in the browser, validated in the browser, then
+called `markSubmitted()` — a Zustand flag. `confirm-submit/page.tsx` carried a
+`TODO: Replace this with your server action/API call`, and no `UploadBatch`,
+`UploadFile` or `UploadRow` was ever written, so there was nothing for a review
+queue to review.
 
-| # | Capability | PRD | Exists? |
+Batch 1 closed that gap: the wizard now calls
+[`submitResultUpload`](../lib/actions/upload-results.ts), which persists a real
+batch with every row matched and flagged.
+
+| # | Capability | PRD | Status |
 |---|---|---|---|
-| 1 | Persist an upload as `UploadBatch` → `UploadFile` → `UploadRow` | precondition | ❌ |
-| 2 | Match course code → `Course`, matric → `Student` | precondition | ❌ |
-| 3 | Auto-commit clean rows to `StudentResult` | §9 R5 | ❌ |
-| 4 | Flag ambiguous rows/files | §9 R1 | ❌ |
-| 5 | HOD queue listing flagged items grouped by batch | §9 R1–R2 | ❌ |
-| 6 | Match candidate suggestions | §9 R2 | ❌ |
-| 7 | Resolve / reject a file, cascading to rows | §9 R3, R6 | ❌ |
-| 8 | Resolve / reject a row | §9 R4–R6 | ❌ |
-| 9 | Resolution audit trail | §9 R7 | ❌ (no schema fields) |
-| 10 | Credit-weighted CGPA | §11 R3 | ❌ |
-| 11 | Four-rule eligibility engine | §11 R4–R5 | ❌ |
-| 12 | `GraduationRun` + `EligibilityRunItem` writes | §11 R1, R6–R7 | ❌ (models exist, unused) |
-| 13 | Eligible / pending views | §11 R8 | ❌ |
-| 14 | Server-side role enforcement | both | ⚠️ `requireRole` exists, zero call sites |
+| 1 | Persist an upload as `UploadBatch` → `UploadFile` → `UploadRow` | precondition | ✅ Batch 1 |
+| 2 | Match course code → `Course`, matric → `Student` | precondition | ✅ Batch 1 |
+| 3 | Auto-commit clean rows to `StudentResult` | §9 R5 | ✅ Batch 2 |
+| 4 | Flag ambiguous rows/files | §9 R1 | ✅ Batch 1 |
+| 5 | HOD queue listing flagged items grouped by batch | §9 R1–R2 | ✅ Batch 3 |
+| 6 | Match candidate suggestions | §9 R2 | ✅ Batch 3 |
+| 7 | Resolve / reject a file, cascading to rows | §9 R3, R6 | ✅ Batch 4 |
+| 8 | Resolve / reject a row | §9 R4–R6 | ✅ Batch 4 |
+| 9 | Resolution audit trail | §9 R7 | ✅ Batch 0 schema + Batch 4 actions |
+| 10 | Credit-weighted CGPA | §11 R3 | ✅ Batch 5 |
+| 11 | Four-rule eligibility engine | §11 R4–R5 | ✅ Batch 5 |
+| 12 | `GraduationRun` + `EligibilityRunItem` writes | §11 R1, R6–R7 | ✅ Batch 6 |
+| 13 | Eligible / pending views | §11 R8 | ✅ Batch 6 |
+| 14 | Server-side role enforcement | both | ✅ Batch 0; first call site in Batch 1 |
 
 ---
 
@@ -100,19 +138,22 @@ Batch 1  Ingestion ───→ Batch 2  Auto-commit ───→ Batch 3  Queue
 Batches 5–6 have no dependency on 1–4 and can run in parallel by a second
 developer — the only shared file is `lib/grading.ts` from Batch 0.
 
-| Batch | Deliverable | Blocks |
-|---|---|---|
-| 0 | Schema migration, grading scale, action contract, role guards | everything |
-| 1 | Upload persists as batch/file/rows with matching + flags | 2, 3 |
-| 2 | Clean rows auto-commit to `StudentResult` | 4 |
-| 3 | HOD queue read model + candidate suggestions | 4 |
-| 4 | Resolve / reject actions | — |
-| 5 | Pure eligibility engine + unit tests | 6 |
-| 6 | `GraduationRun` action + eligible/pending views | — |
+| Batch | Deliverable | Blocks | State |
+|---|---|---|---|
+| 0 | Schema migration, grading scale, action contract, role guards | everything | ✅ |
+| 1 | Upload persists as batch/file/rows with matching + flags | 2, 3 | ✅ |
+| 2 | Clean rows auto-commit to `StudentResult` | 4 | ✅ |
+| 3 | HOD queue read model + candidate suggestions | 4 | ✅ |
+| 4 | Resolve / reject actions | — | ✅ |
+| 5 | Pure eligibility engine + unit tests | 6 | ✅ |
+| 6 | `GraduationRun` action + eligible/pending views | — | ✅ |
 
 ---
 
-# Batch 0 — Foundations
+# Batch 0 — Foundations ✅ Built
+
+**Migration:** `prisma/migrations/20260820155658_review_queue_and_graduation_audit`
+— additive only, no `DROP` statements anywhere in the history.
 
 **Goal.** Everything later batches assume: schema fields for audit and
 rejection, one grading scale, one action-result shape, and role guards that are
@@ -220,12 +261,16 @@ export type GradeLetter = (typeof GRADE_SCALE)[number]["grade"];
 /** Anything from here up is a pass. */
 export const PASS_MARK = 40;
 
+function bandFor(score: number) {
+  return GRADE_SCALE.find((band) => score >= band.min) ?? GRADE_SCALE[GRADE_SCALE.length - 1];
+}
+
 export function gradeForScore(score: number): GradeLetter {
-  return (GRADE_SCALE.find((g) => score >= g.min) ?? GRADE_SCALE.at(-1)!).grade;
+  return bandFor(score).grade;
 }
 
 export function gradePointForScore(score: number): number {
-  return (GRADE_SCALE.find((g) => score >= g.min) ?? GRADE_SCALE.at(-1)!).point;
+  return bandFor(score).point;
 }
 
 export function isPass(score: number): boolean {
@@ -238,7 +283,8 @@ export function isValidScore(score: unknown): score is number {
 ```
 
 Then delete `calculateExpectedGrade` from the validation-progress page and import
-`gradeForScore` instead.
+`gradeForScore` instead. **Done** — that page now imports the shared scale, so the
+wizard preview and CGPA can no longer drift apart.
 
 ## 0.3 `lib/actions/result.ts` — the action contract
 
@@ -270,7 +316,8 @@ export function fail<T = never>(
 The current version throws `new Error("Forbidden")`. In production a thrown
 error inside a Server Action reaches the client as an opaque digest, so the user
 sees "an error occurred" instead of "you are not permitted to do this". It also
-has zero call sites today, so changing it is free.
+had zero call sites when this was written, so changing it was free. Batch 1's
+upload action is the first caller.
 
 ```ts
 // lib/auth-guard.ts
@@ -293,7 +340,7 @@ export async function currentActor(): Promise<Actor | null> {
     id: session.user.id,
     name: session.user.name ?? "",
     email: session.user.email ?? "",
-    role: session.user.role as UserRole,
+    role: session.user.role,
   };
 }
 
@@ -338,6 +385,34 @@ declare module "next-auth" {
 > of which page the caller is on. Without an in-action check, a signed-in
 > LECTURER can invoke `resolveUploadRow` directly.
 
+## 0.5 Auth callbacks — consolidated (not originally planned)
+
+Tightening `next-auth.d.ts` so `role` is a `UserRole` instead of a `string`
+immediately broke both auth files: each cast `token.role as string`. That is
+Appendix B item 2 surfacing as a compile error, so it got fixed here rather than
+deferred.
+
+[`auth.config.ts`](../auth.config.ts) now owns `callbacks`, `pages` and
+`session.strategy`; [`auth.ts`](../auth.ts) spreads it and adds only the
+Credentials provider. **Behaviour change in our favour:** `proxy.ts` builds its
+auth from `authConfig`, so the edge previously saw `role` but never `id`. It now
+sees both.
+
+```ts
+// types/next-auth.d.ts — the part that is easy to get wrong
+declare module "@auth/core/jwt" {
+  interface JWT {
+    id?: string;
+    role?: UserRole;
+  }
+}
+```
+
+> **Augment `@auth/core/jwt`, not `next-auth/jwt`.** The latter is a bare
+> `export * from "@auth/core/jwt"`, so declaring an interface on it creates a new,
+> unrelated one that merges with nothing. It compiles silently and `token.id`
+> comes back as `{}`.
+
 ## How to test Batch 0
 
 ```bash
@@ -353,22 +428,24 @@ Confirm the migration is additive — no `DROP` statements:
 grep -iE "drop (table|column)" prisma/migrations/*/migration.sql
 ```
 
-Grading scale, once Batch 5's test harness is in place:
-
-```ts
-expect(gradeForScore(70)).toBe("A");
-expect(gradeForScore(69.9)).toBe("B");
-expect(gradeForScore(40)).toBe("E");
-expect(gradeForScore(39.9)).toBe("F");
-expect(gradePointForScore(0)).toBe(0);
-```
-
 Boundary values are the whole point — 70, 60, 50, 45, 40 and the value just
 below each.
 
+**Result.** `tsc` clean, `build` clean (21 routes), migration confirmed additive.
+29 assertions run against the real database covering every grade boundary and
+both directions of each, `isValidScore` rejecting `101` / `"65"` / `NaN`,
+bcrypt accepting the right password and rejecting the wrong one, and `id` + `role`
+surviving the jwt → session round trip.
+
+> **`tsx` does not load `.env`.** Only `prisma.config.ts` does, via
+> `import "dotenv/config"`. So `prisma db seed` works while a plain
+> `npx tsx script.ts` silently gets no `DATABASE_URL` and fails with
+> `database "<your-username>" does not exist`. Prefix with
+> `set -a; . ./.env; set +a`.
+
 ---
 
-# Batch 1 — Ingestion
+# Batch 1 — Ingestion ✅ Built
 
 **Goal.** The wizard's Submit button writes a real `UploadBatch` → `UploadFile`
 → `UploadRow[]`, with course and student matching applied and every row carrying
@@ -539,7 +616,15 @@ export function classifyRows({
 }
 ```
 
-## 1.3 `lib/actions/upload-results.ts` — the ingestion action
+## 1.3 `lib/upload/ingest.ts` + `lib/actions/upload-results.ts`
+
+> **Built slightly differently to what follows.** The work below lives in
+> `lib/upload/ingest.ts` as `ingestResultFile(actorId, file)`, and
+> `submitResultUpload` is a thin wrapper: sign-in check, file check, call it.
+> Reason: `requireRole` needs a request context, so an action that does the work
+> inline cannot be exercised outside the browser. With the core split out, the
+> whole parse → match → classify → persist path is testable against a real
+> database. Batch 2 hooks into `ingest.ts`, not the action.
 
 ```ts
 // lib/actions/upload-results.ts
@@ -707,80 +792,84 @@ to `localStorage`. Two options:
   the file and sends the adviser back to step 1.
 - **Upload on step 1**, submit on step 5 by `batchId`. More robust, more work.
 
-Take the first now; it matches the wizard's existing behaviour.
+Took the first. `rawFile` is set on the upload step and left out of `partialize`,
+so it never reaches `localStorage`.
+
+The action is called directly rather than through `useActionState`, because
+`WizardNavigation`'s `onNext` already expects `Promise<boolean>` and threading a
+form action through it buys nothing:
 
 ```tsx
 const rawFile = useUploadWizardStore((s) => s.rawFile);
-const [state, formAction, pending] = useActionState(submitResultUpload, {});
 
-const handleSubmit = () => {
-  if (!rawFile) return;
+const handleSubmit = async (): Promise<boolean> => {
+  if (!canSubmit || !rawFile) return false;
   const data = new FormData();
   data.set("file", rawFile);
-  startTransition(() => formAction(data));
+  const state = await submitResultUpload({}, data);
+  setResult(state);
+  if (state.message !== "success") return false;
+  markSubmitted();
+  return false;
 };
 ```
 
+**Browser-side issues no longer block submission.** They are a heads-up, not a
+gate — the server re-checks everything and flags what it does not like, and §9
+exists precisely so a human resolves those. Blocking here would strand an adviser
+whose sheet has one bad row.
+
+The screen reports what actually happened: *"Sent for review. 8 rows saved,
+5 flagged for the HOD."*
+
 ## How to test Batch 1
 
-**Unit — `classifyRows`, no database.** This is the batch's real test surface.
+**Unit — no database.** `npm test`. 37 tests, ~275ms.
 
-```ts
-const studentsByMatric = new Map([["U20183020002", "student-1"]]);
+`lib/upload/classify.test.ts` covers score handling (blank vs `0`, `"abc"`, `-1`,
+`101`, `"65%"`, both range ends), student matching across punctuation, in-file
+duplicates, the deferred DB duplicate check when `courseKnown` is false, grade
+contradictions, and three purity properties: same length and order out as in, the
+same answer on repeated calls, and the input left untouched.
 
-it("flags a blank score as missing, not zero", () => {
-  const [row] = classifyRows({
-    rows: [{ matricNo: "U2018/3020002", totalScore: "", grade: "" }],
-    studentsByMatric,
-    studentsWithExistingResult: new Set(),
-    courseKnown: true,
-  });
-  expect(row.status).toBe("INVALID_SCORE");
-  expect(row.score).toBeNull();
-});
+`lib/upload/normalize.test.ts` covers the matching keys — every punctuation form
+of a matric number collapsing to one key, session in `/`, `-`, en-dash and em-dash
+forms, and every spelling of a semester including *Harmattan* and *Rain*.
 
-it("matches across punctuation differences", () => {
-  const [row] = classifyRows({
-    rows: [{ matricNo: "u2018-3020002", totalScore: "65", grade: "B" }],
-    studentsByMatric,
-    studentsWithExistingResult: new Set(),
-    courseKnown: true,
-  });
-  expect(row.status).toBe("VALID");
-  expect(row.matchedStudentId).toBe("student-1");
-});
+**Integration — real Postgres, real `.xlsx`.** A generated workbook in the real
+template shape (`B3` course code, `E3` session, `E4` semester, header row at row 7)
+driven through `ingestResultFile`. 28 assertions, all passing:
 
-it("keeps a score of 0 as a valid recorded result", () => { /* status VALID, score 0 */ });
-it("flags the second occurrence of a matric number as DUPLICATE", () => { /* … */ });
-it("defers the DB duplicate check when courseKnown is false", () => { /* … */ });
-it("flags a grade that contradicts the score", () => { /* GRADE_MISMATCH */ });
-```
+| Case | Expected |
+|---|---|
+| One 8-row sheet hitting every rule | `{VALID: 3, INVALID_SCORE: 2, GRADE_MISMATCH: 1, UNMATCHED_STUDENT: 1, DUPLICATE: 1}` |
+| Blank score | stored `null`, **not** `0` |
+| Score of `0` | stored `0`, status `VALID` |
+| `u2021-3020002` vs stored `U2021/3020002` | matched |
+| Score 45 with grade `A` | `GRADE_MISMATCH`, message names `D` |
+| Bogus course code | file `UNMATCHED_COURSE`, **rows still persisted**, row status unaffected |
+| Unreadable `E3` / `E4` | rejected, message names the cell, **nothing written** |
+| Every flagged row | non-empty `errorMessage`; valid rows have none |
 
-**Integration — against the dev database.**
+The last one is the batch's real point: a flagged row that cannot explain itself
+is useless to the HOD in Batch 3.
 
-```bash
-docker compose up -d
-npx prisma migrate deploy && npx prisma db seed
-npm run dev
-```
-
-Sign in as `lecturer@gradelis.com` / `password123`, upload a sheet, then:
+**Manual pass still worth doing.** The seam from `requireRole` into the action was
+not exercised end to end — the guard is verified and everything downstream of it
+is, but not the join. Sign in as `lecturer@gradelis.com` / `password123` and
+upload a sheet, then:
 
 ```bash
-npx prisma studio     # inspect UploadBatch → UploadFile → UploadRow
+npx prisma studio
 ```
 
-Assert by hand: one `UploadBatch`; one `UploadFile` whose `matchedCourseId` is
-set (or status `UNMATCHED_COURSE`); row count equal to the sheet's student rows;
-every row carrying a status and, where flagged, a human-readable `errorMessage`.
-
-**Deliberately break it.** Upload a sheet with a bogus course code in B3 → file
-status `UNMATCHED_COURSE` and rows still persisted. Upload the same sheet twice
-→ second batch's rows all `DUPLICATE`.
+**Seed data.** `prisma/seed.ts` now creates 5 courses (`CSC401`, `CSC403`,
+`CSC405`, `CSC407`, `CSC301`) and 8 students in entry session `2021/2022`, so an
+upload has something to match against.
 
 ---
 
-# Batch 2 — Auto-commit
+# Batch 2 — Auto-commit ✅ Built
 
 **Goal.** Rows that pass every check become `StudentResult` records
 automatically; flagged rows are left alone for the HOD.
@@ -931,7 +1020,7 @@ export async function syncBatchStatus(
 
 ## 2.3 Hook it into ingestion
 
-At the end of `submitResultUpload`'s transaction, before returning:
+At the end of the transaction in `lib/upload/ingest.ts`, before returning:
 
 ```ts
 const fileId = created.files[0].id;
@@ -952,37 +1041,28 @@ the HOD for review."*
 
 ## How to test Batch 2
 
-**Unit.** `commitRow` takes a `Prisma.TransactionClient`, so it can be called
-with a stub — assert that `create` receives a derived grade and grade point, and
-that `attemptNumber` is `priorAttempts + 1`.
-
-**Integration.** Upload a clean sheet, then:
-
 ```bash
-npx prisma studio
+npm run check:ingest
 ```
 
-- every `UploadRow` is `IMPORTED` with a non-null `studentResultId`
-- a matching `StudentResult` exists per row, `status = POSTED`
-- `grade` and `gradePoint` agree with `GRADE_SCALE` — *not* with the sheet's
-  grade column, if the two differ
-- `UploadFile.status = COMPLETED`, `UploadBatch.status = COMPLETED`
+30 assertions against real Postgres, all passing:
 
-**The resit case.** Upload the same course for a *different* session for a
-student who already has a result. Expect a second `StudentResult` with
-`attemptNumber = 2`, and the first row untouched. This is the assertion most
-likely to catch a mistake — the unique constraint will throw loudly if
-`attemptNumber` is computed wrong.
+| Case | Expected |
+|---|---|
+| Fully clean 3-row sheet | 3 imported, file **and** batch `COMPLETED`, every row `IMPORTED` with a `studentResultId` |
+| Grades derived, not copied | 75 → `A`/5, 42 → `E`/1, all `POSTED`, all `attemptNumber: 1` |
+| Sheet says `A`, score says 45 | row stays `GRADE_MISMATCH`, **nothing imported**, file not `COMPLETED` |
+| 3 good rows + 2 unknown matrics | 3 `StudentResult`, 2 rows still open, file `VALID`, batch `PROCESSING` |
+| Same course, later session | second `StudentResult` at `attemptNumber: 2`, first row untouched |
+| Same course, same session, twice | second row `DUPLICATE`, still only 2 results |
 
-**The partial case.** Upload a sheet with 3 good rows and 2 unknown matric
-numbers. Expect 3 `StudentResult` rows, 2 rows left at `UNMATCHED_STUDENT`,
-`UploadFile.status` still `VALID` (not `COMPLETED`), `UploadBatch.status` still
-`PROCESSING`. **Nothing should be `COMPLETED` while an item awaits a decision** —
-that is §9's core invariant expressed as a status check.
+The partial case is the one that matters: **nothing reaches `COMPLETED` while an
+item is still awaiting a decision.** That is §9's core invariant expressed as a
+status check, and it is what makes the Batch 3 queue trustworthy.
 
 ---
 
-# Batch 3 — Review queue (read side)
+# Batch 3 — Review queue (read side) ✅ Built
 
 **Goal.** The HOD sees every flagged file and row, grouped by batch, with enough
 context to decide without opening the spreadsheet.
@@ -1187,45 +1267,39 @@ export default async function PendingReviewsPage() {
 
 ## How to test Batch 3
 
-**Unit — `editDistance` / `suggestCandidates`.** Pure, no fixtures needed.
+**Unit.** 16 tests in `lib/upload/candidates.test.ts` — `editDistance` against
+known pairs including `kitten`/`sitting`, symmetry, `similarity` at both extremes,
+ranking, `minScore` filtering, `limit`, empty pools, input immutability, and
+determinism when scores tie.
 
-```ts
-expect(editDistance("kitten", "sitting")).toBe(3);
-expect(similarity("CSC401", "CSC401")).toBe(1);
+**Integration** (shared with Batch 4, `npm run check:queue`):
 
-it("ranks the closest matric number first", () => {
-  const pool = [
-    { id: "a", matricNumber: "U2018/3020002" },
-    { id: "b", matricNumber: "U2018/3020003" },
-    { id: "c", matricNumber: "U2019/4010111" },
-  ];
-  const [top] = suggestCandidates("U20183020003", pool, (s) => normalizeMatric(s.matricNumber));
-  expect(top.item.id).toBe("b");
-});
+- a batch with 2 clean + 2 flagged rows shows **only the 2 flagged** — imported
+  rows never appear, though `totalRows` still counts all 4
+- a matric with an extra digit ranks the intended student first, and the same
+  query twice returns the same order
 
-it("is deterministic when scores tie", () => { /* same input → same order, twice */ });
-```
-
-**Integration.** Upload a sheet seeded with three deliberate defects: one bad
-course code, one typo'd matric, one duplicate. Sign in as `hod@gradelis.com` and
-open `/hod/pending-reviews`. Check:
-
-- exactly one batch appears, with three flagged items
-- the bad course code shows a shortlist containing the course you meant
-- the typo'd matric shows the right student as its top suggestion
-- **clean rows do NOT appear** — the queue is for open items only. Verify by
-  confirming the file's `IMPORTED` rows are absent from the page.
+> **A tie is not a bug.** `U2021/302000X` is edit-distance 1 from `…0001`, `…0002`
+> *and* `…0003`. The tie-break sorts by key, so the lowest wins — deterministic,
+> which is the property that actually matters. Do not write a test asserting a
+> "correct" winner among equidistant candidates; assert the ordering is stable.
 
 ---
 
-# Batch 4 — Review queue (resolve side)
+# Batch 4 — Review queue (resolve side) ✅ Built
 
 **Goal.** The HOD can settle every flagged item: correct and approve, or reject.
 
 **Why last in this track.** It writes to the permanent record, so it should land
 on top of a read view that has already been eyeballed.
 
-## 4.1 `lib/actions/review-queue.ts`
+## 4.1 `lib/upload/resolve.ts` + `lib/actions/review-queue.ts`
+
+> **Built as a pair.** The code below lives in `lib/upload/resolve.ts` as
+> `applyFileResolution` / `applyFileRejection` / `applyRowResolution` /
+> `applyRowRejection`, each taking `actorId` as its first argument. The four
+> actions in `lib/actions/review-queue.ts` are guard → zod → delegate →
+> `refresh()`. Same reason as Batch 1: the guard needs a request context.
 
 These are called from click handlers, not forms, so they take typed objects and
 return `ActionResult` rather than the `useActionState` pair.
@@ -1557,51 +1631,37 @@ disappears without a manual router call.
 
 ## How to test Batch 4
 
-**The invariant test, first.** §9's success criterion is a negative: *no
-`StudentResult` may exist that wasn't auto-validated or explicitly approved.*
-Assert it directly against the dev database after exercising the flow:
-
-```sql
--- Every StudentResult traceable to an upload must come from an IMPORTED row.
-SELECT r.id
-FROM "StudentResult" r
-JOIN "UploadRow" ur ON ur."studentResultId" = r.id
-WHERE ur.status <> 'IMPORTED';
--- expect zero rows
-
--- Every row the HOD settled carries an audit trail (R7).
-SELECT id, status FROM "UploadRow"
-WHERE status IN ('IMPORTED','REJECTED')
-  AND "resolvedById" IS NULL AND "studentResultId" IS NULL;
--- expect zero rows
+```bash
+npm run check:queue
 ```
 
-**Per requirement:**
+51 assertions covering Batches 3 and 4 together, all passing:
 
-| Req | Test |
+| Case | Expected |
 |---|---|
-| R3 | File at `UNMATCHED_COURSE` → resolve with the right code → file `VALID`/`COMPLETED`, previously-blocked rows reclassified and clean ones imported |
-| R3 | Resolve with a code that does not exist → `ok: false`, nothing written |
-| R3 | Reject a file with 5 unsettled rows → file `REJECTED`, all 5 rows `REJECTED`, batch `COMPLETED` |
-| R4 | Row at `UNMATCHED_STUDENT` → approve with a chosen `studentId` → `StudentResult` created, row `IMPORTED` |
-| R4 | Row at `INVALID_SCORE` → approve with a corrected score → result carries the corrected score, grade recomputed |
-| R5 | The created result's `grade`/`gradePoint` match `GRADE_SCALE`, and `attemptNumber` is correct |
-| R6 | A rejected row still exists with `status = REJECTED` — `SELECT count(*)` before and after are equal |
-| R7 | Every settled row has `resolvedById`, `resolvedAt`, `resolutionNote` |
+| Approve a row with a corrected student | row `IMPORTED`, linked result, `resolvedById`/`resolvedAt`/`resolutionNote` all set |
+| That approved row's result | `POSTED`, grade and point derived — same output as the automatic path |
+| Reject a row | `REJECTED`, reason kept, **no** `studentResultId` |
+| Settling the last open item | file → `COMPLETED`, batch → `COMPLETED`, queue empties |
+| Approve or reject twice | refused both times |
+| Fix a bad course code | both rows import behind the fix, file `COMPLETED`, audit fields set |
+| Approve a row before its file's course is fixed | refused |
+| Reject a file | open rows cascade to `REJECTED`, **already-imported rows untouched**, their results still stand |
+| Approve a row of a rejected file | refused |
 
-**Authorization — do not skip.** Sign in as `lecturer@gradelis.com` and call the
-action directly from the browser console on any adviser page. It must return
-`{ ok: false, message: "You are not permitted to perform this action." }`. The
-proxy will not stop this; only the in-action guard will.
+**The invariant, asserted directly.** Every row carrying a `studentResultId` is
+`IMPORTED`, and every `StudentResult` has an `IMPORTED` row behind it. That is
+§9's success criterion — no result enters the record without either passing
+automatic validation or being explicitly approved.
 
-**Double-submit.** Click Approve twice quickly. The second call must return
-`"That row was already imported."`, not create a second `StudentResult`. If it
-does create one, the status guard is being read outside the transaction — move
-the check inside.
+> **Same split as Batch 1.** The four actions in `lib/actions/review-queue.ts` are
+> guard + zod + delegate + `refresh()`. The work is in `lib/upload/resolve.ts`
+> (`applyFileResolution`, `applyFileRejection`, `applyRowResolution`,
+> `applyRowRejection`), which is what the check script drives.
 
 ---
 
-# Batch 5 — Graduation engine (pure)
+# Batch 5 — Graduation engine (pure) ✅ Built
 
 **Goal.** CGPA and the four eligibility rules, as functions that take plain
 objects and return plain objects. No Prisma, no clock, no randomness.
@@ -1804,118 +1864,46 @@ export function evaluateCohort(
 
 ## How to test Batch 5
 
-This is where the test effort should concentrate. Everything is a pure function
-over plain objects, so fixtures are three lines each and the suite runs instantly.
-
-```ts
-// lib/graduation/evaluate.test.ts
-import { describe, expect, it } from "vitest";
-import { computeCgpa, effectiveResults, evaluateCohort, evaluateStudent } from "./evaluate";
-
-const policy = { minCgpa: 1.0, minCreditUnits: 12 };
-
-const result = (over: Partial<ResultInput> = {}): ResultInput => ({
-  courseId: "c1", courseCode: "CSC101", creditUnits: 3,
-  attemptNumber: 1, score: 75, gradePoint: 5, ...over,
-});
-
-describe("computeCgpa", () => {
-  it("weights by credit units, not by course count", () => {
-    // 5×6 + 1×1 = 31 over 7 units = 4.43. A plain average would say 3.00.
-    expect(computeCgpa([
-      result({ courseId: "a", creditUnits: 6, gradePoint: 5 }),
-      result({ courseId: "b", creditUnits: 1, gradePoint: 1 }),
-    ])).toBe(4.43);
-  });
-
-  it("returns 0 for a student with no results rather than NaN", () => {
-    expect(computeCgpa([])).toBe(0);
-  });
-});
-
-describe("effectiveResults", () => {
-  it("keeps only the highest attempt per course", () => {
-    const kept = effectiveResults([
-      result({ attemptNumber: 1, score: 30, gradePoint: 0 }),
-      result({ attemptNumber: 2, score: 65, gradePoint: 4 }),
-    ]);
-    expect(kept).toHaveLength(1);
-    expect(kept[0].score).toBe(65);
-  });
-
-  it("does not let a failed first attempt drag CGPA down", () => {
-    expect(computeCgpa(effectiveResults([
-      result({ attemptNumber: 1, gradePoint: 0 }),
-      result({ attemptNumber: 2, gradePoint: 4 }),
-    ]))).toBe(4);
-  });
-});
-
-describe("evaluateStudent", () => {
-  it("reports every failed rule, not just the first", () => {
-    const evaluation = evaluateStudent(
-      { id: "s1", matricNumber: "U2018/001", fullName: "A", results: [
-        result({ score: 20, gradePoint: 0 }),
-      ]},
-      [{ id: "c9", code: "CSC499" }],
-      policy,
-    );
-    expect(evaluation.eligible).toBe(false);
-    expect(evaluation.remarks.map((r) => r.rule).sort()).toEqual([
-      "ALL_COMPULSORY_PASSED", "MIN_CGPA", "MIN_CREDIT_UNITS", "NO_OUTSTANDING_FAILURES",
-    ]);
-  });
-
-  // The PRD says this must never happen.
-  it("never produces an ineligible student with no reason", () => {
-    const evaluation = evaluateStudent(
-      { id: "s1", matricNumber: "U2018/001", fullName: "A", results: [] },
-      [], policy,
-    );
-    if (!evaluation.eligible) expect(evaluation.remarks.length).toBeGreaterThan(0);
-  });
-
-  it("marks a student eligible only when all four rules pass", () => {
-    const evaluation = evaluateStudent(
-      { id: "s1", matricNumber: "U2018/001", fullName: "A", results: [
-        result({ courseId: "c1", courseCode: "CSC101", creditUnits: 6 }),
-        result({ courseId: "c2", courseCode: "CSC102", creditUnits: 6 }),
-      ]},
-      [{ id: "c1", code: "CSC101" }],
-      policy,
-    );
-    expect(evaluation).toMatchObject({ eligible: true, remarks: [] });
-    expect(evaluation.cgpa).toBe(5);
-  });
-
-  it("treats a score of exactly PASS_MARK as a pass", () => { /* score: 40 → no failure remark */ });
-});
-
-describe("evaluateCohort", () => {
-  // Same data in, same answer out. Every time.
-  it("is deterministic regardless of input order", () => {
-    const students = [/* three students */];
-    const a = evaluateCohort(students, compulsory, policy);
-    const b = evaluateCohort([...students].reverse(), compulsory, policy);
-    expect(a).toEqual(b);
-  });
-});
+```bash
+npm test
 ```
 
-**Boundary cases worth their own tests:** CGPA exactly at `minCgpa`; credit units
-exactly at `minCreditUnits`; a student whose only result has `gradePoint: null`
-(should not divide by zero); a compulsory course the student attempted and
-failed (must appear under `NO_OUTSTANDING_FAILURES` *and*
-`ALL_COMPULSORY_PASSED` — two distinct rules, two remarks).
+34 tests in `lib/graduation/evaluate.test.ts`, all passing. This is where the
+effort concentrated — every fixture is three lines and the whole suite runs in
+milliseconds, which is the entire payoff of keeping the engine pure.
+
+**The maths.** Credit weighting (5×6 + 1×1 over 7 units = 4.43, where a plain
+average would say 3.00); `0` rather than `NaN` for a student with no results; a
+`null` grade point skipped rather than counted as zero; `round2` at the awkward
+values (4.425, 1.005).
+
+**Resits.** Highest attempt wins even when attempts arrive out of order; a failed
+first attempt does not drag CGPA down; a resit pass satisfies a compulsory course.
+
+**The four rules.** A student failing everything gets **four separate remarks**,
+not one. Failed courses, missing compulsory courses and the units shortfall are
+each named in their message (`"6 short"`, `"MTH201"`, `"CSC999"`). Only passed
+courses count toward credit units.
+
+**The UNIPORT gate.** CGPA exactly 1.00 is eligible; a Pass-degree CGPA in the
+1.00–1.49 band is eligible; below 1.00 fails `MIN_CGPA`.
+
+**Determinism — §11's headline criterion.** Same input twice gives an identical
+result; reversing the student list changes nothing; reversing the compulsory list
+changes nothing; output is always sorted by matric number; neither input is
+mutated. Every pending student carries at least one remark of real length.
 
 ---
 
-# Batch 6 — Graduation run and views
+# Batch 6 — Graduation run and views ✅ Built
 
 **Goal.** The HOD picks a cohort, triggers a run, and gets two lists that never
 change afterwards.
 
-## 6.1 `lib/actions/graduation.ts`
+## 6.1 `lib/graduation/run.ts` + `lib/actions/graduation.ts`
+
+> **Same pattern.** The body below is `performGraduationRun(actorId, entrySession)`
+> in `lib/graduation/run.ts`. `startGraduationRun` is the thin action over it.
 
 ```ts
 // lib/actions/graduation.ts
@@ -2155,76 +2143,86 @@ export default async function GraduationRunPage({
 
 ## How to test Batch 6
 
-**Determinism, against the database.** Trigger two runs back to back over
-untouched data:
-
-```sql
-SELECT r.id, i."studentId", i.cgpa, i.eligible
-FROM "GraduationRun" r
-JOIN "EligibilityRunItem" i ON i."graduationRunId" = r.id
-WHERE r."academicSession" = '2021/2022'
-ORDER BY r."createdAt", i."studentId";
+```bash
+npm run check:graduation
 ```
 
-Both runs must produce identical `(studentId, cgpa, eligible)` triples. Different
-`GraduationRun.id`, identical contents.
+28 assertions against real Postgres, all passing. The cohort is built through the
+**actual upload pipeline**, not hand-inserted rows, so this exercises Batches 1–2
+and 5–6 end to end.
 
-**Immutability (R9).** This is the test that proves the feature:
+**The run.** `COMPLETED` with `completedAt` set; the policy snapshotted onto the
+run (`{minCgpa: 1, minCreditUnits: 120}`); one `EligibilityRunItem` per active
+student; eligible + pending accounts for everyone.
 
-1. Run graduation for a cohort. Note one student's `cgpa` and `eligible`.
-2. Add a new passing `StudentResult` for that student.
-3. Re-read the **first** run — the student's stored `cgpa` and `eligible` must be
-   **unchanged**.
-4. Trigger a second run — the new run reflects the new result.
+**Reasons (R5).** No pending row is unexplained and no remark is a stub. A failed
+`CSC401` is named in the remark; a student missing `CSC301` has it named; a
+student with no results at all still gets reasons and a CGPA of `0`, not `NaN`.
+The SQL check for `jsonb_array_length(remarks) = 0` returns zero rows.
 
-If step 3 changes, something is recomputing on read instead of reading the
-snapshot.
+**CGPA.** Straight-A student = 5.00. Mixed B/B/C over equal units = 3.67.
 
-**Reasons (R5).** Every row in the pending list must render at least one remark:
+**Determinism.** Two back-to-back runs over untouched data produce a **new run id**
+with byte-identical `(matric, cgpa, eligible)` triples and identical remarks.
 
-```sql
-SELECT id FROM "EligibilityRunItem"
-WHERE eligible = false
-  AND (remarks IS NULL OR jsonb_array_length(remarks::jsonb) = 0);
--- expect zero rows
-```
+**Immutability (R9)** — the test that proves the feature:
 
-**Query count (R2).** Set `new PrismaClient({ log: ["query"] })` temporarily and
-count the `SELECT`s for a 300-student cohort. Expect a small constant — roughly
-five — not one per student. A number that scales with cohort size means the
-`include` collapsed into an N+1.
+1. Run graduation, note a student's `cgpa` and `eligible`
+2. Upload a new passing result for that student, through the real pipeline
+3. Re-read the **first** run — `cgpa`, `eligible` and the remarks are **unchanged**
+4. Trigger a second run — it reflects the new result
 
-**Failure path.** Stop Postgres mid-run (`docker compose stop postgres`). The run
-must end at `FAILED` with `completedAt` set, and no partial `EligibilityRunItem`
-rows may survive — the transaction guarantees this.
+**Resits across runs.** After a `CSC401` resit at 70, the next run drops
+`NO_OUTSTANDING_FAILURES` and the CGPA rises.
 
-**Authorization.** Same as Batch 4: call `startGraduationRun` as a LECTURER and
-confirm it is refused.
+**Failure path.** An empty cohort ends `FAILED` with `completedAt` set and zero
+items written — never left stuck at `RUNNING`.
+
+**History.** Five runs recorded, five distinct ids, newest first. No run was ever
+overwritten.
+
+> **One bug this caught.** `getGraduationRun` spread `...run` *after* building the
+> parsed `items`, so `run.items[].remarks` came back as raw `Json` while
+> `run.eligible[].remarks` was a typed `Remark[]`. The detail page only used the
+> latter, so it rendered fine — `tsc` on the check script is what surfaced it.
+
+> **Assertion trap.** After a student passes the compulsory course they were
+> missing, `ALL_COMPULSORY_PASSED` may *still* fire for a different course they
+> have never taken. Assert on the course named in the message, not on the
+> rule's absence.
 
 ---
 
-# Appendix A — Test setup
+# Appendix A — Test setup ✅ Done in Batch 1
 
-The repo has no test runner today. Batches 1, 3 and 5 are built around pure
-functions precisely so that adding one is cheap and pays off immediately.
+Set up earlier than planned, because Batch 1's test surface needed it.
 
 ```bash
-npm i -D vitest @vitejs/plugin-react vite-tsconfig-paths
+npm i -D vitest
 ```
 
+One dependency, not three — a plain alias avoids `vite-tsconfig-paths`, and
+there is nothing to render so `@vitejs/plugin-react` is unnecessary.
+
 ```ts
-// vitest.config.ts
+// vitest.config.mts   <- .mts, not .ts
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { fileURLToPath } from "node:url";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],   // makes the "@/..." alias resolve
+  resolve: {
+    alias: { "@": fileURLToPath(new URL(".", import.meta.url)) },
+  },
   test: {
     environment: "node",
     include: ["lib/**/*.test.ts"],
   },
 });
 ```
+
+> **Use the `.mts` extension.** The project has no `"type": "module"`, so Vite
+> loads a `.ts` config as CommonJS and warns that ESM syntax will break in a
+> future major.
 
 ```jsonc
 // package.json
@@ -2234,9 +2232,24 @@ export default defineConfig({
 }
 ```
 
-Test files sit next to their subjects: `lib/graduation/evaluate.test.ts`,
-`lib/upload/classify.test.ts`, `lib/upload/candidates.test.ts`,
-`lib/grading.test.ts`.
+Test files sit next to their subjects. What exists:
+
+| File | Tests |
+|---|---|
+| `lib/upload/classify.test.ts` | 22 |
+| `lib/upload/normalize.test.ts` | 15 |
+| `lib/upload/candidates.test.ts` | 16 |
+| `lib/graduation/evaluate.test.ts` | 34 |
+
+**Integration scripts.** `scripts/check-{commit,review-queue,graduation}.ts`, run
+via `npm run check:{ingest,queue,graduation}`. They drive the real modules against
+the dev database and print a pass/fail line per assertion. Two things to know:
+
+- Run them with `--conditions=react-server` (the npm scripts already do).
+  Without it, `import "server-only"` throws — the package's default entry is a
+  `throw`, and only that export condition resolves it to a no-op.
+- `tsx` does not load `.env`. Prefix with `set -a; . ./.env; set +a`, or run
+  through the npm scripts from a shell that already has `DATABASE_URL`.
 
 **What gets unit tests vs. what gets checked by hand.** Pure modules — grading,
 classification, candidates, the eligibility engine — carry the suite. Server
@@ -2251,23 +2264,23 @@ lint run, which is the subject of the next appendix.
 
 ---
 
-# Appendix B — Fix before starting
+# Appendix B — Pre-existing issues
 
-Small pre-existing issues that will bite during this work.
+Small pre-existing issues that bite during this work. Two are now fixed.
 
-1. **`.gitignore` misses the generated Prisma client.** It lists
-   `/lib/generated/prisma`; the generator writes to `/generated/prisma`. 11MB and
-   21 files are tracked, and they produce all 523 errors when ESLint runs at the
-   repo root. Fix the path, then `git rm -r --cached generated`.
+1. **`.gitignore` misses the generated Prisma client.** ⚠️ **Still open, and now
+   live.** It lists `/lib/generated/prisma`; the generator writes to
+   `/generated/prisma`. 11MB across 21 tracked files, and the source of all 523
+   errors when ESLint runs at the repo root. Batch 0's migration made this real —
+   `prisma generate` dirtied 6 of those files, and every future schema change will
+   do the same. Fix the path, then `git rm -r --cached generated`.
 
-2. **Duplicated auth callbacks.** [`auth.config.ts`](../auth.config.ts) sets only
-   `token.role`; [`auth.ts`](../auth.ts) sets `role` *and* `id`, and overwrites
-   the config's version entirely. `proxy.ts` uses the config one, so edge checks
-   never see `id`. Have `auth.ts` spread and extend rather than replace.
+2. ~~**Duplicated auth callbacks.**~~ ✅ **Fixed in Batch 0.5.** `auth.config.ts`
+   now owns the callbacks; `auth.ts` spreads it. The edge sees `id` as well as
+   `role`.
 
-3. **Dead route.** [`wizard-navigation.tsx:52`](../features/upload-result/components/wizard-navigation.tsx)
-   pushes to `/adviser/dashboard`, which does not exist — the adviser 404s on the
-   last step of the very wizard Batch 1 rewires. Should be `/adviser`.
+3. ~~**Dead route.**~~ ✅ **Fixed.** `wizard-navigation.tsx` pushed to
+   `/adviser/dashboard`, which 404s. Now `/adviser`.
 
 4. **Five stale files** from the route reorg: four zero-byte screens in
    `features/upload-result/screens/` plus an orphaned 163-line
@@ -2277,13 +2290,20 @@ Small pre-existing issues that will bite during this work.
    it up (it pairs with `@prisma/adapter-neon`, not the `adapter-pg` currently in
    `lib/prisma.ts`) or drop it. Same for the direct `postgres` dependency.
 
-6. **No `.env.example`,** although `docker-compose.yml` instructs `cp .env.example .env`.
-   It needs `DATABASE_URL`, `AUTH_SECRET`, `AUTH_URL`.
+6. ~~**No `.env.example`.**~~ ✅ **Fixed in Batch 0.** Note it deliberately leaves
+   `AUTH_URL` commented out — NextAuth v5 infers the origin from the request, and
+   pinning it to `:3000` breaks the app on any other port.
 
 7. **Three dead admin sidebar links** — `/admin/academic-sessions`,
    `/admin/system-logs`, `/admin/settings`. Also `/admin/assign-adviser` exists
    but has no nav entry, and the admin Dashboard entry is `href: "/admin/"` with
    `exact: true`, so it never highlights.
+
+8. **`lib/prisma.ts` fails unhelpfully with no `DATABASE_URL`.** It reads
+   `process.env.DATABASE_URL!` at module load, so a missing value falls through to
+   `pg`'s defaults and the error is `database "<your-username>" does not exist` —
+   which sends you looking at Postgres instead of at your environment. One
+   explicit throw would save the detour. Found while running Batch 0's checks.
 
 ---
 

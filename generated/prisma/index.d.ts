@@ -191,7 +191,8 @@ export const UploadFileStatus: {
   UNMATCHED_COURSE: 'UNMATCHED_COURSE',
   PROCESSING: 'PROCESSING',
   FAILED: 'FAILED',
-  COMPLETED: 'COMPLETED'
+  COMPLETED: 'COMPLETED',
+  REJECTED: 'REJECTED'
 };
 
 export type UploadFileStatus = (typeof UploadFileStatus)[keyof typeof UploadFileStatus]
@@ -202,7 +203,9 @@ export const UploadRowStatus: {
   UNMATCHED_STUDENT: 'UNMATCHED_STUDENT',
   DUPLICATE: 'DUPLICATE',
   INVALID_SCORE: 'INVALID_SCORE',
-  IMPORTED: 'IMPORTED'
+  GRADE_MISMATCH: 'GRADE_MISMATCH',
+  IMPORTED: 'IMPORTED',
+  REJECTED: 'REJECTED'
 };
 
 export type UploadRowStatus = (typeof UploadRowStatus)[keyof typeof UploadRowStatus]
@@ -211,7 +214,8 @@ export type UploadRowStatus = (typeof UploadRowStatus)[keyof typeof UploadRowSta
 export const GraduationStatus: {
   PENDING: 'PENDING',
   RUNNING: 'RUNNING',
-  COMPLETED: 'COMPLETED'
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
 };
 
 export type GraduationStatus = (typeof GraduationStatus)[keyof typeof GraduationStatus]
@@ -2772,6 +2776,8 @@ export namespace Prisma {
     userSeedBatchesUploaded: number
     hodAssignmentsHeld: number
     hodAssignmentsGiven: number
+    uploadFilesResolved: number
+    uploadRowsResolved: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2792,6 +2798,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: boolean | UserCountOutputTypeCountUserSeedBatchesUploadedArgs
     hodAssignmentsHeld?: boolean | UserCountOutputTypeCountHodAssignmentsHeldArgs
     hodAssignmentsGiven?: boolean | UserCountOutputTypeCountHodAssignmentsGivenArgs
+    uploadFilesResolved?: boolean | UserCountOutputTypeCountUploadFilesResolvedArgs
+    uploadRowsResolved?: boolean | UserCountOutputTypeCountUploadRowsResolvedArgs
   }
 
   // Custom InputTypes
@@ -2922,6 +2930,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountHodAssignmentsGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HodAssignmentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadFilesResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadFileWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadRowsResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadRowWhereInput
   }
 
 
@@ -3468,6 +3490,8 @@ export namespace Prisma {
     createdViaSeedRow?: boolean | User$createdViaSeedRowArgs<ExtArgs>
     hodAssignmentsHeld?: boolean | User$hodAssignmentsHeldArgs<ExtArgs>
     hodAssignmentsGiven?: boolean | User$hodAssignmentsGivenArgs<ExtArgs>
+    uploadFilesResolved?: boolean | User$uploadFilesResolvedArgs<ExtArgs>
+    uploadRowsResolved?: boolean | User$uploadRowsResolvedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3524,6 +3548,8 @@ export namespace Prisma {
     createdViaSeedRow?: boolean | User$createdViaSeedRowArgs<ExtArgs>
     hodAssignmentsHeld?: boolean | User$hodAssignmentsHeldArgs<ExtArgs>
     hodAssignmentsGiven?: boolean | User$hodAssignmentsGivenArgs<ExtArgs>
+    uploadFilesResolved?: boolean | User$uploadFilesResolvedArgs<ExtArgs>
+    uploadRowsResolved?: boolean | User$uploadRowsResolvedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3550,6 +3576,8 @@ export namespace Prisma {
       createdViaSeedRow: Prisma.$UserSeedRowPayload<ExtArgs> | null
       hodAssignmentsHeld: Prisma.$HodAssignmentPayload<ExtArgs>[]
       hodAssignmentsGiven: Prisma.$HodAssignmentPayload<ExtArgs>[]
+      uploadFilesResolved: Prisma.$UploadFilePayload<ExtArgs>[]
+      uploadRowsResolved: Prisma.$UploadRowPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3972,6 +4000,8 @@ export namespace Prisma {
     createdViaSeedRow<T extends User$createdViaSeedRowArgs<ExtArgs> = {}>(args?: Subset<T, User$createdViaSeedRowArgs<ExtArgs>>): Prisma__UserSeedRowClient<$Result.GetResult<Prisma.$UserSeedRowPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     hodAssignmentsHeld<T extends User$hodAssignmentsHeldArgs<ExtArgs> = {}>(args?: Subset<T, User$hodAssignmentsHeldArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     hodAssignmentsGiven<T extends User$hodAssignmentsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$hodAssignmentsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HodAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadFilesResolved<T extends User$uploadFilesResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadFilesResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadRowsResolved<T extends User$uploadRowsResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadRowsResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4826,6 +4856,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HodAssignmentScalarFieldEnum | HodAssignmentScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadFilesResolved
+   */
+  export type User$uploadFilesResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadFile
+     */
+    select?: UploadFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadFile
+     */
+    omit?: UploadFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadFileInclude<ExtArgs> | null
+    where?: UploadFileWhereInput
+    orderBy?: UploadFileOrderByWithRelationInput | UploadFileOrderByWithRelationInput[]
+    cursor?: UploadFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadFileScalarFieldEnum | UploadFileScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadRowsResolved
+   */
+  export type User$uploadRowsResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadRow
+     */
+    select?: UploadRowSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadRow
+     */
+    omit?: UploadRowOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadRowInclude<ExtArgs> | null
+    where?: UploadRowWhereInput
+    orderBy?: UploadRowOrderByWithRelationInput | UploadRowOrderByWithRelationInput[]
+    cursor?: UploadRowWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadRowScalarFieldEnum | UploadRowScalarFieldEnum[]
   }
 
   /**
@@ -21271,6 +21349,9 @@ export namespace Prisma {
     matchedCourseId: string | null
     status: $Enums.UploadFileStatus | null
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date | null
   }
 
@@ -21284,6 +21365,9 @@ export namespace Prisma {
     matchedCourseId: string | null
     status: $Enums.UploadFileStatus | null
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date | null
   }
 
@@ -21297,6 +21381,9 @@ export namespace Prisma {
     matchedCourseId: number
     status: number
     errorMessage: number
+    resolvedById: number
+    resolvedAt: number
+    resolutionNote: number
     createdAt: number
     _all: number
   }
@@ -21312,6 +21399,9 @@ export namespace Prisma {
     matchedCourseId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
   }
 
@@ -21325,6 +21415,9 @@ export namespace Prisma {
     matchedCourseId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
   }
 
@@ -21338,6 +21431,9 @@ export namespace Prisma {
     matchedCourseId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
     _all?: true
   }
@@ -21424,6 +21520,9 @@ export namespace Prisma {
     matchedCourseId: string | null
     status: $Enums.UploadFileStatus
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date
     _count: UploadFileCountAggregateOutputType | null
     _min: UploadFileMinAggregateOutputType | null
@@ -21454,9 +21553,13 @@ export namespace Prisma {
     matchedCourseId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
     rows?: boolean | UploadFile$rowsArgs<ExtArgs>
     _count?: boolean | UploadFileCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["uploadFile"]>
@@ -21471,9 +21574,13 @@ export namespace Prisma {
     matchedCourseId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
   }, ExtArgs["result"]["uploadFile"]>
 
   export type UploadFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21486,9 +21593,13 @@ export namespace Prisma {
     matchedCourseId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
   }, ExtArgs["result"]["uploadFile"]>
 
   export type UploadFileSelectScalar = {
@@ -21501,23 +21612,29 @@ export namespace Prisma {
     matchedCourseId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
   }
 
-  export type UploadFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadBatchId" | "fileName" | "courseCodeRaw" | "academicSessionRaw" | "semesterRaw" | "matchedCourseId" | "status" | "errorMessage" | "createdAt", ExtArgs["result"]["uploadFile"]>
+  export type UploadFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadBatchId" | "fileName" | "courseCodeRaw" | "academicSessionRaw" | "semesterRaw" | "matchedCourseId" | "status" | "errorMessage" | "resolvedById" | "resolvedAt" | "resolutionNote" | "createdAt", ExtArgs["result"]["uploadFile"]>
   export type UploadFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
     rows?: boolean | UploadFile$rowsArgs<ExtArgs>
     _count?: boolean | UploadFileCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UploadFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
   }
   export type UploadFileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadBatch?: boolean | UploadBatchDefaultArgs<ExtArgs>
     matchedCourse?: boolean | UploadFile$matchedCourseArgs<ExtArgs>
+    resolvedBy?: boolean | UploadFile$resolvedByArgs<ExtArgs>
   }
 
   export type $UploadFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21525,6 +21642,7 @@ export namespace Prisma {
     objects: {
       uploadBatch: Prisma.$UploadBatchPayload<ExtArgs>
       matchedCourse: Prisma.$CoursePayload<ExtArgs> | null
+      resolvedBy: Prisma.$UserPayload<ExtArgs> | null
       rows: Prisma.$UploadRowPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -21537,6 +21655,9 @@ export namespace Prisma {
       matchedCourseId: string | null
       status: $Enums.UploadFileStatus
       errorMessage: string | null
+      resolvedById: string | null
+      resolvedAt: Date | null
+      resolutionNote: string | null
       createdAt: Date
     }, ExtArgs["result"]["uploadFile"]>
     composites: {}
@@ -21934,6 +22055,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     uploadBatch<T extends UploadBatchDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UploadBatchDefaultArgs<ExtArgs>>): Prisma__UploadBatchClient<$Result.GetResult<Prisma.$UploadBatchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     matchedCourse<T extends UploadFile$matchedCourseArgs<ExtArgs> = {}>(args?: Subset<T, UploadFile$matchedCourseArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    resolvedBy<T extends UploadFile$resolvedByArgs<ExtArgs> = {}>(args?: Subset<T, UploadFile$resolvedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     rows<T extends UploadFile$rowsArgs<ExtArgs> = {}>(args?: Subset<T, UploadFile$rowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadRowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -21973,6 +22095,9 @@ export namespace Prisma {
     readonly matchedCourseId: FieldRef<"UploadFile", 'String'>
     readonly status: FieldRef<"UploadFile", 'UploadFileStatus'>
     readonly errorMessage: FieldRef<"UploadFile", 'String'>
+    readonly resolvedById: FieldRef<"UploadFile", 'String'>
+    readonly resolvedAt: FieldRef<"UploadFile", 'DateTime'>
+    readonly resolutionNote: FieldRef<"UploadFile", 'String'>
     readonly createdAt: FieldRef<"UploadFile", 'DateTime'>
   }
     
@@ -22394,6 +22519,25 @@ export namespace Prisma {
   }
 
   /**
+   * UploadFile.resolvedBy
+   */
+  export type UploadFile$resolvedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * UploadFile.rows
    */
   export type UploadFile$rowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22461,10 +22605,14 @@ export namespace Prisma {
     uploadFileId: string | null
     matricNumberRaw: string | null
     score: number | null
+    gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
     status: $Enums.UploadRowStatus | null
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date | null
   }
 
@@ -22473,10 +22621,14 @@ export namespace Prisma {
     uploadFileId: string | null
     matricNumberRaw: string | null
     score: number | null
+    gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
     status: $Enums.UploadRowStatus | null
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date | null
   }
 
@@ -22485,10 +22637,14 @@ export namespace Prisma {
     uploadFileId: number
     matricNumberRaw: number
     score: number
+    gradeRaw: number
     matchedStudentId: number
     studentResultId: number
     status: number
     errorMessage: number
+    resolvedById: number
+    resolvedAt: number
+    resolutionNote: number
     createdAt: number
     _all: number
   }
@@ -22507,10 +22663,14 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
   }
 
@@ -22519,10 +22679,14 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
   }
 
@@ -22531,10 +22695,14 @@ export namespace Prisma {
     uploadFileId?: true
     matricNumberRaw?: true
     score?: true
+    gradeRaw?: true
     matchedStudentId?: true
     studentResultId?: true
     status?: true
     errorMessage?: true
+    resolvedById?: true
+    resolvedAt?: true
+    resolutionNote?: true
     createdAt?: true
     _all?: true
   }
@@ -22630,10 +22798,14 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score: number | null
+    gradeRaw: string | null
     matchedStudentId: string | null
     studentResultId: string | null
     status: $Enums.UploadRowStatus
     errorMessage: string | null
+    resolvedById: string | null
+    resolvedAt: Date | null
+    resolutionNote: string | null
     createdAt: Date
     _count: UploadRowCountAggregateOutputType | null
     _avg: UploadRowAvgAggregateOutputType | null
@@ -22661,14 +22833,19 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }, ExtArgs["result"]["uploadRow"]>
 
   export type UploadRowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22676,14 +22853,19 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }, ExtArgs["result"]["uploadRow"]>
 
   export type UploadRowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22691,14 +22873,19 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }, ExtArgs["result"]["uploadRow"]>
 
   export type UploadRowSelectScalar = {
@@ -22706,28 +22893,35 @@ export namespace Prisma {
     uploadFileId?: boolean
     matricNumberRaw?: boolean
     score?: boolean
+    gradeRaw?: boolean
     matchedStudentId?: boolean
     studentResultId?: boolean
     status?: boolean
     errorMessage?: boolean
+    resolvedById?: boolean
+    resolvedAt?: boolean
+    resolutionNote?: boolean
     createdAt?: boolean
   }
 
-  export type UploadRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadFileId" | "matricNumberRaw" | "score" | "matchedStudentId" | "studentResultId" | "status" | "errorMessage" | "createdAt", ExtArgs["result"]["uploadRow"]>
+  export type UploadRowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "uploadFileId" | "matricNumberRaw" | "score" | "gradeRaw" | "matchedStudentId" | "studentResultId" | "status" | "errorMessage" | "resolvedById" | "resolvedAt" | "resolutionNote" | "createdAt", ExtArgs["result"]["uploadRow"]>
   export type UploadRowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }
   export type UploadRowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }
   export type UploadRowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadFile?: boolean | UploadFileDefaultArgs<ExtArgs>
     matchedStudent?: boolean | UploadRow$matchedStudentArgs<ExtArgs>
     studentResult?: boolean | UploadRow$studentResultArgs<ExtArgs>
+    resolvedBy?: boolean | UploadRow$resolvedByArgs<ExtArgs>
   }
 
   export type $UploadRowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22736,16 +22930,21 @@ export namespace Prisma {
       uploadFile: Prisma.$UploadFilePayload<ExtArgs>
       matchedStudent: Prisma.$StudentPayload<ExtArgs> | null
       studentResult: Prisma.$StudentResultPayload<ExtArgs> | null
+      resolvedBy: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       uploadFileId: string
       matricNumberRaw: string
       score: number | null
+      gradeRaw: string | null
       matchedStudentId: string | null
       studentResultId: string | null
       status: $Enums.UploadRowStatus
       errorMessage: string | null
+      resolvedById: string | null
+      resolvedAt: Date | null
+      resolutionNote: string | null
       createdAt: Date
     }, ExtArgs["result"]["uploadRow"]>
     composites: {}
@@ -23144,6 +23343,7 @@ export namespace Prisma {
     uploadFile<T extends UploadFileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UploadFileDefaultArgs<ExtArgs>>): Prisma__UploadFileClient<$Result.GetResult<Prisma.$UploadFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     matchedStudent<T extends UploadRow$matchedStudentArgs<ExtArgs> = {}>(args?: Subset<T, UploadRow$matchedStudentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     studentResult<T extends UploadRow$studentResultArgs<ExtArgs> = {}>(args?: Subset<T, UploadRow$studentResultArgs<ExtArgs>>): Prisma__StudentResultClient<$Result.GetResult<Prisma.$StudentResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    resolvedBy<T extends UploadRow$resolvedByArgs<ExtArgs> = {}>(args?: Subset<T, UploadRow$resolvedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23177,10 +23377,14 @@ export namespace Prisma {
     readonly uploadFileId: FieldRef<"UploadRow", 'String'>
     readonly matricNumberRaw: FieldRef<"UploadRow", 'String'>
     readonly score: FieldRef<"UploadRow", 'Float'>
+    readonly gradeRaw: FieldRef<"UploadRow", 'String'>
     readonly matchedStudentId: FieldRef<"UploadRow", 'String'>
     readonly studentResultId: FieldRef<"UploadRow", 'String'>
     readonly status: FieldRef<"UploadRow", 'UploadRowStatus'>
     readonly errorMessage: FieldRef<"UploadRow", 'String'>
+    readonly resolvedById: FieldRef<"UploadRow", 'String'>
+    readonly resolvedAt: FieldRef<"UploadRow", 'DateTime'>
+    readonly resolutionNote: FieldRef<"UploadRow", 'String'>
     readonly createdAt: FieldRef<"UploadRow", 'DateTime'>
   }
     
@@ -23621,6 +23825,25 @@ export namespace Prisma {
   }
 
   /**
+   * UploadRow.resolvedBy
+   */
+  export type UploadRow$resolvedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * UploadRow without action
    */
   export type UploadRowDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23675,6 +23898,7 @@ export namespace Prisma {
     status: number
     startedAt: number
     completedAt: number
+    policy: number
     triggeredById: number
     createdAt: number
     _all: number
@@ -23707,6 +23931,7 @@ export namespace Prisma {
     status?: true
     startedAt?: true
     completedAt?: true
+    policy?: true
     triggeredById?: true
     createdAt?: true
     _all?: true
@@ -23790,6 +24015,7 @@ export namespace Prisma {
     status: $Enums.GraduationStatus
     startedAt: Date | null
     completedAt: Date | null
+    policy: JsonValue | null
     triggeredById: string
     createdAt: Date
     _count: GraduationRunCountAggregateOutputType | null
@@ -23817,6 +24043,7 @@ export namespace Prisma {
     status?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    policy?: boolean
     triggeredById?: boolean
     createdAt?: boolean
     triggeredBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -23830,6 +24057,7 @@ export namespace Prisma {
     status?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    policy?: boolean
     triggeredById?: boolean
     createdAt?: boolean
     triggeredBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -23841,6 +24069,7 @@ export namespace Prisma {
     status?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    policy?: boolean
     triggeredById?: boolean
     createdAt?: boolean
     triggeredBy?: boolean | UserDefaultArgs<ExtArgs>
@@ -23852,11 +24081,12 @@ export namespace Prisma {
     status?: boolean
     startedAt?: boolean
     completedAt?: boolean
+    policy?: boolean
     triggeredById?: boolean
     createdAt?: boolean
   }
 
-  export type GraduationRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "academicSession" | "status" | "startedAt" | "completedAt" | "triggeredById" | "createdAt", ExtArgs["result"]["graduationRun"]>
+  export type GraduationRunOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "academicSession" | "status" | "startedAt" | "completedAt" | "policy" | "triggeredById" | "createdAt", ExtArgs["result"]["graduationRun"]>
   export type GraduationRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     triggeredBy?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | GraduationRun$itemsArgs<ExtArgs>
@@ -23881,6 +24111,7 @@ export namespace Prisma {
       status: $Enums.GraduationStatus
       startedAt: Date | null
       completedAt: Date | null
+      policy: Prisma.JsonValue | null
       triggeredById: string
       createdAt: Date
     }, ExtArgs["result"]["graduationRun"]>
@@ -24313,6 +24544,7 @@ export namespace Prisma {
     readonly status: FieldRef<"GraduationRun", 'GraduationStatus'>
     readonly startedAt: FieldRef<"GraduationRun", 'DateTime'>
     readonly completedAt: FieldRef<"GraduationRun", 'DateTime'>
+    readonly policy: FieldRef<"GraduationRun", 'Json'>
     readonly triggeredById: FieldRef<"GraduationRun", 'String'>
     readonly createdAt: FieldRef<"GraduationRun", 'DateTime'>
   }
@@ -26113,6 +26345,9 @@ export namespace Prisma {
     matchedCourseId: 'matchedCourseId',
     status: 'status',
     errorMessage: 'errorMessage',
+    resolvedById: 'resolvedById',
+    resolvedAt: 'resolvedAt',
+    resolutionNote: 'resolutionNote',
     createdAt: 'createdAt'
   };
 
@@ -26124,10 +26359,14 @@ export namespace Prisma {
     uploadFileId: 'uploadFileId',
     matricNumberRaw: 'matricNumberRaw',
     score: 'score',
+    gradeRaw: 'gradeRaw',
     matchedStudentId: 'matchedStudentId',
     studentResultId: 'studentResultId',
     status: 'status',
     errorMessage: 'errorMessage',
+    resolvedById: 'resolvedById',
+    resolvedAt: 'resolvedAt',
+    resolutionNote: 'resolutionNote',
     createdAt: 'createdAt'
   };
 
@@ -26140,6 +26379,7 @@ export namespace Prisma {
     status: 'status',
     startedAt: 'startedAt',
     completedAt: 'completedAt',
+    policy: 'policy',
     triggeredById: 'triggeredById',
     createdAt: 'createdAt'
   };
@@ -26539,6 +26779,8 @@ export namespace Prisma {
     createdViaSeedRow?: XOR<UserSeedRowNullableScalarRelationFilter, UserSeedRowWhereInput> | null
     hodAssignmentsHeld?: HodAssignmentListRelationFilter
     hodAssignmentsGiven?: HodAssignmentListRelationFilter
+    uploadFilesResolved?: UploadFileListRelationFilter
+    uploadRowsResolved?: UploadRowListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26568,6 +26810,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowOrderByWithRelationInput
     hodAssignmentsHeld?: HodAssignmentOrderByRelationAggregateInput
     hodAssignmentsGiven?: HodAssignmentOrderByRelationAggregateInput
+    uploadFilesResolved?: UploadFileOrderByRelationAggregateInput
+    uploadRowsResolved?: UploadRowOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26600,6 +26844,8 @@ export namespace Prisma {
     createdViaSeedRow?: XOR<UserSeedRowNullableScalarRelationFilter, UserSeedRowWhereInput> | null
     hodAssignmentsHeld?: HodAssignmentListRelationFilter
     hodAssignmentsGiven?: HodAssignmentListRelationFilter
+    uploadFilesResolved?: UploadFileListRelationFilter
+    uploadRowsResolved?: UploadRowListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -27756,9 +28002,13 @@ export namespace Prisma {
     matchedCourseId?: StringNullableFilter<"UploadFile"> | string | null
     status?: EnumUploadFileStatusFilter<"UploadFile"> | $Enums.UploadFileStatus
     errorMessage?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedById?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadFile"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadFile"> | string | null
     createdAt?: DateTimeFilter<"UploadFile"> | Date | string
     uploadBatch?: XOR<UploadBatchScalarRelationFilter, UploadBatchWhereInput>
     matchedCourse?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
+    resolvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     rows?: UploadRowListRelationFilter
   }
 
@@ -27772,9 +28022,13 @@ export namespace Prisma {
     matchedCourseId?: SortOrderInput | SortOrder
     status?: SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolutionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     uploadBatch?: UploadBatchOrderByWithRelationInput
     matchedCourse?: CourseOrderByWithRelationInput
+    resolvedBy?: UserOrderByWithRelationInput
     rows?: UploadRowOrderByRelationAggregateInput
   }
 
@@ -27791,9 +28045,13 @@ export namespace Prisma {
     matchedCourseId?: StringNullableFilter<"UploadFile"> | string | null
     status?: EnumUploadFileStatusFilter<"UploadFile"> | $Enums.UploadFileStatus
     errorMessage?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedById?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadFile"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadFile"> | string | null
     createdAt?: DateTimeFilter<"UploadFile"> | Date | string
     uploadBatch?: XOR<UploadBatchScalarRelationFilter, UploadBatchWhereInput>
     matchedCourse?: XOR<CourseNullableScalarRelationFilter, CourseWhereInput> | null
+    resolvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     rows?: UploadRowListRelationFilter
   }, "id">
 
@@ -27807,6 +28065,9 @@ export namespace Prisma {
     matchedCourseId?: SortOrderInput | SortOrder
     status?: SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolutionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UploadFileCountOrderByAggregateInput
     _max?: UploadFileMaxOrderByAggregateInput
@@ -27826,6 +28087,9 @@ export namespace Prisma {
     matchedCourseId?: StringNullableWithAggregatesFilter<"UploadFile"> | string | null
     status?: EnumUploadFileStatusWithAggregatesFilter<"UploadFile"> | $Enums.UploadFileStatus
     errorMessage?: StringNullableWithAggregatesFilter<"UploadFile"> | string | null
+    resolvedById?: StringNullableWithAggregatesFilter<"UploadFile"> | string | null
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"UploadFile"> | Date | string | null
+    resolutionNote?: StringNullableWithAggregatesFilter<"UploadFile"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UploadFile"> | Date | string
   }
 
@@ -27837,14 +28101,19 @@ export namespace Prisma {
     uploadFileId?: StringFilter<"UploadRow"> | string
     matricNumberRaw?: StringFilter<"UploadRow"> | string
     score?: FloatNullableFilter<"UploadRow"> | number | null
+    gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableFilter<"UploadRow"> | string | null
     status?: EnumUploadRowStatusFilter<"UploadRow"> | $Enums.UploadRowStatus
     errorMessage?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedById?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadRow"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadRow"> | string | null
     createdAt?: DateTimeFilter<"UploadRow"> | Date | string
     uploadFile?: XOR<UploadFileScalarRelationFilter, UploadFileWhereInput>
     matchedStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     studentResult?: XOR<StudentResultNullableScalarRelationFilter, StudentResultWhereInput> | null
+    resolvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type UploadRowOrderByWithRelationInput = {
@@ -27852,14 +28121,19 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrderInput | SortOrder
+    gradeRaw?: SortOrderInput | SortOrder
     matchedStudentId?: SortOrderInput | SortOrder
     studentResultId?: SortOrderInput | SortOrder
     status?: SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolutionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     uploadFile?: UploadFileOrderByWithRelationInput
     matchedStudent?: StudentOrderByWithRelationInput
     studentResult?: StudentResultOrderByWithRelationInput
+    resolvedBy?: UserOrderByWithRelationInput
   }
 
   export type UploadRowWhereUniqueInput = Prisma.AtLeast<{
@@ -27870,14 +28144,19 @@ export namespace Prisma {
     uploadFileId?: StringFilter<"UploadRow"> | string
     matricNumberRaw?: StringFilter<"UploadRow"> | string
     score?: FloatNullableFilter<"UploadRow"> | number | null
+    gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableFilter<"UploadRow"> | string | null
     status?: EnumUploadRowStatusFilter<"UploadRow"> | $Enums.UploadRowStatus
     errorMessage?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedById?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadRow"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadRow"> | string | null
     createdAt?: DateTimeFilter<"UploadRow"> | Date | string
     uploadFile?: XOR<UploadFileScalarRelationFilter, UploadFileWhereInput>
     matchedStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     studentResult?: XOR<StudentResultNullableScalarRelationFilter, StudentResultWhereInput> | null
+    resolvedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type UploadRowOrderByWithAggregationInput = {
@@ -27885,10 +28164,14 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrderInput | SortOrder
+    gradeRaw?: SortOrderInput | SortOrder
     matchedStudentId?: SortOrderInput | SortOrder
     studentResultId?: SortOrderInput | SortOrder
     status?: SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    resolvedById?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolutionNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UploadRowCountOrderByAggregateInput
     _avg?: UploadRowAvgOrderByAggregateInput
@@ -27905,10 +28188,14 @@ export namespace Prisma {
     uploadFileId?: StringWithAggregatesFilter<"UploadRow"> | string
     matricNumberRaw?: StringWithAggregatesFilter<"UploadRow"> | string
     score?: FloatNullableWithAggregatesFilter<"UploadRow"> | number | null
+    gradeRaw?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     matchedStudentId?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     studentResultId?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     status?: EnumUploadRowStatusWithAggregatesFilter<"UploadRow"> | $Enums.UploadRowStatus
     errorMessage?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
+    resolvedById?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"UploadRow"> | Date | string | null
+    resolutionNote?: StringNullableWithAggregatesFilter<"UploadRow"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UploadRow"> | Date | string
   }
 
@@ -27921,6 +28208,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFilter<"GraduationRun"> | $Enums.GraduationStatus
     startedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
+    policy?: JsonNullableFilter<"GraduationRun">
     triggeredById?: StringFilter<"GraduationRun"> | string
     createdAt?: DateTimeFilter<"GraduationRun"> | Date | string
     triggeredBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -27933,6 +28221,7 @@ export namespace Prisma {
     status?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
+    policy?: SortOrderInput | SortOrder
     triggeredById?: SortOrder
     createdAt?: SortOrder
     triggeredBy?: UserOrderByWithRelationInput
@@ -27948,6 +28237,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFilter<"GraduationRun"> | $Enums.GraduationStatus
     startedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
+    policy?: JsonNullableFilter<"GraduationRun">
     triggeredById?: StringFilter<"GraduationRun"> | string
     createdAt?: DateTimeFilter<"GraduationRun"> | Date | string
     triggeredBy?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -27960,6 +28250,7 @@ export namespace Prisma {
     status?: SortOrder
     startedAt?: SortOrderInput | SortOrder
     completedAt?: SortOrderInput | SortOrder
+    policy?: SortOrderInput | SortOrder
     triggeredById?: SortOrder
     createdAt?: SortOrder
     _count?: GraduationRunCountOrderByAggregateInput
@@ -27976,6 +28267,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusWithAggregatesFilter<"GraduationRun"> | $Enums.GraduationStatus
     startedAt?: DateTimeNullableWithAggregatesFilter<"GraduationRun"> | Date | string | null
     completedAt?: DateTimeNullableWithAggregatesFilter<"GraduationRun"> | Date | string | null
+    policy?: JsonNullableWithAggregatesFilter<"GraduationRun">
     triggeredById?: StringWithAggregatesFilter<"GraduationRun"> | string
     createdAt?: DateTimeWithAggregatesFilter<"GraduationRun"> | Date | string
   }
@@ -28073,6 +28365,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28102,6 +28396,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUpdateInput = {
@@ -28131,6 +28427,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28160,6 +28458,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -29363,9 +29663,12 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadBatch: UploadBatchCreateNestedOneWithoutFilesInput
     matchedCourse?: CourseCreateNestedOneWithoutUploadFilesInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadFilesResolvedInput
     rows?: UploadRowCreateNestedManyWithoutUploadFileInput
   }
 
@@ -29379,6 +29682,9 @@ export namespace Prisma {
     matchedCourseId?: string | null
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     rows?: UploadRowUncheckedCreateNestedManyWithoutUploadFileInput
   }
@@ -29391,9 +29697,12 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadBatch?: UploadBatchUpdateOneRequiredWithoutFilesNestedInput
     matchedCourse?: CourseUpdateOneWithoutUploadFilesNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadFilesResolvedNestedInput
     rows?: UploadRowUpdateManyWithoutUploadFileNestedInput
   }
 
@@ -29407,6 +29716,9 @@ export namespace Prisma {
     matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rows?: UploadRowUncheckedUpdateManyWithoutUploadFileNestedInput
   }
@@ -29421,6 +29733,9 @@ export namespace Prisma {
     matchedCourseId?: string | null
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -29432,6 +29747,8 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29445,6 +29762,9 @@ export namespace Prisma {
     matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29452,12 +29772,16 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadFile: UploadFileCreateNestedOneWithoutRowsInput
     matchedStudent?: StudentCreateNestedOneWithoutUploadRowsInput
     studentResult?: StudentResultCreateNestedOneWithoutUploadRowsInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadRowsResolvedInput
   }
 
   export type UploadRowUncheckedCreateInput = {
@@ -29465,10 +29789,14 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -29476,12 +29804,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadFile?: UploadFileUpdateOneRequiredWithoutRowsNestedInput
     matchedStudent?: StudentUpdateOneWithoutUploadRowsNestedInput
     studentResult?: StudentResultUpdateOneWithoutUploadRowsNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadRowsResolvedNestedInput
   }
 
   export type UploadRowUncheckedUpdateInput = {
@@ -29489,10 +29821,14 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29501,10 +29837,14 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -29512,8 +29852,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29522,10 +29865,14 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29535,6 +29882,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     triggeredBy: UserCreateNestedOneWithoutGraduationRunsTriggeredInput
     items?: EligibilityRunItemCreateNestedManyWithoutGraduationRunInput
@@ -29546,6 +29894,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById: string
     createdAt?: Date | string
     items?: EligibilityRunItemUncheckedCreateNestedManyWithoutGraduationRunInput
@@ -29557,6 +29906,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     triggeredBy?: UserUpdateOneRequiredWithoutGraduationRunsTriggeredNestedInput
     items?: EligibilityRunItemUpdateManyWithoutGraduationRunNestedInput
@@ -29568,6 +29918,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: EligibilityRunItemUncheckedUpdateManyWithoutGraduationRunNestedInput
@@ -29579,6 +29930,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById: string
     createdAt?: Date | string
   }
@@ -29589,6 +29941,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -29598,6 +29951,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29778,6 +30132,18 @@ export namespace Prisma {
     none?: HodAssignmentWhereInput
   }
 
+  export type UploadFileListRelationFilter = {
+    every?: UploadFileWhereInput
+    some?: UploadFileWhereInput
+    none?: UploadFileWhereInput
+  }
+
+  export type UploadRowListRelationFilter = {
+    every?: UploadRowWhereInput
+    some?: UploadRowWhereInput
+    none?: UploadRowWhereInput
+  }
+
   export type CourseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -29823,6 +30189,14 @@ export namespace Prisma {
   }
 
   export type HodAssignmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UploadFileOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UploadRowOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30022,17 +30396,7 @@ export namespace Prisma {
     none?: StudentResultWhereInput
   }
 
-  export type UploadFileListRelationFilter = {
-    every?: UploadFileWhereInput
-    some?: UploadFileWhereInput
-    none?: UploadFileWhereInput
-  }
-
   export type StudentResultOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UploadFileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30164,20 +30528,10 @@ export namespace Prisma {
     isNot?: StudentSeedRowWhereInput | null
   }
 
-  export type UploadRowListRelationFilter = {
-    every?: UploadRowWhereInput
-    some?: UploadRowWhereInput
-    none?: UploadRowWhereInput
-  }
-
   export type EligibilityRunItemListRelationFilter = {
     every?: EligibilityRunItemWhereInput
     some?: EligibilityRunItemWhereInput
     none?: EligibilityRunItemWhereInput
-  }
-
-  export type UploadRowOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type EligibilityRunItemOrderByRelationAggregateInput = {
@@ -30980,6 +31334,9 @@ export namespace Prisma {
     matchedCourseId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -30993,6 +31350,9 @@ export namespace Prisma {
     matchedCourseId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -31006,6 +31366,9 @@ export namespace Prisma {
     matchedCourseId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -31036,10 +31399,14 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -31052,10 +31419,14 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -31064,10 +31435,14 @@ export namespace Prisma {
     uploadFileId?: SortOrder
     matricNumberRaw?: SortOrder
     score?: SortOrder
+    gradeRaw?: SortOrder
     matchedStudentId?: SortOrder
     studentResultId?: SortOrder
     status?: SortOrder
     errorMessage?: SortOrder
+    resolvedById?: SortOrder
+    resolvedAt?: SortOrder
+    resolutionNote?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -31091,6 +31466,29 @@ export namespace Prisma {
     notIn?: $Enums.GraduationStatus[] | ListEnumGraduationStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumGraduationStatusFilter<$PrismaModel> | $Enums.GraduationStatus
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type GraduationRunCountOrderByAggregateInput = {
     id?: SortOrder
@@ -31098,6 +31496,7 @@ export namespace Prisma {
     status?: SortOrder
     startedAt?: SortOrder
     completedAt?: SortOrder
+    policy?: SortOrder
     triggeredById?: SortOrder
     createdAt?: SortOrder
   }
@@ -31131,14 +31530,14 @@ export namespace Prisma {
     _min?: NestedEnumGraduationStatusFilter<$PrismaModel>
     _max?: NestedEnumGraduationStatusFilter<$PrismaModel>
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
     equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
     mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
@@ -31153,6 +31552,9 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type GraduationRunScalarRelationFilter = {
@@ -31196,32 +31598,6 @@ export namespace Prisma {
 
   export type EligibilityRunItemSumOrderByAggregateInput = {
     cgpa?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type CourseCreateNestedManyWithoutCreatedByInput = {
@@ -31349,6 +31725,20 @@ export namespace Prisma {
     connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
   }
 
+  export type UploadFileCreateNestedManyWithoutResolvedByInput = {
+    create?: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput> | UploadFileCreateWithoutResolvedByInput[] | UploadFileUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadFileCreateOrConnectWithoutResolvedByInput | UploadFileCreateOrConnectWithoutResolvedByInput[]
+    createMany?: UploadFileCreateManyResolvedByInputEnvelope
+    connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+  }
+
+  export type UploadRowCreateNestedManyWithoutResolvedByInput = {
+    create?: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput> | UploadRowCreateWithoutResolvedByInput[] | UploadRowUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadRowCreateOrConnectWithoutResolvedByInput | UploadRowCreateOrConnectWithoutResolvedByInput[]
+    createMany?: UploadRowCreateManyResolvedByInputEnvelope
+    connect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+  }
+
   export type CourseUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<CourseCreateWithoutCreatedByInput, CourseUncheckedCreateWithoutCreatedByInput> | CourseCreateWithoutCreatedByInput[] | CourseUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutCreatedByInput | CourseCreateOrConnectWithoutCreatedByInput[]
@@ -31472,6 +31862,20 @@ export namespace Prisma {
     connectOrCreate?: HodAssignmentCreateOrConnectWithoutAssignedByInput | HodAssignmentCreateOrConnectWithoutAssignedByInput[]
     createMany?: HodAssignmentCreateManyAssignedByInputEnvelope
     connect?: HodAssignmentWhereUniqueInput | HodAssignmentWhereUniqueInput[]
+  }
+
+  export type UploadFileUncheckedCreateNestedManyWithoutResolvedByInput = {
+    create?: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput> | UploadFileCreateWithoutResolvedByInput[] | UploadFileUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadFileCreateOrConnectWithoutResolvedByInput | UploadFileCreateOrConnectWithoutResolvedByInput[]
+    createMany?: UploadFileCreateManyResolvedByInputEnvelope
+    connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+  }
+
+  export type UploadRowUncheckedCreateNestedManyWithoutResolvedByInput = {
+    create?: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput> | UploadRowCreateWithoutResolvedByInput[] | UploadRowUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadRowCreateOrConnectWithoutResolvedByInput | UploadRowCreateOrConnectWithoutResolvedByInput[]
+    createMany?: UploadRowCreateManyResolvedByInputEnvelope
+    connect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -31738,6 +32142,34 @@ export namespace Prisma {
     deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
   }
 
+  export type UploadFileUpdateManyWithoutResolvedByNestedInput = {
+    create?: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput> | UploadFileCreateWithoutResolvedByInput[] | UploadFileUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadFileCreateOrConnectWithoutResolvedByInput | UploadFileCreateOrConnectWithoutResolvedByInput[]
+    upsert?: UploadFileUpsertWithWhereUniqueWithoutResolvedByInput | UploadFileUpsertWithWhereUniqueWithoutResolvedByInput[]
+    createMany?: UploadFileCreateManyResolvedByInputEnvelope
+    set?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    disconnect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    delete?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    update?: UploadFileUpdateWithWhereUniqueWithoutResolvedByInput | UploadFileUpdateWithWhereUniqueWithoutResolvedByInput[]
+    updateMany?: UploadFileUpdateManyWithWhereWithoutResolvedByInput | UploadFileUpdateManyWithWhereWithoutResolvedByInput[]
+    deleteMany?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
+  }
+
+  export type UploadRowUpdateManyWithoutResolvedByNestedInput = {
+    create?: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput> | UploadRowCreateWithoutResolvedByInput[] | UploadRowUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadRowCreateOrConnectWithoutResolvedByInput | UploadRowCreateOrConnectWithoutResolvedByInput[]
+    upsert?: UploadRowUpsertWithWhereUniqueWithoutResolvedByInput | UploadRowUpsertWithWhereUniqueWithoutResolvedByInput[]
+    createMany?: UploadRowCreateManyResolvedByInputEnvelope
+    set?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    disconnect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    delete?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    connect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    update?: UploadRowUpdateWithWhereUniqueWithoutResolvedByInput | UploadRowUpdateWithWhereUniqueWithoutResolvedByInput[]
+    updateMany?: UploadRowUpdateManyWithWhereWithoutResolvedByInput | UploadRowUpdateManyWithWhereWithoutResolvedByInput[]
+    deleteMany?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<CourseCreateWithoutCreatedByInput, CourseUncheckedCreateWithoutCreatedByInput> | CourseCreateWithoutCreatedByInput[] | CourseUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutCreatedByInput | CourseCreateOrConnectWithoutCreatedByInput[]
@@ -31984,6 +32416,34 @@ export namespace Prisma {
     update?: HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput | HodAssignmentUpdateWithWhereUniqueWithoutAssignedByInput[]
     updateMany?: HodAssignmentUpdateManyWithWhereWithoutAssignedByInput | HodAssignmentUpdateManyWithWhereWithoutAssignedByInput[]
     deleteMany?: HodAssignmentScalarWhereInput | HodAssignmentScalarWhereInput[]
+  }
+
+  export type UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput = {
+    create?: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput> | UploadFileCreateWithoutResolvedByInput[] | UploadFileUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadFileCreateOrConnectWithoutResolvedByInput | UploadFileCreateOrConnectWithoutResolvedByInput[]
+    upsert?: UploadFileUpsertWithWhereUniqueWithoutResolvedByInput | UploadFileUpsertWithWhereUniqueWithoutResolvedByInput[]
+    createMany?: UploadFileCreateManyResolvedByInputEnvelope
+    set?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    disconnect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    delete?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
+    update?: UploadFileUpdateWithWhereUniqueWithoutResolvedByInput | UploadFileUpdateWithWhereUniqueWithoutResolvedByInput[]
+    updateMany?: UploadFileUpdateManyWithWhereWithoutResolvedByInput | UploadFileUpdateManyWithWhereWithoutResolvedByInput[]
+    deleteMany?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
+  }
+
+  export type UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput = {
+    create?: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput> | UploadRowCreateWithoutResolvedByInput[] | UploadRowUncheckedCreateWithoutResolvedByInput[]
+    connectOrCreate?: UploadRowCreateOrConnectWithoutResolvedByInput | UploadRowCreateOrConnectWithoutResolvedByInput[]
+    upsert?: UploadRowUpsertWithWhereUniqueWithoutResolvedByInput | UploadRowUpsertWithWhereUniqueWithoutResolvedByInput[]
+    createMany?: UploadRowCreateManyResolvedByInputEnvelope
+    set?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    disconnect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    delete?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    connect?: UploadRowWhereUniqueInput | UploadRowWhereUniqueInput[]
+    update?: UploadRowUpdateWithWhereUniqueWithoutResolvedByInput | UploadRowUpdateWithWhereUniqueWithoutResolvedByInput[]
+    updateMany?: UploadRowUpdateManyWithWhereWithoutResolvedByInput | UploadRowUpdateManyWithWhereWithoutResolvedByInput[]
+    deleteMany?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutHodAssignmentsHeldInput = {
@@ -33088,6 +33548,12 @@ export namespace Prisma {
     connect?: CourseWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutUploadFilesResolvedInput = {
+    create?: XOR<UserCreateWithoutUploadFilesResolvedInput, UserUncheckedCreateWithoutUploadFilesResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadFilesResolvedInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type UploadRowCreateNestedManyWithoutUploadFileInput = {
     create?: XOR<UploadRowCreateWithoutUploadFileInput, UploadRowUncheckedCreateWithoutUploadFileInput> | UploadRowCreateWithoutUploadFileInput[] | UploadRowUncheckedCreateWithoutUploadFileInput[]
     connectOrCreate?: UploadRowCreateOrConnectWithoutUploadFileInput | UploadRowCreateOrConnectWithoutUploadFileInput[]
@@ -33122,6 +33588,16 @@ export namespace Prisma {
     delete?: CourseWhereInput | boolean
     connect?: CourseWhereUniqueInput
     update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutUploadFilesInput, CourseUpdateWithoutUploadFilesInput>, CourseUncheckedUpdateWithoutUploadFilesInput>
+  }
+
+  export type UserUpdateOneWithoutUploadFilesResolvedNestedInput = {
+    create?: XOR<UserCreateWithoutUploadFilesResolvedInput, UserUncheckedCreateWithoutUploadFilesResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadFilesResolvedInput
+    upsert?: UserUpsertWithoutUploadFilesResolvedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadFilesResolvedInput, UserUpdateWithoutUploadFilesResolvedInput>, UserUncheckedUpdateWithoutUploadFilesResolvedInput>
   }
 
   export type UploadRowUpdateManyWithoutUploadFileNestedInput = {
@@ -33170,6 +33646,12 @@ export namespace Prisma {
     connect?: StudentResultWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutUploadRowsResolvedInput = {
+    create?: XOR<UserCreateWithoutUploadRowsResolvedInput, UserUncheckedCreateWithoutUploadRowsResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadRowsResolvedInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type EnumUploadRowStatusFieldUpdateOperationsInput = {
     set?: $Enums.UploadRowStatus
   }
@@ -33200,6 +33682,16 @@ export namespace Prisma {
     delete?: StudentResultWhereInput | boolean
     connect?: StudentResultWhereUniqueInput
     update?: XOR<XOR<StudentResultUpdateToOneWithWhereWithoutUploadRowsInput, StudentResultUpdateWithoutUploadRowsInput>, StudentResultUncheckedUpdateWithoutUploadRowsInput>
+  }
+
+  export type UserUpdateOneWithoutUploadRowsResolvedNestedInput = {
+    create?: XOR<UserCreateWithoutUploadRowsResolvedInput, UserUncheckedCreateWithoutUploadRowsResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadRowsResolvedInput
+    upsert?: UserUpsertWithoutUploadRowsResolvedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadRowsResolvedInput, UserUpdateWithoutUploadRowsResolvedInput>, UserUncheckedUpdateWithoutUploadRowsResolvedInput>
   }
 
   export type UserCreateNestedOneWithoutGraduationRunsTriggeredInput = {
@@ -34244,6 +34736,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     items?: EligibilityRunItemCreateNestedManyWithoutGraduationRunInput
   }
@@ -34254,6 +34747,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     items?: EligibilityRunItemUncheckedCreateNestedManyWithoutGraduationRunInput
   }
@@ -34400,6 +34894,88 @@ export namespace Prisma {
 
   export type HodAssignmentCreateManyAssignedByInputEnvelope = {
     data: HodAssignmentCreateManyAssignedByInput | HodAssignmentCreateManyAssignedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UploadFileCreateWithoutResolvedByInput = {
+    id?: string
+    fileName: string
+    courseCodeRaw: string
+    academicSessionRaw: string
+    semesterRaw: string
+    status?: $Enums.UploadFileStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
+    createdAt?: Date | string
+    uploadBatch: UploadBatchCreateNestedOneWithoutFilesInput
+    matchedCourse?: CourseCreateNestedOneWithoutUploadFilesInput
+    rows?: UploadRowCreateNestedManyWithoutUploadFileInput
+  }
+
+  export type UploadFileUncheckedCreateWithoutResolvedByInput = {
+    id?: string
+    uploadBatchId: string
+    fileName: string
+    courseCodeRaw: string
+    academicSessionRaw: string
+    semesterRaw: string
+    matchedCourseId?: string | null
+    status?: $Enums.UploadFileStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
+    createdAt?: Date | string
+    rows?: UploadRowUncheckedCreateNestedManyWithoutUploadFileInput
+  }
+
+  export type UploadFileCreateOrConnectWithoutResolvedByInput = {
+    where: UploadFileWhereUniqueInput
+    create: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput>
+  }
+
+  export type UploadFileCreateManyResolvedByInputEnvelope = {
+    data: UploadFileCreateManyResolvedByInput | UploadFileCreateManyResolvedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UploadRowCreateWithoutResolvedByInput = {
+    id?: string
+    matricNumberRaw: string
+    score?: number | null
+    gradeRaw?: string | null
+    status?: $Enums.UploadRowStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
+    createdAt?: Date | string
+    uploadFile: UploadFileCreateNestedOneWithoutRowsInput
+    matchedStudent?: StudentCreateNestedOneWithoutUploadRowsInput
+    studentResult?: StudentResultCreateNestedOneWithoutUploadRowsInput
+  }
+
+  export type UploadRowUncheckedCreateWithoutResolvedByInput = {
+    id?: string
+    uploadFileId: string
+    matricNumberRaw: string
+    score?: number | null
+    gradeRaw?: string | null
+    matchedStudentId?: string | null
+    studentResultId?: string | null
+    status?: $Enums.UploadRowStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UploadRowCreateOrConnectWithoutResolvedByInput = {
+    where: UploadRowWhereUniqueInput
+    create: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput>
+  }
+
+  export type UploadRowCreateManyResolvedByInputEnvelope = {
+    data: UploadRowCreateManyResolvedByInput | UploadRowCreateManyResolvedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -34740,6 +35316,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFilter<"GraduationRun"> | $Enums.GraduationStatus
     startedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
     completedAt?: DateTimeNullableFilter<"GraduationRun"> | Date | string | null
+    policy?: JsonNullableFilter<"GraduationRun">
     triggeredById?: StringFilter<"GraduationRun"> | string
     createdAt?: DateTimeFilter<"GraduationRun"> | Date | string
   }
@@ -34877,6 +35454,76 @@ export namespace Prisma {
     data: XOR<HodAssignmentUpdateManyMutationInput, HodAssignmentUncheckedUpdateManyWithoutAssignedByInput>
   }
 
+  export type UploadFileUpsertWithWhereUniqueWithoutResolvedByInput = {
+    where: UploadFileWhereUniqueInput
+    update: XOR<UploadFileUpdateWithoutResolvedByInput, UploadFileUncheckedUpdateWithoutResolvedByInput>
+    create: XOR<UploadFileCreateWithoutResolvedByInput, UploadFileUncheckedCreateWithoutResolvedByInput>
+  }
+
+  export type UploadFileUpdateWithWhereUniqueWithoutResolvedByInput = {
+    where: UploadFileWhereUniqueInput
+    data: XOR<UploadFileUpdateWithoutResolvedByInput, UploadFileUncheckedUpdateWithoutResolvedByInput>
+  }
+
+  export type UploadFileUpdateManyWithWhereWithoutResolvedByInput = {
+    where: UploadFileScalarWhereInput
+    data: XOR<UploadFileUpdateManyMutationInput, UploadFileUncheckedUpdateManyWithoutResolvedByInput>
+  }
+
+  export type UploadFileScalarWhereInput = {
+    AND?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
+    OR?: UploadFileScalarWhereInput[]
+    NOT?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
+    id?: StringFilter<"UploadFile"> | string
+    uploadBatchId?: StringFilter<"UploadFile"> | string
+    fileName?: StringFilter<"UploadFile"> | string
+    courseCodeRaw?: StringFilter<"UploadFile"> | string
+    academicSessionRaw?: StringFilter<"UploadFile"> | string
+    semesterRaw?: StringFilter<"UploadFile"> | string
+    matchedCourseId?: StringNullableFilter<"UploadFile"> | string | null
+    status?: EnumUploadFileStatusFilter<"UploadFile"> | $Enums.UploadFileStatus
+    errorMessage?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedById?: StringNullableFilter<"UploadFile"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadFile"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadFile"> | string | null
+    createdAt?: DateTimeFilter<"UploadFile"> | Date | string
+  }
+
+  export type UploadRowUpsertWithWhereUniqueWithoutResolvedByInput = {
+    where: UploadRowWhereUniqueInput
+    update: XOR<UploadRowUpdateWithoutResolvedByInput, UploadRowUncheckedUpdateWithoutResolvedByInput>
+    create: XOR<UploadRowCreateWithoutResolvedByInput, UploadRowUncheckedCreateWithoutResolvedByInput>
+  }
+
+  export type UploadRowUpdateWithWhereUniqueWithoutResolvedByInput = {
+    where: UploadRowWhereUniqueInput
+    data: XOR<UploadRowUpdateWithoutResolvedByInput, UploadRowUncheckedUpdateWithoutResolvedByInput>
+  }
+
+  export type UploadRowUpdateManyWithWhereWithoutResolvedByInput = {
+    where: UploadRowScalarWhereInput
+    data: XOR<UploadRowUpdateManyMutationInput, UploadRowUncheckedUpdateManyWithoutResolvedByInput>
+  }
+
+  export type UploadRowScalarWhereInput = {
+    AND?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
+    OR?: UploadRowScalarWhereInput[]
+    NOT?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
+    id?: StringFilter<"UploadRow"> | string
+    uploadFileId?: StringFilter<"UploadRow"> | string
+    matricNumberRaw?: StringFilter<"UploadRow"> | string
+    score?: FloatNullableFilter<"UploadRow"> | number | null
+    gradeRaw?: StringNullableFilter<"UploadRow"> | string | null
+    matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
+    studentResultId?: StringNullableFilter<"UploadRow"> | string | null
+    status?: EnumUploadRowStatusFilter<"UploadRow"> | $Enums.UploadRowStatus
+    errorMessage?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedById?: StringNullableFilter<"UploadRow"> | string | null
+    resolvedAt?: DateTimeNullableFilter<"UploadRow"> | Date | string | null
+    resolutionNote?: StringNullableFilter<"UploadRow"> | string | null
+    createdAt?: DateTimeFilter<"UploadRow"> | Date | string
+  }
+
   export type UserCreateWithoutHodAssignmentsHeldInput = {
     id?: string
     name: string
@@ -34903,6 +35550,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutHodAssignmentsHeldInput = {
@@ -34931,6 +35580,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutHodAssignmentsHeldInput = {
@@ -34964,6 +35615,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutHodAssignmentsGivenInput = {
@@ -34992,6 +35645,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutHodAssignmentsGivenInput = {
@@ -35036,6 +35691,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHodAssignmentsHeldInput = {
@@ -35064,6 +35721,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUpsertWithoutHodAssignmentsGivenInput = {
@@ -35103,6 +35762,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHodAssignmentsGivenInput = {
@@ -35131,6 +35792,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserCreateWithoutCoursesCreatedInput = {
@@ -35159,6 +35822,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutCoursesCreatedInput = {
@@ -35187,6 +35852,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutCoursesCreatedInput = {
@@ -35220,6 +35887,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutCoursesUpdatedInput = {
@@ -35248,6 +35917,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutCoursesUpdatedInput = {
@@ -35309,8 +35980,11 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadBatch: UploadBatchCreateNestedOneWithoutFilesInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadFilesResolvedInput
     rows?: UploadRowCreateNestedManyWithoutUploadFileInput
   }
 
@@ -35323,6 +35997,9 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     rows?: UploadRowUncheckedCreateNestedManyWithoutUploadFileInput
   }
@@ -35404,6 +36081,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesCreatedInput = {
@@ -35432,6 +36111,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUpsertWithoutCoursesUpdatedInput = {
@@ -35471,6 +36152,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesUpdatedInput = {
@@ -35499,6 +36182,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type StudentResultUpsertWithWhereUniqueWithoutCourseInput = {
@@ -35549,22 +36234,6 @@ export namespace Prisma {
   export type UploadFileUpdateManyWithWhereWithoutMatchedCourseInput = {
     where: UploadFileScalarWhereInput
     data: XOR<UploadFileUpdateManyMutationInput, UploadFileUncheckedUpdateManyWithoutMatchedCourseInput>
-  }
-
-  export type UploadFileScalarWhereInput = {
-    AND?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
-    OR?: UploadFileScalarWhereInput[]
-    NOT?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
-    id?: StringFilter<"UploadFile"> | string
-    uploadBatchId?: StringFilter<"UploadFile"> | string
-    fileName?: StringFilter<"UploadFile"> | string
-    courseCodeRaw?: StringFilter<"UploadFile"> | string
-    academicSessionRaw?: StringFilter<"UploadFile"> | string
-    semesterRaw?: StringFilter<"UploadFile"> | string
-    matchedCourseId?: StringNullableFilter<"UploadFile"> | string | null
-    status?: EnumUploadFileStatusFilter<"UploadFile"> | $Enums.UploadFileStatus
-    errorMessage?: StringNullableFilter<"UploadFile"> | string | null
-    createdAt?: DateTimeFilter<"UploadFile"> | Date | string
   }
 
   export type ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput = {
@@ -35636,6 +36305,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutStudentsCreatedInput = {
@@ -35664,6 +36335,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutStudentsCreatedInput = {
@@ -35721,11 +36394,15 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadFile: UploadFileCreateNestedOneWithoutRowsInput
     studentResult?: StudentResultCreateNestedOneWithoutUploadRowsInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadRowsResolvedInput
   }
 
   export type UploadRowUncheckedCreateWithoutMatchedStudentInput = {
@@ -35733,9 +36410,13 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -35845,6 +36526,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentsCreatedInput = {
@@ -35873,6 +36556,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type StudentResultUpsertWithWhereUniqueWithoutStudentInput = {
@@ -35905,21 +36590,6 @@ export namespace Prisma {
   export type UploadRowUpdateManyWithWhereWithoutMatchedStudentInput = {
     where: UploadRowScalarWhereInput
     data: XOR<UploadRowUpdateManyMutationInput, UploadRowUncheckedUpdateManyWithoutMatchedStudentInput>
-  }
-
-  export type UploadRowScalarWhereInput = {
-    AND?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
-    OR?: UploadRowScalarWhereInput[]
-    NOT?: UploadRowScalarWhereInput | UploadRowScalarWhereInput[]
-    id?: StringFilter<"UploadRow"> | string
-    uploadFileId?: StringFilter<"UploadRow"> | string
-    matricNumberRaw?: StringFilter<"UploadRow"> | string
-    score?: FloatNullableFilter<"UploadRow"> | number | null
-    matchedStudentId?: StringNullableFilter<"UploadRow"> | string | null
-    studentResultId?: StringNullableFilter<"UploadRow"> | string | null
-    status?: EnumUploadRowStatusFilter<"UploadRow"> | $Enums.UploadRowStatus
-    errorMessage?: StringNullableFilter<"UploadRow"> | string | null
-    createdAt?: DateTimeFilter<"UploadRow"> | Date | string
   }
 
   export type EligibilityRunItemUpsertWithWhereUniqueWithoutStudentInput = {
@@ -35976,6 +36646,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutStudentSeedBatchesInput = {
@@ -36004,6 +36676,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutStudentSeedBatchesInput = {
@@ -36080,6 +36754,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentSeedBatchesInput = {
@@ -36108,6 +36784,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type StudentSeedRowUpsertWithWhereUniqueWithoutBatchInput = {
@@ -36298,6 +36976,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutUserSeedBatchesUploadedInput = {
@@ -36326,6 +37006,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutUserSeedBatchesUploadedInput = {
@@ -36402,6 +37084,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserSeedBatchesUploadedInput = {
@@ -36430,6 +37114,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserSeedRowUpsertWithWhereUniqueWithoutBatchInput = {
@@ -36512,6 +37198,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutCreatedViaSeedRowInput = {
@@ -36540,6 +37228,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutCreatedViaSeedRowInput = {
@@ -36613,6 +37303,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedViaSeedRowInput = {
@@ -36641,6 +37333,8 @@ export namespace Prisma {
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserCreateWithoutAdviserAssignmentsInput = {
@@ -36669,6 +37363,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutAdviserAssignmentsInput = {
@@ -36697,6 +37393,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutAdviserAssignmentsInput = {
@@ -36730,6 +37428,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutAssignmentsAssignedInput = {
@@ -36758,6 +37458,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutAssignmentsAssignedInput = {
@@ -36802,6 +37504,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdviserAssignmentsInput = {
@@ -36830,6 +37534,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUpsertWithoutAssignmentsAssignedInput = {
@@ -36869,6 +37575,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignmentsAssignedInput = {
@@ -36897,6 +37605,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type StudentCreateWithoutResultsInput = {
@@ -37061,11 +37771,15 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadFile: UploadFileCreateNestedOneWithoutRowsInput
     matchedStudent?: StudentCreateNestedOneWithoutUploadRowsInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadRowsResolvedInput
   }
 
   export type UploadRowUncheckedCreateWithoutStudentResultInput = {
@@ -37073,9 +37787,13 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -37450,6 +38168,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutCorrectionsRequestedInput = {
@@ -37478,6 +38198,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutCorrectionsRequestedInput = {
@@ -37511,6 +38233,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutCorrectionsApprovedInput = {
@@ -37539,6 +38263,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutCorrectionsApprovedInput = {
@@ -37655,6 +38381,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCorrectionsRequestedInput = {
@@ -37683,6 +38411,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUpsertWithoutCorrectionsApprovedInput = {
@@ -37722,6 +38452,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCorrectionsApprovedInput = {
@@ -37750,6 +38482,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type OverrideTokenUpsertWithoutCorrectionRequestsInput = {
@@ -37809,6 +38543,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutTokensGeneratedInput = {
@@ -37837,6 +38573,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutTokensGeneratedInput = {
@@ -37870,6 +38608,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutTokensIssuedToInput = {
@@ -37898,6 +38638,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutTokensIssuedToInput = {
@@ -37978,6 +38720,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensGeneratedInput = {
@@ -38006,6 +38750,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUpsertWithoutTokensIssuedToInput = {
@@ -38045,6 +38791,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTokensIssuedToInput = {
@@ -38073,6 +38821,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type CorrectionRequestUpsertWithWhereUniqueWithoutOverrideTokenInput = {
@@ -38158,6 +38908,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutResultChangesInput = {
@@ -38186,6 +38938,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutResultChangesInput = {
@@ -38277,6 +39031,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutResultChangesInput = {
@@ -38305,6 +39061,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type CourseCreateWithoutSubmissionWindowsInput = {
@@ -38372,6 +39130,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutWindowsOpenedInput = {
@@ -38400,6 +39160,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutWindowsOpenedInput = {
@@ -38489,6 +39251,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWindowsOpenedInput = {
@@ -38517,6 +39281,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserCreateWithoutUploadBatchesInput = {
@@ -38545,6 +39311,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutUploadBatchesInput = {
@@ -38573,6 +39341,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutUploadBatchesInput = {
@@ -38588,8 +39358,11 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     matchedCourse?: CourseCreateNestedOneWithoutUploadFilesInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadFilesResolvedInput
     rows?: UploadRowCreateNestedManyWithoutUploadFileInput
   }
 
@@ -38602,6 +39375,9 @@ export namespace Prisma {
     matchedCourseId?: string | null
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     rows?: UploadRowUncheckedCreateNestedManyWithoutUploadFileInput
   }
@@ -38653,6 +39429,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadBatchesInput = {
@@ -38681,6 +39459,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UploadFileUpsertWithWhereUniqueWithoutUploadBatchInput = {
@@ -38757,25 +39537,98 @@ export namespace Prisma {
     create: XOR<CourseCreateWithoutUploadFilesInput, CourseUncheckedCreateWithoutUploadFilesInput>
   }
 
+  export type UserCreateWithoutUploadFilesResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadFilesResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadFilesResolvedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadFilesResolvedInput, UserUncheckedCreateWithoutUploadFilesResolvedInput>
+  }
+
   export type UploadRowCreateWithoutUploadFileInput = {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     matchedStudent?: StudentCreateNestedOneWithoutUploadRowsInput
     studentResult?: StudentResultCreateNestedOneWithoutUploadRowsInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadRowsResolvedInput
   }
 
   export type UploadRowUncheckedCreateWithoutUploadFileInput = {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -38859,6 +39712,77 @@ export namespace Prisma {
     submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
+  export type UserUpsertWithoutUploadFilesResolvedInput = {
+    update: XOR<UserUpdateWithoutUploadFilesResolvedInput, UserUncheckedUpdateWithoutUploadFilesResolvedInput>
+    create: XOR<UserCreateWithoutUploadFilesResolvedInput, UserUncheckedCreateWithoutUploadFilesResolvedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadFilesResolvedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadFilesResolvedInput, UserUncheckedUpdateWithoutUploadFilesResolvedInput>
+  }
+
+  export type UserUpdateWithoutUploadFilesResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadFilesResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
+  }
+
   export type UploadRowUpsertWithWhereUniqueWithoutUploadFileInput = {
     where: UploadRowWhereUniqueInput
     update: XOR<UploadRowUpdateWithoutUploadFileInput, UploadRowUncheckedUpdateWithoutUploadFileInput>
@@ -38883,9 +39807,12 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
     uploadBatch: UploadBatchCreateNestedOneWithoutFilesInput
     matchedCourse?: CourseCreateNestedOneWithoutUploadFilesInput
+    resolvedBy?: UserCreateNestedOneWithoutUploadFilesResolvedInput
   }
 
   export type UploadFileUncheckedCreateWithoutRowsInput = {
@@ -38898,6 +39825,9 @@ export namespace Prisma {
     matchedCourseId?: string | null
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -38984,6 +39914,71 @@ export namespace Prisma {
     create: XOR<StudentResultCreateWithoutUploadRowsInput, StudentResultUncheckedCreateWithoutUploadRowsInput>
   }
 
+  export type UserCreateWithoutUploadRowsResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadRowsResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    passwordHash: string
+    role: $Enums.UserRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    coursesCreated?: CourseUncheckedCreateNestedManyWithoutCreatedByInput
+    coursesUpdated?: CourseUncheckedCreateNestedManyWithoutUpdatedByInput
+    studentsCreated?: StudentUncheckedCreateNestedManyWithoutCreatedByInput
+    adviserAssignments?: AdviserAssignmentUncheckedCreateNestedManyWithoutLecturerInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadBatches?: UploadBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    correctionsRequested?: CorrectionRequestUncheckedCreateNestedManyWithoutRequestedByInput
+    correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
+    tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
+    tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
+    resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
+    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
+    studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
+    createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadRowsResolvedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadRowsResolvedInput, UserUncheckedCreateWithoutUploadRowsResolvedInput>
+  }
+
   export type UploadFileUpsertWithoutRowsInput = {
     update: XOR<UploadFileUpdateWithoutRowsInput, UploadFileUncheckedUpdateWithoutRowsInput>
     create: XOR<UploadFileCreateWithoutRowsInput, UploadFileUncheckedCreateWithoutRowsInput>
@@ -39003,9 +39998,12 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadBatch?: UploadBatchUpdateOneRequiredWithoutFilesNestedInput
     matchedCourse?: CourseUpdateOneWithoutUploadFilesNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadFilesResolvedNestedInput
   }
 
   export type UploadFileUncheckedUpdateWithoutRowsInput = {
@@ -39018,6 +40016,9 @@ export namespace Prisma {
     matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39111,6 +40112,77 @@ export namespace Prisma {
     changeLogs?: ResultChangeLogUncheckedUpdateManyWithoutStudentResultNestedInput
   }
 
+  export type UserUpsertWithoutUploadRowsResolvedInput = {
+    update: XOR<UserUpdateWithoutUploadRowsResolvedInput, UserUncheckedUpdateWithoutUploadRowsResolvedInput>
+    create: XOR<UserCreateWithoutUploadRowsResolvedInput, UserUncheckedCreateWithoutUploadRowsResolvedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadRowsResolvedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadRowsResolvedInput, UserUncheckedUpdateWithoutUploadRowsResolvedInput>
+  }
+
+  export type UserUpdateWithoutUploadRowsResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadRowsResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    coursesCreated?: CourseUncheckedUpdateManyWithoutCreatedByNestedInput
+    coursesUpdated?: CourseUncheckedUpdateManyWithoutUpdatedByNestedInput
+    studentsCreated?: StudentUncheckedUpdateManyWithoutCreatedByNestedInput
+    adviserAssignments?: AdviserAssignmentUncheckedUpdateManyWithoutLecturerNestedInput
+    assignmentsAssigned?: AdviserAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadBatches?: UploadBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    correctionsRequested?: CorrectionRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+    correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
+    tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
+    tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
+    resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
+    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
+    studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
+    createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
+    hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
+    hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+  }
+
   export type UserCreateWithoutGraduationRunsTriggeredInput = {
     id?: string
     name: string
@@ -39137,6 +40209,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserUncheckedCreateWithoutGraduationRunsTriggeredInput = {
@@ -39165,6 +40239,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
     hodAssignmentsHeld?: HodAssignmentUncheckedCreateNestedManyWithoutUserInput
     hodAssignmentsGiven?: HodAssignmentUncheckedCreateNestedManyWithoutAssignedByInput
+    uploadFilesResolved?: UploadFileUncheckedCreateNestedManyWithoutResolvedByInput
+    uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
   export type UserCreateOrConnectWithoutGraduationRunsTriggeredInput = {
@@ -39235,6 +40311,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGraduationRunsTriggeredInput = {
@@ -39263,6 +40341,8 @@ export namespace Prisma {
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
     hodAssignmentsHeld?: HodAssignmentUncheckedUpdateManyWithoutUserNestedInput
     hodAssignmentsGiven?: HodAssignmentUncheckedUpdateManyWithoutAssignedByNestedInput
+    uploadFilesResolved?: UploadFileUncheckedUpdateManyWithoutResolvedByNestedInput
+    uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
   export type EligibilityRunItemUpsertWithWhereUniqueWithoutGraduationRunInput = {
@@ -39287,6 +40367,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     triggeredBy: UserCreateNestedOneWithoutGraduationRunsTriggeredInput
   }
@@ -39297,6 +40378,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById: string
     createdAt?: Date | string
   }
@@ -39360,6 +40442,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     triggeredBy?: UserUpdateOneRequiredWithoutGraduationRunsTriggeredNestedInput
   }
@@ -39370,6 +40453,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     triggeredById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39561,6 +40645,7 @@ export namespace Prisma {
     status?: $Enums.GraduationStatus
     startedAt?: Date | string | null
     completedAt?: Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -39593,6 +40678,36 @@ export namespace Prisma {
     userId: string
     startDate?: Date | string
     endDate?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type UploadFileCreateManyResolvedByInput = {
+    id?: string
+    uploadBatchId: string
+    fileName: string
+    courseCodeRaw: string
+    academicSessionRaw: string
+    semesterRaw: string
+    matchedCourseId?: string | null
+    status?: $Enums.UploadFileStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
+    createdAt?: Date | string
+  }
+
+  export type UploadRowCreateManyResolvedByInput = {
+    id?: string
+    uploadFileId: string
+    matricNumberRaw: string
+    score?: number | null
+    gradeRaw?: string | null
+    matchedStudentId?: string | null
+    studentResultId?: string | null
+    status?: $Enums.UploadRowStatus
+    errorMessage?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40040,6 +41155,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: EligibilityRunItemUpdateManyWithoutGraduationRunNestedInput
   }
@@ -40050,6 +41166,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: EligibilityRunItemUncheckedUpdateManyWithoutGraduationRunNestedInput
   }
@@ -40060,6 +41177,7 @@ export namespace Prisma {
     status?: EnumGraduationStatusFieldUpdateOperationsInput | $Enums.GraduationStatus
     startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    policy?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40163,6 +41281,98 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UploadFileUpdateWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    courseCodeRaw?: StringFieldUpdateOperationsInput | string
+    academicSessionRaw?: StringFieldUpdateOperationsInput | string
+    semesterRaw?: StringFieldUpdateOperationsInput | string
+    status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadBatch?: UploadBatchUpdateOneRequiredWithoutFilesNestedInput
+    matchedCourse?: CourseUpdateOneWithoutUploadFilesNestedInput
+    rows?: UploadRowUpdateManyWithoutUploadFileNestedInput
+  }
+
+  export type UploadFileUncheckedUpdateWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uploadBatchId?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    courseCodeRaw?: StringFieldUpdateOperationsInput | string
+    academicSessionRaw?: StringFieldUpdateOperationsInput | string
+    semesterRaw?: StringFieldUpdateOperationsInput | string
+    matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rows?: UploadRowUncheckedUpdateManyWithoutUploadFileNestedInput
+  }
+
+  export type UploadFileUncheckedUpdateManyWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uploadBatchId?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    courseCodeRaw?: StringFieldUpdateOperationsInput | string
+    academicSessionRaw?: StringFieldUpdateOperationsInput | string
+    semesterRaw?: StringFieldUpdateOperationsInput | string
+    matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadRowUpdateWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadFile?: UploadFileUpdateOneRequiredWithoutRowsNestedInput
+    matchedStudent?: StudentUpdateOneWithoutUploadRowsNestedInput
+    studentResult?: StudentResultUpdateOneWithoutUploadRowsNestedInput
+  }
+
+  export type UploadRowUncheckedUpdateWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uploadFileId?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
+    studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadRowUncheckedUpdateManyWithoutResolvedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    uploadFileId?: StringFieldUpdateOperationsInput | string
+    matricNumberRaw?: StringFieldUpdateOperationsInput | string
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
+    matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
+    studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentResultCreateManyCourseInput = {
     id?: string
     studentId: string
@@ -40186,6 +41396,9 @@ export namespace Prisma {
     semesterRaw: string
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40257,8 +41470,11 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadBatch?: UploadBatchUpdateOneRequiredWithoutFilesNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadFilesResolvedNestedInput
     rows?: UploadRowUpdateManyWithoutUploadFileNestedInput
   }
 
@@ -40271,6 +41487,9 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rows?: UploadRowUncheckedUpdateManyWithoutUploadFileNestedInput
   }
@@ -40284,6 +41503,9 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40336,9 +41558,13 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40404,11 +41630,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadFile?: UploadFileUpdateOneRequiredWithoutRowsNestedInput
     studentResult?: StudentResultUpdateOneWithoutUploadRowsNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadRowsResolvedNestedInput
   }
 
   export type UploadRowUncheckedUpdateWithoutMatchedStudentInput = {
@@ -40416,9 +41646,13 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40427,9 +41661,13 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40548,9 +41786,13 @@ export namespace Prisma {
     uploadFileId: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40580,11 +41822,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadFile?: UploadFileUpdateOneRequiredWithoutRowsNestedInput
     matchedStudent?: StudentUpdateOneWithoutUploadRowsNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadRowsResolvedNestedInput
   }
 
   export type UploadRowUncheckedUpdateWithoutStudentResultInput = {
@@ -40592,9 +41838,13 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40603,9 +41853,13 @@ export namespace Prisma {
     uploadFileId?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40736,6 +41990,9 @@ export namespace Prisma {
     matchedCourseId?: string | null
     status?: $Enums.UploadFileStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40747,8 +42004,11 @@ export namespace Prisma {
     semesterRaw?: StringFieldUpdateOperationsInput | string
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matchedCourse?: CourseUpdateOneWithoutUploadFilesNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadFilesResolvedNestedInput
     rows?: UploadRowUpdateManyWithoutUploadFileNestedInput
   }
 
@@ -40761,6 +42021,9 @@ export namespace Prisma {
     matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rows?: UploadRowUncheckedUpdateManyWithoutUploadFileNestedInput
   }
@@ -40774,6 +42037,9 @@ export namespace Prisma {
     matchedCourseId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadFileStatusFieldUpdateOperationsInput | $Enums.UploadFileStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40781,10 +42047,14 @@ export namespace Prisma {
     id?: string
     matricNumberRaw: string
     score?: number | null
+    gradeRaw?: string | null
     matchedStudentId?: string | null
     studentResultId?: string | null
     status?: $Enums.UploadRowStatus
     errorMessage?: string | null
+    resolvedById?: string | null
+    resolvedAt?: Date | string | null
+    resolutionNote?: string | null
     createdAt?: Date | string
   }
 
@@ -40792,21 +42062,29 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     matchedStudent?: StudentUpdateOneWithoutUploadRowsNestedInput
     studentResult?: StudentResultUpdateOneWithoutUploadRowsNestedInput
+    resolvedBy?: UserUpdateOneWithoutUploadRowsResolvedNestedInput
   }
 
   export type UploadRowUncheckedUpdateWithoutUploadFileInput = {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40814,10 +42092,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     matricNumberRaw?: StringFieldUpdateOperationsInput | string
     score?: NullableFloatFieldUpdateOperationsInput | number | null
+    gradeRaw?: NullableStringFieldUpdateOperationsInput | string | null
     matchedStudentId?: NullableStringFieldUpdateOperationsInput | string | null
     studentResultId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUploadRowStatusFieldUpdateOperationsInput | $Enums.UploadRowStatus
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

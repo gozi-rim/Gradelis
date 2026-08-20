@@ -82,6 +82,11 @@ export default function UploadFileScreen() {
       (s) => s.setUploadedFile,
     );
 
+  const setRawFile =
+    useUploadWizardStore(
+      (s) => s.setRawFile,
+    );
+
   const setUploadMetadata =
     useUploadWizardStore(
       (s) => s.setUploadMetadata,
@@ -165,6 +170,8 @@ export default function UploadFileScreen() {
             name: file.name,
             size: file.size,
           });
+
+          setRawFile(file);
 
           /*
            * Store the shared course

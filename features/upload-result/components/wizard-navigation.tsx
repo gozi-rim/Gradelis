@@ -49,7 +49,7 @@ export function WizardNavigation({
     if (!allowed) return;
     if (isFinalStep) {
       markSubmitted();
-      router.push("/adviser/dashboard");
+      router.push("/adviser");
       return;
     }
     if (nextStep) router.push(nextStep.href);

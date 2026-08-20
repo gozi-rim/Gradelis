@@ -302,6 +302,9 @@ exports.Prisma.UploadFileScalarFieldEnum = {
   matchedCourseId: 'matchedCourseId',
   status: 'status',
   errorMessage: 'errorMessage',
+  resolvedById: 'resolvedById',
+  resolvedAt: 'resolvedAt',
+  resolutionNote: 'resolutionNote',
   createdAt: 'createdAt'
 };
 
@@ -310,10 +313,14 @@ exports.Prisma.UploadRowScalarFieldEnum = {
   uploadFileId: 'uploadFileId',
   matricNumberRaw: 'matricNumberRaw',
   score: 'score',
+  gradeRaw: 'gradeRaw',
   matchedStudentId: 'matchedStudentId',
   studentResultId: 'studentResultId',
   status: 'status',
   errorMessage: 'errorMessage',
+  resolvedById: 'resolvedById',
+  resolvedAt: 'resolvedAt',
+  resolutionNote: 'resolutionNote',
   createdAt: 'createdAt'
 };
 
@@ -323,6 +330,7 @@ exports.Prisma.GraduationRunScalarFieldEnum = {
   status: 'status',
   startedAt: 'startedAt',
   completedAt: 'completedAt',
+  policy: 'policy',
   triggeredById: 'triggeredById',
   createdAt: 'createdAt'
 };
@@ -450,7 +458,8 @@ exports.UploadFileStatus = exports.$Enums.UploadFileStatus = {
   UNMATCHED_COURSE: 'UNMATCHED_COURSE',
   PROCESSING: 'PROCESSING',
   FAILED: 'FAILED',
-  COMPLETED: 'COMPLETED'
+  COMPLETED: 'COMPLETED',
+  REJECTED: 'REJECTED'
 };
 
 exports.UploadRowStatus = exports.$Enums.UploadRowStatus = {
@@ -458,13 +467,16 @@ exports.UploadRowStatus = exports.$Enums.UploadRowStatus = {
   UNMATCHED_STUDENT: 'UNMATCHED_STUDENT',
   DUPLICATE: 'DUPLICATE',
   INVALID_SCORE: 'INVALID_SCORE',
-  IMPORTED: 'IMPORTED'
+  GRADE_MISMATCH: 'GRADE_MISMATCH',
+  IMPORTED: 'IMPORTED',
+  REJECTED: 'REJECTED'
 };
 
 exports.GraduationStatus = exports.$Enums.GraduationStatus = {
   PENDING: 'PENDING',
   RUNNING: 'RUNNING',
-  COMPLETED: 'COMPLETED'
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
 };
 
 exports.Prisma.ModelName = {

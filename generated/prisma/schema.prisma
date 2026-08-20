@@ -66,6 +66,7 @@ enum UploadFileStatus {
   PROCESSING
   FAILED
   COMPLETED
+  REJECTED
 }
 
 enum UploadRowStatus {
@@ -73,13 +74,16 @@ enum UploadRowStatus {
   UNMATCHED_STUDENT
   DUPLICATE
   INVALID_SCORE
+  GRADE_MISMATCH
   IMPORTED
+  REJECTED
 }
 
 enum GraduationStatus {
   PENDING
   RUNNING
   COMPLETED
+  FAILED
 }
 
 enum StudentCreationMethod {
@@ -172,6 +176,10 @@ model User {
   // HOD assignment history
   hodAssignmentsHeld  HodAssignment[] @relation("HodUser")
   hodAssignmentsGiven HodAssignment[] @relation("HodAssignedBy")
+
+  // Review queue resolutions
+  uploadFilesResolved UploadFile[] @relation("UploadFileResolvedBy")
+  uploadRowsResolved  UploadRow[]  @relation("UploadRowResolvedBy")
 }
 
 // ============================================================================
@@ -545,6 +553,12 @@ model UploadFile {
   status       UploadFileStatus @default(VALID)
   errorMessage String?
 
+  // Who settled this file in the review queue, and when
+  resolvedById   String?
+  resolvedBy     User?     @relation("UploadFileResolvedBy", fields: [resolvedById], references: [id])
+  resolvedAt     DateTime?
+  resolutionNote String?
+
   rows UploadRow[]
 
   createdAt DateTime @default(now())
@@ -562,6 +576,7 @@ model UploadRow {
 
   matricNumberRaw String
   score           Float?
+  gradeRaw        String?
 
   matchedStudentId String?
   matchedStudent   Student? @relation(fields: [matchedStudentId], references: [id])
@@ -571,6 +586,12 @@ model UploadRow {
 
   status       UploadRowStatus @default(VALID)
   errorMessage String?
+
+  // Who settled this row in the review queue, and when
+  resolvedById   String?
+  resolvedBy     User?     @relation("UploadRowResolvedBy", fields: [resolvedById], references: [id])
+  resolvedAt     DateTime?
+  resolutionNote String?
 
   createdAt DateTime @default(now())
 
@@ -591,6 +612,9 @@ model GraduationRun {
   status      GraduationStatus @default(PENDING)
   startedAt   DateTime?
   completedAt DateTime?
+
+  // The thresholds this run used, so an old run still makes sense later
+  policy Json?
 
   triggeredById String
   triggeredBy   User   @relation("TriggeredBy", fields: [triggeredById], references: [id])

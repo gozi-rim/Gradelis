@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:ingest": "tsx --conditions=react-server scripts/check-commit.ts",
+    "check:queue": "tsx --conditions=react-server scripts/check-review-queue.ts",
+    "check:graduation": "tsx --conditions=react-server scripts/check-graduation.ts",
+    "demo": "tsx --conditions=react-server scripts/demo-data.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.7.1",
@@ -41,6 +47,7 @@
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.11",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }
