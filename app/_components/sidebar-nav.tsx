@@ -9,6 +9,7 @@ import {
   SettingsIcon,
   StudentsIcon,
   UploadIcon,
+  UserOutlineIcon,
 } from "@/shared/icons/ui-icons";
 import { cn } from "@/shared/lib/cn";
 import { PortalRole } from "@/types/navbar-role";
@@ -33,17 +34,20 @@ const navConfig: Record<PortalRole, NavItem[]> = {
   hod: [
     { label: "Dashboard", href: "/hod", exact: true, icon: DashboardIcon },
     { label: "Pending Reviews", href: "/hod/pending-reviews", icon: UploadIcon, badgeKey: "pendingReviews" },
+    { label: "Submission Windows", href: "/hod/submission-windows", icon: UploadIcon },
     { label: "Student Records", href: "/hod/student-records", icon: StudentsIcon },
     { label: "Reports", href: "/hod/reports", icon: ReportIcon },
     { label: "Notifications", href: "#", icon: BellIcon, disabled: true },
     { label: "Settings", href: "/hod/settings", icon: SettingsIcon, disabled: true },
   ],
   admin: [
-    { label: "Dashboard", href: "/admin/", exact: true, icon: DashboardIcon },
-    { label: "User Management", href: "/admin/user-management", icon: StudentsIcon },
-    { label: "Academic Sessions", href: "/admin/academic-sessions", icon: ReportIcon },
-    { label: "System Logs", href: "/admin/system-logs", icon: BellIcon },
-    { label: "Settings", href: "/admin/settings", icon: SettingsIcon },
+    { label: "Dashboard", href: "/admin", exact: true, icon: DashboardIcon },
+    { label: "Students", href: "/admin/students", icon: StudentsIcon },
+    { label: "Courses", href: "/admin/courses", icon: ReportIcon },
+    { label: "Upload Windows", href: "/admin/upload-windows", icon: UploadIcon },
+    { label: "Staff & Faculty", href: "/admin/staff", icon: UserOutlineIcon },
+    { label: "System Logs", href: "/admin/logs", icon: BellIcon },
+    { label: "User Management", href: "/admin/user-management", icon: SettingsIcon },
   ],
 };
 

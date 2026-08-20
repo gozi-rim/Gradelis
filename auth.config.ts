@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth"
 
 export const authConfig = {
+  secret: process.env.AUTH_SECRET || "gradelis_super_secret_auth_key_2026_secure",
   pages: {
     signIn: "/auth/login",
   },

@@ -84,13 +84,13 @@ const systemHealthRows: HealthRow[] = [
 ];
 
 const quickActions = [
-  { label: "Create User", href: "/admin/user-management", color: "border-[#2e63e5] text-[#2e63e5] hover:bg-[#2e63e5]" },
-  { label: "Assign HOD", href: "/admin/user-management", color: "border-[#18a558] text-[#18a558] hover:bg-[#18a558]" },
+  { label: "Student Registry", href: "/admin/students", color: "border-[#2e63e5] text-[#2e63e5] hover:bg-[#2e63e5]" },
+  { label: "Course Curriculum", href: "/admin/courses", color: "border-indigo-600 text-indigo-600 hover:bg-indigo-600" },
+  { label: "Upload Windows", href: "/admin/upload-windows", color: "border-amber-600 text-amber-600 hover:bg-amber-600" },
+  { label: "Staff & Passwords", href: "/admin/staff", color: "border-[#18a558] text-[#18a558] hover:bg-[#18a558]" },
   { label: "Assign Adviser", href: "/admin/assign-adviser", color: "border-[#6b4fe8] text-[#6b4fe8] hover:bg-[#6b4fe8]" },
-  { label: "Create Session", href: "/admin/academic-sessions", color: "border-[#ff9800] text-[#ff9800] hover:bg-[#ff9800]" },
-  { label: "Manage Levels", href: "/admin/academic-sessions", color: "border-[#1e93da] text-[#1e93da] hover:bg-[#1e93da]" },
-  { label: "Backup Database", href: "/admin/system-logs", color: "border-[#ef4444] text-[#ef4444] hover:bg-[#ef4444]" },
-  { label: "View Logs", href: "/admin/system-logs", color: "border-slate-400 text-slate-600 hover:bg-slate-600" },
+  { label: "User Management", href: "/admin/user-management", color: "border-[#1e93da] text-[#1e93da] hover:bg-[#1e93da]" },
+  { label: "View System Logs", href: "/admin/logs", color: "border-slate-400 text-slate-600 hover:bg-slate-600" },
 ] as const;
 
 // ─── Inline SVG line-chart (static, matches design curves) ────────────────────
