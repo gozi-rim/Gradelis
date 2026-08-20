@@ -39,11 +39,11 @@ const navConfig: Record<PortalRole, NavItem[]> = {
     { label: "Settings", href: "/hod/settings", icon: SettingsIcon, disabled: true },
   ],
   admin: [
-    { label: "Dashboard", href: "/administrator/dashboard", exact: true, icon: DashboardIcon },
-    { label: "User Management", href: "/administrator/user-management", icon: StudentsIcon },
-    { label: "Academic Sessions", href: "/administrator/academic-sessions", icon: ReportIcon },
-    { label: "System Logs", href: "/administrator/system-logs", icon: BellIcon },
-    { label: "Settings", href: "/administrator/settings", icon: SettingsIcon },
+    { label: "Dashboard", href: "/admin/", exact: true, icon: DashboardIcon },
+    { label: "User Management", href: "/admin/user-management", icon: StudentsIcon },
+    { label: "Academic Sessions", href: "/admin/academic-sessions", icon: ReportIcon },
+    { label: "System Logs", href: "/admin/system-logs", icon: BellIcon },
+    { label: "Settings", href: "/admin/settings", icon: SettingsIcon },
   ],
 };
 

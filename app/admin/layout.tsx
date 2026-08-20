@@ -6,7 +6,7 @@ export default function AdministratorLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <PortalShell title="Administrator Dashboard" role="admin" showSessionSelect={true}>
+    <PortalShell title="Administrator Dashboard" role="admin">
       {children}
     </PortalShell>
   );
