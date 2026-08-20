@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { LoaderCircle } from "lucide-react";
 
+import { gradeForScore } from "@/lib/grading";
+
 import { UploadSectionCard } from "@/features/upload-result/components/upload-section-card";
 import { WizardShell } from "@/features/upload-result/components/wizard-shell";
 import {
@@ -150,7 +152,7 @@ function validateRows(rows: PreviewRow[]): ValidationIssue[] {
 
       if (Number.isFinite(numericScore)) {
         const expectedGrade =
-          calculateExpectedGrade(numericScore);
+          gradeForScore(numericScore);
 
         if (grade !== expectedGrade) {
           issues.push({
@@ -164,24 +166,6 @@ function validateRows(rows: PreviewRow[]): ValidationIssue[] {
   });
 
   return issues;
-}
-
-/**
- * Determine the expected grade from the total score.
- *
- * This matches the grading scale currently used
- * by the Excel parser.
- */
-function calculateExpectedGrade(
-  score: number,
-): string {
-  if (score >= 70) return "A";
-  if (score >= 60) return "B";
-  if (score >= 50) return "C";
-  if (score >= 45) return "D";
-  if (score >= 40) return "E";
-
-  return "F";
 }
 
 export default function UploadValidationProgressScreen() {
