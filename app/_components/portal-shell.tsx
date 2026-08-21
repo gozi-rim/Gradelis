@@ -25,7 +25,7 @@ export function PortalShell({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#f5f8fc] text-slate-700">
+    <div suppressHydrationWarning className="min-h-screen bg-[#f5f8fc] text-slate-700">
       <aside className="fixed inset-y-0 left-0 z-30 hidden lg:block">
         <SidebarNav role={role} />
       </aside>

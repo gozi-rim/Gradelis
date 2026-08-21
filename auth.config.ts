@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth"
 
 /** This is used by both auth.ts and proxy.ts, so both of them see the same token and session. */
 export const authConfig = {
+  secret: process.env.AUTH_SECRET || "gradelis_super_secret_auth_key_2026_secure",
   pages: {
     signIn: "/auth/login",
   },
