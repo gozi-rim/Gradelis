@@ -1,78 +1,163 @@
-import { PortalShell } from "@/features/portal/components/portal-shell";
-import { UploadSectionCard } from "@/features/upload-result/components/upload-section-card";
-import { UploadStepper } from "@/features/upload-result/components/upload-stepper";
-import { CloudUploadIcon, ExcelFileIcon } from "@/shared/icons/ui-icons";
+"use client";
 
-const steps = [
-  { label: "Upload File", order: 1, status: "current" as const },
-  { label: "Preview Data", order: 2, status: "upcoming" as const },
-  { label: "Validation", order: 3, status: "upcoming" as const },
-  { label: "Confirm and Submit", order: 4, status: "upcoming" as const },
-];
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, Controller, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+import { UploadSectionCard } from "@/features/upload-result/components/upload-section-card";
+import { WizardShell } from "@/features/upload-result/components/wizard-shell";
+import {
+  WIZARD_STEPS,
+  useUploadWizardStore,
+} from "@/features/upload-result/store/upload-wizard-store";
+import { CloudUploadIcon } from "@/shared/icons/ui-icons";
+import { parseExcelFile, ExcelParseError } from "@/lib/parse-excel";
+
+const ACCEPTED_EXTENSIONS = [".xlsx", ".xls"];
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+
+const uploadSchema = z.object({
+  file: z
+    .custom<File | null>()
+    .refine((v): v is File => v instanceof File, "Please choose an Excel file.")
+    .refine(
+      (f) =>
+        ACCEPTED_EXTENSIONS.some((ext) =>
+          (f as File).name.toLowerCase().endsWith(ext),
+        ),
+      "Only .xlsx and .xls files are allowed.",
+    )
+    .refine(
+      (f) => (f as File).size <= MAX_FILE_SIZE_BYTES,
+      "File must be 10 MB or smaller.",
+    ),
+});
+
+type UploadFormValues = {
+  file: File | null;
+};
 
 export function UploadFileScreen() {
+  const router = useRouter();
+  const setCurrentStep = useUploadWizardStore((s) => s.setCurrentStep);
+  const setUploadedFile = useUploadWizardStore((s) => s.setUploadedFile);
+  const setPreviewRows = useUploadWizardStore((s) => s.setPreviewRows);
+  const setUploadMetadata = useUploadWizardStore((s) => s.setUploadMetadata);
+
+  const [parseError, setParseError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setCurrentStep("upload");
+  }, [setCurrentStep]);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<UploadFormValues>({
+    resolver: zodResolver(uploadSchema),
+    defaultValues: { file: null },
+    mode: "onChange",
+  });
+
+  const selectedFile = useWatch({ control, name: "file" });
+
+  const onSubmit = handleSubmit(async (data) => {
+    const file = data.file as File;
+    setParseError(null);
+
+    try {
+      const { metadata, rows } = await parseExcelFile(file);
+      setUploadedFile({ name: file.name, size: file.size });
+      setUploadMetadata(metadata);
+      setPreviewRows(rows);
+      setCurrentStep("preview");
+      const previewStep = WIZARD_STEPS.find((s) => s.id === "preview");
+      if (previewStep) router.push(previewStep.href);
+    } catch (err) {
+      setParseError(
+        err instanceof ExcelParseError
+          ? err.message
+          : "Something went wrong reading this file.",
+      );
+    }
+  });
+
   return (
-    <PortalShell title="Upload Results">
-      <div className="space-y-8">
-        <section>
-          <h2 className="text-5xl font-semibold text-slate-700">Upload Excel File</h2>
-          <p className="mt-2 text-lg text-slate-400">Upload Excel file containing student results</p>
-          <div className="mt-6">
-            <UploadStepper steps={steps} />
-          </div>
-        </section>
+    <WizardShell
+      title="Upload Excel File"
+      subtitle="Upload Excel file containing student results"
+    >
+      <UploadSectionCard className="border-2 border-[#2e63e5]">
+        <form onSubmit={onSubmit} className="space-y-6">
+          <Controller
+            name="file"
+            control={control}
+            render={({ field: { onChange, ref } }) => (
+              <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 sm:p-12">
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <CloudUploadIcon className="size-12 text-[#2e63e5]" />
 
-        <UploadSectionCard>
-          <div className="rounded-xl border border-slate-200 p-8 text-center sm:p-16">
-            <CloudUploadIcon className="mx-auto size-12 text-[#2e63e5]" />
-            <p className="mt-5 text-3xl font-medium text-slate-600">Drag and drop your Excel file here</p>
-            <p className="mt-3 text-3xl text-slate-500">Or</p>
+                  <p className="text-lg font-medium text-slate-600">
+                    Drag and drop your Excel file here
+                  </p>
+
+                  <p className="text-slate-400">Or</p>
+
+                  <input
+                    ref={(el) => {
+                      fileInputRef.current = el;
+                      ref(el);
+                    }}
+                    type="file"
+                    accept={ACCEPTED_EXTENSIONS.join(",")}
+                    className="sr-only"
+                    onChange={(e) => onChange(e.target.files?.[0] ?? null)}
+                    aria-describedby="upload-hint"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="rounded-lg bg-[#2e63e5] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#2554c2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2e63e5] focus-visible:ring-offset-2"
+                  >
+                    Choose File
+                  </button>
+
+                  <p id="upload-hint" className="text-sm text-slate-400">
+                    Only Xlsx and xls files are allowed
+                  </p>
+                </div>
+              </div>
+            )}
+          />
+
+          {selectedFile ? (
+            <div className="rounded-lg bg-slate-50 px-4 py-3 text-center text-sm text-slate-700">
+              Selected: <span className="font-medium">{selectedFile.name}</span>
+            </div>
+          ) : null}
+
+          {(errors.file || parseError) && (
+            <p className="text-center text-sm text-red-500">
+              {errors.file?.message ?? parseError}
+            </p>
+          )}
+
+          <div className="flex justify-center">
             <button
-              type="button"
-              className="mt-6 h-12 rounded-xl bg-[#2e63e5] px-8 text-lg font-semibold text-white"
+              type="submit"
+              disabled={isSubmitting || !selectedFile}
+              className="rounded-lg bg-[#2e63e5] px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-[#2554c2] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Choose File
+              {isSubmitting ? "Reading file..." : "Upload and Continue"}
             </button>
-            <p className="mt-4 text-lg text-slate-400">Only Xlsx and xls files are allowed</p>
           </div>
-        </UploadSectionCard>
-
-        <section>
-          <h3 className="text-4xl font-semibold text-slate-700">Recent Uploads</h3>
-          <div className="mt-4 overflow-x-auto rounded-xl bg-white shadow-sm">
-            <table className="min-w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-slate-100 text-slate-500">
-                  <th className="px-6 py-4">File name</th>
-                  <th className="px-6 py-4">Date Uploaded</th>
-                  <th className="px-6 py-4">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ["2025_2026_First_semester.xlsx", "27th May 2026", "Pending Approval"],
-                  ["2025_2026_First_semester.xlsx", "31st October 2025", "Approved"],
-                  ["2025_2026_First_semester.xlsx", "4th March 2025", "Approved"],
-                ].map(([name, date, status], idx) => (
-                  <tr key={`${name}-${idx}`} className="border-b border-slate-100">
-                    <td className="flex items-center gap-2 px-6 py-4 text-slate-700">
-                      <ExcelFileIcon className="size-8" />
-                      {name}
-                    </td>
-                    <td className="px-6 py-4 text-slate-700">{date}</td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-2 text-slate-700">
-                        <span className={`size-2.5 rounded-full ${status === "Approved" ? "bg-[#57c4b4]" : "bg-[#ffb04d]"}`} />
-                        {status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    </PortalShell>
+        </form>
+      </UploadSectionCard>
+    </WizardShell>
   );
 }
