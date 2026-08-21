@@ -10,6 +10,9 @@ import { WizardShell } from "@/features/upload-result/components/wizard-shell";
 
 import { useUploadWizardStore } from "@/features/upload-result/store/upload-wizard-store";
 
+import { gradeForScore } from "@/lib/grading";
+import { resolveScore } from "@/lib/upload/score";
+
 export default function UploadPreviewScreen() {
   const setCurrentStep =
     useUploadWizardStore(
@@ -115,6 +118,14 @@ export default function UploadPreviewScreen() {
                 </th>
 
                 <th className="whitespace-nowrap px-4 py-3">
+                  CA (30)
+                </th>
+
+                <th className="whitespace-nowrap px-4 py-3">
+                  Exam (70)
+                </th>
+
+                <th className="whitespace-nowrap px-4 py-3">
                   Total Score
                 </th>
 
@@ -144,23 +155,89 @@ export default function UploadPreviewScreen() {
                       </td>
 
                       <td className="px-4 py-2.5">
-                        {row.totalScore ? (
-                          row.totalScore
-                        ) : (
-                          <span className="font-medium text-[#ff3d3d]">
-                            Missing
-                          </span>
-                        )}
+                        {row.caScore || "—"}
                       </td>
 
                       <td className="px-4 py-2.5">
-                        {row.grade ? (
-                          row.grade
-                        ) : (
-                          <span className="font-medium text-[#ff3d3d]">
-                            Missing
-                          </span>
-                        )}
+                        {row.examScore || "—"}
+                      </td>
+
+                      <td className="px-4 py-2.5">
+                        {(() => {
+                          const s =
+                            resolveScore({
+                              ca: row.caScore ?? "",
+                              exam: row.examScore ?? "",
+                              total: row.totalScore ?? "",
+                            });
+
+                          return s.ok ? (
+                            <span className="font-medium text-slate-700">
+                              {s.score}
+                            </span>
+                          ) : (
+                            <span
+                              className="font-medium text-[#ff3d3d]"
+                              title={s.reason}
+                            >
+                              {s.reason}
+                            </span>
+                          );
+                        })()}
+                      </td>
+
+                      <td className="px-4 py-2.5">
+                        {(() => {
+                          const s =
+                            resolveScore({
+                              ca: row.caScore ?? "",
+                              exam: row.examScore ?? "",
+                              total: row.totalScore ?? "",
+                            });
+
+                          if (!s.ok) return "—";
+
+                          const derived =
+                            gradeForScore(
+                              s.score,
+                            );
+
+                          const sheetGrade = (
+                            row.grade ?? ""
+                          )
+                            .trim()
+                            .toUpperCase();
+
+                          const clashes =
+                            sheetGrade !== "" &&
+                            sheetGrade !== derived;
+
+                          return (
+                            <span
+                              className={
+                                clashes
+                                  ? "font-medium text-[#ff3d3d]"
+                                  : "font-medium text-slate-700"
+                              }
+                              title={
+                                clashes
+                                  ? `The sheet says ${sheetGrade}, but ${s.score} is a ${derived}.`
+                                  : undefined
+                              }
+                            >
+                              {derived}
+                              {clashes ? (
+                                ` (sheet says ${sheetGrade})`
+                              ) : sheetGrade === "" ? (
+                                <span className="ml-1 font-normal text-slate-400">
+                                  (Calculated. Grade was not found in result sheet)
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                            </span>
+                          );
+                        })()}
                       </td>
                     </tr>
                   ),

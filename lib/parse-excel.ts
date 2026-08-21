@@ -17,6 +17,21 @@ const HEADER_ALIASES: Record<
     "registration number",
   ],
 
+  caScore: [
+    "ca",
+    "ca score",
+    "ca score 30",
+    "continuous assessment",
+  ],
+
+  examScore: [
+    "exam",
+    "exam score",
+    "exam score 70",
+    "examination",
+    "examination score",
+  ],
+
   totalScore: [
     "score",
     "total",
@@ -291,15 +306,13 @@ export async function parseExcelFile(
    * columns in the result template.
    */
 
-  if (!headerMap.totalScore) {
-    throw new ExcelParseError(
-      "Couldn't find a Total Score column. Check the sheet's headers.",
-    );
-  }
+  const hasComponents =
+    Boolean(headerMap.caScore) &&
+    Boolean(headerMap.examScore);
 
-  if (!headerMap.grade) {
+  if (!headerMap.totalScore && !hasComponents) {
     throw new ExcelParseError(
-      "Couldn't find a Grade column. Check the sheet's headers.",
+      "Couldn't find a Total Score column, or a CA and Exam pair to add up. Check the sheet's headers.",
     );
   }
 
@@ -336,47 +349,32 @@ export async function parseExcelFile(
         }
 
         /*
-         * IMPORTANT:
-         *
-         * We do NOT convert an empty score to 0.
-         *
-         * Blank = missing result.
+         * Blank stays blank. We never turn a missing
+         * score into a zero.
          */
 
-        const rawScore =
-          row[
-            headerMap.totalScore!
-          ];
+        const cell = (
+          key: keyof PreviewRow,
+        ): string => {
+          const header =
+            headerMap[key];
 
-        const totalScore =
-          rawScore === null ||
-          rawScore === undefined ||
-          String(rawScore).trim() === ""
+          if (!header) return "";
+
+          const value = row[header];
+
+          return value === null ||
+            value === undefined
             ? ""
-            : String(rawScore).trim();
-
-        /*
-         * Grade is also kept blank if it is
-         * missing from the Excel sheet.
-         */
-
-        const rawGrade =
-          row[
-            headerMap.grade!
-          ];
-
-        const grade =
-          rawGrade === null ||
-          rawGrade === undefined
-            ? ""
-            : String(rawGrade)
-                .trim()
-                .toUpperCase();
+            : String(value).trim();
+        };
 
         return {
           matricNo,
-          totalScore,
-          grade,
+          caScore: cell("caScore"),
+          examScore: cell("examScore"),
+          totalScore: cell("totalScore"),
+          grade: cell("grade").toUpperCase(),
         };
       },
     )

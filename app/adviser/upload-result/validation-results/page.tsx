@@ -6,6 +6,8 @@ import { UploadSectionCard } from "@/features/upload-result/components/upload-se
 import { WizardNavigation } from "@/features/upload-result/components/wizard-navigation";
 import { WizardShell } from "@/features/upload-result/components/wizard-shell";
 import { useUploadWizardStore } from "@/features/upload-result/store/upload-wizard-store";
+
+import { resolveScore } from "@/lib/upload/score";
 import { cn } from "@/shared/lib/cn";
 
 export default function UploadValidationResultsScreen() {
@@ -93,7 +95,11 @@ export default function UploadValidationResultsScreen() {
    */
   const resultRecorded = previewRows.filter(
     (row) =>
-      String(row.totalScore ?? "").trim() !== "",
+      resolveScore({
+        ca: row.caScore ?? "",
+        exam: row.examScore ?? "",
+        total: row.totalScore ?? "",
+      }).ok,
   ).length;
 
   /*

@@ -1,9 +1,26 @@
+import Link from "next/link";
+
 import { CheckCircleIcon, XCircleIcon } from "@/shared/icons/ui-icons";
 
 
 export default function HodReportsScreen() {
   return (
     <div className="space-y-6">
+      <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-5 shadow-sm">
+        <div>
+          <h3 className="text-2xl font-semibold text-slate-700">Graduation evaluation</h3>
+          <p className="mt-1 text-sm text-slate-400">
+            Check a whole cohort against the department&apos;s rules and keep the result on record.
+          </p>
+        </div>
+        <Link
+          href="/hod/reports/graduation"
+          className="h-11 rounded-xl bg-[#2e63e5] px-6 text-sm font-semibold leading-[2.75rem] text-white"
+        >
+          Open
+        </Link>
+      </section>
+
       <section className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
         <label className="space-y-2 text-sm text-slate-500">
           <span>Academic Set</span>
