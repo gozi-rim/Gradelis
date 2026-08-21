@@ -16,6 +16,7 @@ export default function LoginFormComponent() {
   useEffect(() => {
     if (state.message === "success") {
       router.push("/")
+      router.refresh()
     }
   }, [state.message, router])
 

@@ -217,6 +217,18 @@ export default function UploadFileScreen() {
       title="Upload Excel File"
       subtitle="Upload Excel file containing student results"
     >
+      <div className="mb-4 flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-2.5 text-xs text-emerald-800 shadow-2xs">
+        <div className="flex items-center gap-2">
+          <span className="relative flex size-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
+          </span>
+          <span className="font-semibold">Result Submission Window OPEN:</span>
+          <span>2024/2025 Session · Second Semester</span>
+        </div>
+        <span className="font-mono font-bold text-emerald-700">10 days remaining</span>
+      </div>
+
       <UploadSectionCard className="border-2 border-[#2e63e5]">
         <form
           onSubmit={onSubmit}
