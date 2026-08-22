@@ -161,7 +161,7 @@ model User {
   resultChanges ResultChangeLog[] @relation("ChangedBy")
 
   // Submission windows
-  windowsOpened ResultSubmissionWindow[] @relation("OpenedBy")
+  submissionWindowsOpened ResultSubmissionWindow[] @relation("SubmissionWindowOpenedBy")
 
   // Graduation
   graduationRunsTriggered GraduationRun[] @relation("TriggeredBy")
@@ -224,9 +224,8 @@ model Course {
   updatedById String?
   updatedBy   User?   @relation("CourseUpdatedBy", fields: [updatedById], references: [id])
 
-  results           StudentResult[]
-  uploadFiles       UploadFile[]
-  submissionWindows ResultSubmissionWindow[]
+  results     StudentResult[]
+  uploadFiles UploadFile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -495,28 +494,20 @@ model ResultChangeLog {
   @@index([studentResultId])
 }
 
-// ============================================================================
-// RESULT SUBMISSION WINDOW
-// ============================================================================
-
 model ResultSubmissionWindow {
   id String @id @default(cuid())
 
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id])
-
-  academicSession String
-  semester        Semester
-
-  openedById String
-  openedBy   User   @relation("OpenedBy", fields: [openedById], references: [id])
+  // Singleton key. There can only ever be one global window.
+  scope String @unique @default("GLOBAL")
 
   opensAt  DateTime
   closesAt DateTime
 
-  createdAt DateTime @default(now())
+  openedById String
+  openedBy   User   @relation("SubmissionWindowOpenedBy", fields: [openedById], references: [id])
 
-  @@unique([courseId, academicSession, semester])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ============================================================================

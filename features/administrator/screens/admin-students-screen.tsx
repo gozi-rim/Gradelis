@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   StudentItem,
   getStudents,
   deleteStudent,
+  bulkDeleteStudents,
   SessionCohortSummary,
   getSessionsOverview,
 } from "@/lib/actions/admin-students";
@@ -20,6 +21,62 @@ const ACADEMIC_LEVELS = [
   { label: "400 Level (Year 4)", value: "400" },
   { label: "500 Level (Year 5)", value: "500" },
 ];
+
+// ---------------------------------------------------------------------------
+// Nigerian university academic session runs roughly Oct/Nov -> Sept/Oct.
+// A session string looks like "2022/2023" meaning the student entered
+// during the 2022/2023 session. We derive "how many sessions have elapsed"
+// by comparing that to the CURRENT session, then map elapsed sessions -> level.
+//
+// NOTE: this is a client-side fallback/cross-check only. The authoritative
+// computation should live server-side (see notes below the component).
+// ---------------------------------------------------------------------------
+
+function getCurrentAcademicSession(referenceDate: Date = new Date()): string {
+  const ROLLOVER_MONTH = 9; // 0-indexed: 9 = October. Sessions "start" in October.
+  const year = referenceDate.getFullYear();
+  const month = referenceDate.getMonth();
+
+  if (month >= ROLLOVER_MONTH) {
+    return `${year}/${year + 1}`;
+  }
+  return `${year - 1}/${year}`;
+}
+
+function parseSessionStartYear(session: string): number | null {
+  const match = session.match(/^(\d{4})\/(\d{4})$/);
+  if (!match) return null;
+  return parseInt(match[1], 10);
+}
+
+function calculateCurrentLevel(
+  entrySession: string,
+  referenceDate: Date = new Date()
+): string | null {
+  const entryStartYear = parseSessionStartYear(entrySession);
+  if (entryStartYear === null) return null;
+
+  const currentSession = getCurrentAcademicSession(referenceDate);
+  const currentStartYear = parseSessionStartYear(currentSession);
+  if (currentStartYear === null) return null;
+
+  const elapsedSessions = currentStartYear - entryStartYear;
+
+  if (elapsedSessions < 0) return null;
+
+  const levelIndex = Math.min(elapsedSessions, 4);
+  const level = 100 + levelIndex * 100;
+  return String(level);
+}
+
+function formatFullName(fullName: string): { display: string; suspect: boolean } {
+  const trimmed = fullName?.trim() ?? "";
+  const looksTruncated = trimmed.length > 0 && !trimmed.includes(" ");
+  return {
+    display: trimmed || "—",
+    suspect: looksTruncated,
+  };
+}
 
 export function AdminStudentsScreen() {
   // Navigation & view state: null = Sessions Overview Table, string = Session Detail View
@@ -48,6 +105,11 @@ export function AdminStudentsScreen() {
   const [showCrudModal, setShowCrudModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<StudentItem | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<StudentItem | null>(null);
+
+  // Bulk selection state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -126,6 +188,13 @@ export function AdminStudentsScreen() {
     };
   }, [activeSession, levelFilter, statusFilter, searchTerm]);
 
+  // Clear selection whenever the visible student set changes (session
+  // switch, filter change, search, or a refetch after a mutation) so stale
+  // ids from a previous view never linger in the selection set.
+  useEffect(() => {
+    setSelectedIds(new Set());
+  }, [activeSession, levelFilter, statusFilter, searchTerm]);
+
   const handleDelete = async () => {
     if (!deletingStudent) return;
     try {
@@ -140,6 +209,70 @@ export function AdminStudentsScreen() {
       showToast("Failed to delete student record.");
     }
   };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    setIsBulkDeleting(true);
+    try {
+      const ids = Array.from(selectedIds);
+      const res = await bulkDeleteStudents(ids);
+      if (res.success) {
+        showToast(
+          `${res.deletedCount ?? ids.length} student${
+            (res.deletedCount ?? ids.length) === 1 ? "" : "s"
+          } deleted successfully.`
+        );
+        setSelectedIds(new Set());
+        setShowBulkDeleteModal(false);
+        fetchStudents();
+        fetchSessions();
+      } else {
+        showToast("Failed to delete selected students.");
+      }
+    } catch {
+      showToast("Failed to delete selected students.");
+    } finally {
+      setIsBulkDeleting(false);
+    }
+  };
+
+  const toggleSelectOne = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
+  const allVisibleSelected =
+    students.length > 0 && students.every((s) => selectedIds.has(s.id));
+  const someVisibleSelected =
+    students.some((s) => selectedIds.has(s.id)) && !allVisibleSelected;
+
+  const toggleSelectAllVisible = () => {
+    setSelectedIds((prev) => {
+      if (allVisibleSelected) {
+        // Deselect only the currently-visible rows, keep any others (there
+        // shouldn't be any given the effect above, but this is safer if
+        // pagination is added later).
+        const next = new Set(prev);
+        students.forEach((s) => next.delete(s.id));
+        return next;
+      }
+      const next = new Set(prev);
+      students.forEach((s) => next.add(s.id));
+      return next;
+    });
+  };
+
+  const selectedStudentsPreview = useMemo(
+    () => students.filter((s) => selectedIds.has(s.id)).slice(0, 5),
+    [students, selectedIds]
+  );
 
   // Metrics for Top Bar
   const totalDepartmentStudents = sessions.reduce((acc, s) => acc + s.totalStudents, 0);
@@ -516,6 +649,36 @@ export function AdminStudentsScreen() {
             </select>
           </div>
 
+          {/* Bulk Action Bar — appears only when 1+ rows are selected */}
+          {selectedIds.size > 0 && (
+            <div className="flex flex-col gap-3 rounded-2xl border border-red-200 bg-red-50/60 p-4 sm:flex-row sm:items-center sm:justify-between animate-in fade-in slide-in-from-top-1 duration-150">
+              <div className="flex items-center gap-2 text-sm font-semibold text-red-800">
+                <span className="flex size-6 items-center justify-center rounded-full bg-red-600 text-xs font-bold text-white">
+                  {selectedIds.size}
+                </span>
+                <span>
+                  {selectedIds.size === 1 ? "student" : "students"} selected
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSelectedIds(new Set())}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50"
+                >
+                  Clear Selection
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowBulkDeleteModal(true)}
+                  className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-red-700"
+                >
+                  Delete Selected
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Student Roster Table for this session */}
           <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-xs">
             {isStudentsLoading ? (
@@ -555,6 +718,18 @@ export function AdminStudentsScreen() {
                 <table className="min-w-full text-left text-sm">
                   <thead>
                     <tr className="border-b border-slate-100 text-xs font-bold uppercase tracking-wider text-slate-400">
+                      <th className="w-10 px-4 py-3.5">
+                        <input
+                          type="checkbox"
+                          checked={allVisibleSelected}
+                          ref={(el) => {
+                            if (el) el.indeterminate = someVisibleSelected;
+                          }}
+                          onChange={toggleSelectAllVisible}
+                          className="size-4 rounded border-slate-300 text-[#2e63e5] focus:ring-[#2e63e5]"
+                          aria-label="Select all students in this view"
+                        />
+                      </th>
                       <th className="px-4 py-3.5">Matric Number</th>
                       <th className="px-4 py-3.5">Full Name</th>
                       <th className="px-4 py-3.5">Entry Session</th>
@@ -565,68 +740,121 @@ export function AdminStudentsScreen() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {students.map((student) => (
-                      <tr
-                        key={student.id}
-                        className="transition hover:bg-slate-50/60"
-                      >
-                        <td className="px-4 py-3.5 font-mono text-xs font-bold text-slate-800">
-                          {student.matricNumber}
-                        </td>
-                        <td className="px-4 py-3.5 font-medium text-slate-800">
-                          {student.fullName}
-                        </td>
-                        <td className="px-4 py-3.5 text-xs text-slate-600">
-                          {student.entrySession}
-                        </td>
-                        <td className="px-4 py-3.5 text-xs text-slate-600">
-                          {student.currentLevel} Level
-                        </td>
-                        <td className="px-4 py-3.5 text-xs">
-                          <span
-                            className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${
-                              student.creationMethod === "EXCEL_IMPORT"
-                                ? "bg-purple-50 text-purple-700 border border-purple-200"
-                                : "bg-slate-100 text-slate-600 border border-slate-200"
-                            }`}
-                          >
-                            {student.creationMethod === "EXCEL_IMPORT"
-                              ? "Excel Batch"
-                              : "Manual"}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3.5">
-                          <span
-                            className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-bold ${getStatusBadge(
-                              student.status
-                            )}`}
-                          >
-                            {student.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3.5 text-right">
-                          <div className="inline-flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setEditingStudent(student);
-                                setShowCrudModal(true);
-                              }}
-                              className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                    {students.map((student) => {
+                      const { display: displayName, suspect: nameSuspect } =
+                        formatFullName(student.fullName);
+
+                      // Prefer a freshly-computed level; fall back to the
+                      // stored value if the entry session can't be parsed.
+                      const computedLevel = calculateCurrentLevel(student.entrySession);
+                      const effectiveLevel = computedLevel ?? student.currentLevel;
+                      const levelMismatch =
+                        computedLevel !== null &&
+                        String(computedLevel) !== String(student.currentLevel);
+
+                      const isSelected = selectedIds.has(student.id);
+
+                      return (
+                        <tr
+                          key={student.id}
+                          className={`transition hover:bg-slate-50/60 ${
+                            isSelected ? "bg-blue-50/40" : ""
+                          }`}
+                        >
+                          <td className="px-4 py-3.5">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => toggleSelectOne(student.id)}
+                              className="size-4 rounded border-slate-300 text-[#2e63e5] focus:ring-[#2e63e5]"
+                              aria-label={`Select ${displayName}`}
+                            />
+                          </td>
+                          <td className="px-4 py-3.5 font-mono text-xs font-bold text-slate-800">
+                            {student.matricNumber}
+                          </td>
+                          <td className="px-4 py-3.5 font-medium text-slate-800">
+                            <span
+                              title={
+                                nameSuspect
+                                  ? "This name looks incomplete (no space found). Check the import source data."
+                                  : undefined
+                              }
+                              className={nameSuspect ? "underline decoration-amber-400 decoration-wavy" : ""}
                             >
-                              Edit
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setDeletingStudent(student)}
-                              className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
+                              {displayName}
+                            </span>
+                            {nameSuspect && (
+                              <span className="ml-1.5 inline-flex rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 border border-amber-200">
+                                incomplete?
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3.5 text-xs text-slate-600">
+                            {student.entrySession}
+                          </td>
+                          <td className="px-4 py-3.5 text-xs text-slate-600">
+                            <span
+                              title={
+                                levelMismatch
+                                  ? `Stored level is ${student.currentLevel}L but computed level from entry session is ${computedLevel}L`
+                                  : undefined
+                              }
                             >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                              {effectiveLevel} Level
+                            </span>
+                            {levelMismatch && (
+                              <span className="ml-1.5 inline-flex rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 border border-amber-200">
+                                ⚠ mismatch
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3.5 text-xs">
+                            <span
+                              className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${
+                                student.creationMethod === "EXCEL_IMPORT"
+                                  ? "bg-purple-50 text-purple-700 border border-purple-200"
+                                  : "bg-slate-100 text-slate-600 border border-slate-200"
+                              }`}
+                            >
+                              {student.creationMethod === "EXCEL_IMPORT"
+                                ? "Excel Batch"
+                                : "Manual"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3.5">
+                            <span
+                              className={`inline-flex rounded-full border px-2.5 py-0.5 text-xs font-bold ${getStatusBadge(
+                                student.status
+                              )}`}
+                            >
+                              {student.status}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3.5 text-right">
+                            <div className="inline-flex items-center gap-1.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingStudent(student);
+                                  setShowCrudModal(true);
+                                }}
+                                className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setDeletingStudent(student)}
+                                className="rounded-lg border border-red-200 px-2.5 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -652,7 +880,7 @@ export function AdminStudentsScreen() {
 
       {showCrudModal && (
         <StudentCrudModal
-          student={editingStudent}
+          // student={editingStudent}
           defaultSession={activeSession || "2024/2025"}
           onClose={() => {
             setShowCrudModal(false);
@@ -666,7 +894,7 @@ export function AdminStudentsScreen() {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal (single) */}
       {deletingStudent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
@@ -694,6 +922,65 @@ export function AdminStudentsScreen() {
                 className="rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700"
               >
                 Confirm Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {showBulkDeleteModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget && !isBulkDeleting) {
+              setShowBulkDeleteModal(false);
+            }
+          }}
+        >
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+            <h3 className="text-lg font-bold text-slate-800">
+              Delete {selectedIds.size} Student{selectedIds.size === 1 ? "" : "s"}?
+            </h3>
+            <p className="mt-2 text-sm text-slate-600">
+              This will permanently remove the following student
+              {selectedIds.size === 1 ? " record" : " records"} from{" "}
+              <strong className="text-slate-800">{activeSession}</strong>. This
+              action cannot be undone.
+            </p>
+
+            <ul className="mt-4 max-h-40 space-y-1 overflow-y-auto rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-xs text-slate-700">
+              {selectedStudentsPreview.map((s) => (
+                <li key={s.id} className="flex items-center justify-between">
+                  <span className="font-medium">{s.fullName || "—"}</span>
+                  <span className="font-mono text-slate-400">{s.matricNumber}</span>
+                </li>
+              ))}
+              {selectedIds.size > selectedStudentsPreview.length && (
+                <li className="pt-1 text-slate-400">
+                  + {selectedIds.size - selectedStudentsPreview.length} more...
+                </li>
+              )}
+            </ul>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteModal(false)}
+                disabled={isBulkDeleting}
+                className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleBulkDelete}
+                disabled={isBulkDeleting}
+                className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                {isBulkDeleting
+                  ? "Deleting..."
+                  : `Confirm Delete (${selectedIds.size})`}
               </button>
             </div>
           </div>
