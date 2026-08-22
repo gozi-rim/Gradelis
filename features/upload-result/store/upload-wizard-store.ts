@@ -42,6 +42,13 @@ export type WizardStepId =
  */
 export type PreviewRow = {
   matricNo: string;
+
+  /*
+   * Straight from the sheet. The total is worked out
+   * from CA + Exam, not read from the Total column.
+   */
+  caScore: string;
+  examScore: string;
   totalScore: string;
   grade: string;
 };
@@ -76,6 +83,12 @@ type WizardState = {
   uploadedFile: WizardFileMeta | null;
 
   /*
+   * The real file. Never saved to localStorage,
+   * so a reload sends you back to step one.
+   */
+  rawFile: File | null;
+
+  /*
    * Shared upload metadata.
    */
   courseCode: string;
@@ -99,6 +112,10 @@ type WizardState = {
 
   setUploadedFile: (
     file: WizardFileMeta | null,
+  ) => void;
+
+  setRawFile: (
+    file: File | null,
   ) => void;
 
   setUploadMetadata: (
@@ -127,6 +144,8 @@ const initialState = {
     "upload" as WizardStepId,
 
   uploadedFile: null,
+
+  rawFile: null as File | null,
 
   /*
    * Shared course information.
@@ -159,6 +178,11 @@ export const useUploadWizardStore =
         setUploadedFile: (file) =>
           set({
             uploadedFile: file,
+          }),
+
+        setRawFile: (file) =>
+          set({
+            rawFile: file,
           }),
 
         setUploadMetadata: ({
