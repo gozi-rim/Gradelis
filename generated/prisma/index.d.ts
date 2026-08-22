@@ -2770,7 +2770,7 @@ export namespace Prisma {
     tokensGenerated: number
     tokensIssuedTo: number
     resultChanges: number
-    windowsOpened: number
+    submissionWindowsOpened: number
     graduationRunsTriggered: number
     studentSeedBatches: number
     userSeedBatchesUploaded: number
@@ -2792,7 +2792,7 @@ export namespace Prisma {
     tokensGenerated?: boolean | UserCountOutputTypeCountTokensGeneratedArgs
     tokensIssuedTo?: boolean | UserCountOutputTypeCountTokensIssuedToArgs
     resultChanges?: boolean | UserCountOutputTypeCountResultChangesArgs
-    windowsOpened?: boolean | UserCountOutputTypeCountWindowsOpenedArgs
+    submissionWindowsOpened?: boolean | UserCountOutputTypeCountSubmissionWindowsOpenedArgs
     graduationRunsTriggered?: boolean | UserCountOutputTypeCountGraduationRunsTriggeredArgs
     studentSeedBatches?: boolean | UserCountOutputTypeCountStudentSeedBatchesArgs
     userSeedBatchesUploaded?: boolean | UserCountOutputTypeCountUserSeedBatchesUploadedArgs
@@ -2893,7 +2893,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountWindowsOpenedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountSubmissionWindowsOpenedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ResultSubmissionWindowWhereInput
   }
 
@@ -2954,13 +2954,11 @@ export namespace Prisma {
   export type CourseCountOutputType = {
     results: number
     uploadFiles: number
-    submissionWindows: number
   }
 
   export type CourseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     results?: boolean | CourseCountOutputTypeCountResultsArgs
     uploadFiles?: boolean | CourseCountOutputTypeCountUploadFilesArgs
-    submissionWindows?: boolean | CourseCountOutputTypeCountSubmissionWindowsArgs
   }
 
   // Custom InputTypes
@@ -2986,13 +2984,6 @@ export namespace Prisma {
    */
   export type CourseCountOutputTypeCountUploadFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UploadFileWhereInput
-  }
-
-  /**
-   * CourseCountOutputType without action
-   */
-  export type CourseCountOutputTypeCountSubmissionWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ResultSubmissionWindowWhereInput
   }
 
 
@@ -3483,7 +3474,7 @@ export namespace Prisma {
     tokensGenerated?: boolean | User$tokensGeneratedArgs<ExtArgs>
     tokensIssuedTo?: boolean | User$tokensIssuedToArgs<ExtArgs>
     resultChanges?: boolean | User$resultChangesArgs<ExtArgs>
-    windowsOpened?: boolean | User$windowsOpenedArgs<ExtArgs>
+    submissionWindowsOpened?: boolean | User$submissionWindowsOpenedArgs<ExtArgs>
     graduationRunsTriggered?: boolean | User$graduationRunsTriggeredArgs<ExtArgs>
     studentSeedBatches?: boolean | User$studentSeedBatchesArgs<ExtArgs>
     userSeedBatchesUploaded?: boolean | User$userSeedBatchesUploadedArgs<ExtArgs>
@@ -3541,7 +3532,7 @@ export namespace Prisma {
     tokensGenerated?: boolean | User$tokensGeneratedArgs<ExtArgs>
     tokensIssuedTo?: boolean | User$tokensIssuedToArgs<ExtArgs>
     resultChanges?: boolean | User$resultChangesArgs<ExtArgs>
-    windowsOpened?: boolean | User$windowsOpenedArgs<ExtArgs>
+    submissionWindowsOpened?: boolean | User$submissionWindowsOpenedArgs<ExtArgs>
     graduationRunsTriggered?: boolean | User$graduationRunsTriggeredArgs<ExtArgs>
     studentSeedBatches?: boolean | User$studentSeedBatchesArgs<ExtArgs>
     userSeedBatchesUploaded?: boolean | User$userSeedBatchesUploadedArgs<ExtArgs>
@@ -3569,7 +3560,7 @@ export namespace Prisma {
       tokensGenerated: Prisma.$OverrideTokenPayload<ExtArgs>[]
       tokensIssuedTo: Prisma.$OverrideTokenPayload<ExtArgs>[]
       resultChanges: Prisma.$ResultChangeLogPayload<ExtArgs>[]
-      windowsOpened: Prisma.$ResultSubmissionWindowPayload<ExtArgs>[]
+      submissionWindowsOpened: Prisma.$ResultSubmissionWindowPayload<ExtArgs>[]
       graduationRunsTriggered: Prisma.$GraduationRunPayload<ExtArgs>[]
       studentSeedBatches: Prisma.$StudentSeedBatchPayload<ExtArgs>[]
       userSeedBatchesUploaded: Prisma.$UserSeedBatchPayload<ExtArgs>[]
@@ -3993,7 +3984,7 @@ export namespace Prisma {
     tokensGenerated<T extends User$tokensGeneratedArgs<ExtArgs> = {}>(args?: Subset<T, User$tokensGeneratedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OverrideTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tokensIssuedTo<T extends User$tokensIssuedToArgs<ExtArgs> = {}>(args?: Subset<T, User$tokensIssuedToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OverrideTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     resultChanges<T extends User$resultChangesArgs<ExtArgs> = {}>(args?: Subset<T, User$resultChangesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultChangeLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    windowsOpened<T extends User$windowsOpenedArgs<ExtArgs> = {}>(args?: Subset<T, User$windowsOpenedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultSubmissionWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    submissionWindowsOpened<T extends User$submissionWindowsOpenedArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionWindowsOpenedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultSubmissionWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     graduationRunsTriggered<T extends User$graduationRunsTriggeredArgs<ExtArgs> = {}>(args?: Subset<T, User$graduationRunsTriggeredArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GraduationRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     studentSeedBatches<T extends User$studentSeedBatchesArgs<ExtArgs> = {}>(args?: Subset<T, User$studentSeedBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userSeedBatchesUploaded<T extends User$userSeedBatchesUploadedArgs<ExtArgs> = {}>(args?: Subset<T, User$userSeedBatchesUploadedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserSeedBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4696,9 +4687,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.windowsOpened
+   * User.submissionWindowsOpened
    */
-  export type User$windowsOpenedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$submissionWindowsOpenedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ResultSubmissionWindow
      */
@@ -6271,7 +6262,6 @@ export namespace Prisma {
     updatedBy?: boolean | Course$updatedByArgs<ExtArgs>
     results?: boolean | Course$resultsArgs<ExtArgs>
     uploadFiles?: boolean | Course$uploadFilesArgs<ExtArgs>
-    submissionWindows?: boolean | Course$submissionWindowsArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["course"]>
 
@@ -6330,7 +6320,6 @@ export namespace Prisma {
     updatedBy?: boolean | Course$updatedByArgs<ExtArgs>
     results?: boolean | Course$resultsArgs<ExtArgs>
     uploadFiles?: boolean | Course$uploadFilesArgs<ExtArgs>
-    submissionWindows?: boolean | Course$submissionWindowsArgs<ExtArgs>
     _count?: boolean | CourseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CourseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6349,7 +6338,6 @@ export namespace Prisma {
       updatedBy: Prisma.$UserPayload<ExtArgs> | null
       results: Prisma.$StudentResultPayload<ExtArgs>[]
       uploadFiles: Prisma.$UploadFilePayload<ExtArgs>[]
-      submissionWindows: Prisma.$ResultSubmissionWindowPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6762,7 +6750,6 @@ export namespace Prisma {
     updatedBy<T extends Course$updatedByArgs<ExtArgs> = {}>(args?: Subset<T, Course$updatedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     results<T extends Course$resultsArgs<ExtArgs> = {}>(args?: Subset<T, Course$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     uploadFiles<T extends Course$uploadFilesArgs<ExtArgs> = {}>(args?: Subset<T, Course$uploadFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    submissionWindows<T extends Course$submissionWindowsArgs<ExtArgs> = {}>(args?: Subset<T, Course$submissionWindowsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultSubmissionWindowPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7269,30 +7256,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UploadFileScalarFieldEnum | UploadFileScalarFieldEnum[]
-  }
-
-  /**
-   * Course.submissionWindows
-   */
-  export type Course$submissionWindowsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ResultSubmissionWindow
-     */
-    select?: ResultSubmissionWindowSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ResultSubmissionWindow
-     */
-    omit?: ResultSubmissionWindowOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ResultSubmissionWindowInclude<ExtArgs> | null
-    where?: ResultSubmissionWindowWhereInput
-    orderBy?: ResultSubmissionWindowOrderByWithRelationInput | ResultSubmissionWindowOrderByWithRelationInput[]
-    cursor?: ResultSubmissionWindowWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ResultSubmissionWindowScalarFieldEnum | ResultSubmissionWindowScalarFieldEnum[]
   }
 
   /**
@@ -19151,70 +19114,64 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowMinAggregateOutputType = {
     id: string | null
-    courseId: string | null
-    academicSession: string | null
-    semester: $Enums.Semester | null
-    openedById: string | null
+    scope: string | null
     opensAt: Date | null
     closesAt: Date | null
+    openedById: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ResultSubmissionWindowMaxAggregateOutputType = {
     id: string | null
-    courseId: string | null
-    academicSession: string | null
-    semester: $Enums.Semester | null
-    openedById: string | null
+    scope: string | null
     opensAt: Date | null
     closesAt: Date | null
+    openedById: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ResultSubmissionWindowCountAggregateOutputType = {
     id: number
-    courseId: number
-    academicSession: number
-    semester: number
-    openedById: number
+    scope: number
     opensAt: number
     closesAt: number
+    openedById: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type ResultSubmissionWindowMinAggregateInputType = {
     id?: true
-    courseId?: true
-    academicSession?: true
-    semester?: true
-    openedById?: true
+    scope?: true
     opensAt?: true
     closesAt?: true
+    openedById?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ResultSubmissionWindowMaxAggregateInputType = {
     id?: true
-    courseId?: true
-    academicSession?: true
-    semester?: true
-    openedById?: true
+    scope?: true
     opensAt?: true
     closesAt?: true
+    openedById?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ResultSubmissionWindowCountAggregateInputType = {
     id?: true
-    courseId?: true
-    academicSession?: true
-    semester?: true
-    openedById?: true
+    scope?: true
     opensAt?: true
     closesAt?: true
+    openedById?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -19292,13 +19249,12 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowGroupByOutputType = {
     id: string
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
-    openedById: string
+    scope: string
     opensAt: Date
     closesAt: Date
+    openedById: string
     createdAt: Date
+    updatedAt: Date
     _count: ResultSubmissionWindowCountAggregateOutputType | null
     _min: ResultSubmissionWindowMinAggregateOutputType | null
     _max: ResultSubmissionWindowMaxAggregateOutputType | null
@@ -19320,83 +19276,71 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    courseId?: boolean
-    academicSession?: boolean
-    semester?: boolean
-    openedById?: boolean
+    scope?: boolean
     opensAt?: boolean
     closesAt?: boolean
+    openedById?: boolean
     createdAt?: boolean
-    course?: boolean | CourseDefaultArgs<ExtArgs>
+    updatedAt?: boolean
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resultSubmissionWindow"]>
 
   export type ResultSubmissionWindowSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    courseId?: boolean
-    academicSession?: boolean
-    semester?: boolean
-    openedById?: boolean
+    scope?: boolean
     opensAt?: boolean
     closesAt?: boolean
+    openedById?: boolean
     createdAt?: boolean
-    course?: boolean | CourseDefaultArgs<ExtArgs>
+    updatedAt?: boolean
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resultSubmissionWindow"]>
 
   export type ResultSubmissionWindowSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    courseId?: boolean
-    academicSession?: boolean
-    semester?: boolean
-    openedById?: boolean
+    scope?: boolean
     opensAt?: boolean
     closesAt?: boolean
+    openedById?: boolean
     createdAt?: boolean
-    course?: boolean | CourseDefaultArgs<ExtArgs>
+    updatedAt?: boolean
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["resultSubmissionWindow"]>
 
   export type ResultSubmissionWindowSelectScalar = {
     id?: boolean
-    courseId?: boolean
-    academicSession?: boolean
-    semester?: boolean
-    openedById?: boolean
+    scope?: boolean
     opensAt?: boolean
     closesAt?: boolean
+    openedById?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ResultSubmissionWindowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "courseId" | "academicSession" | "semester" | "openedById" | "opensAt" | "closesAt" | "createdAt", ExtArgs["result"]["resultSubmissionWindow"]>
+  export type ResultSubmissionWindowOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scope" | "opensAt" | "closesAt" | "openedById" | "createdAt" | "updatedAt", ExtArgs["result"]["resultSubmissionWindow"]>
   export type ResultSubmissionWindowInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    course?: boolean | CourseDefaultArgs<ExtArgs>
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ResultSubmissionWindowIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    course?: boolean | CourseDefaultArgs<ExtArgs>
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ResultSubmissionWindowIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    course?: boolean | CourseDefaultArgs<ExtArgs>
     openedBy?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ResultSubmissionWindowPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ResultSubmissionWindow"
     objects: {
-      course: Prisma.$CoursePayload<ExtArgs>
       openedBy: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      courseId: string
-      academicSession: string
-      semester: $Enums.Semester
-      openedById: string
+      scope: string
       opensAt: Date
       closesAt: Date
+      openedById: string
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["resultSubmissionWindow"]>
     composites: {}
   }
@@ -19791,7 +19735,6 @@ export namespace Prisma {
    */
   export interface Prisma__ResultSubmissionWindowClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    course<T extends CourseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CourseDefaultArgs<ExtArgs>>): Prisma__CourseClient<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     openedBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19823,13 +19766,12 @@ export namespace Prisma {
    */
   interface ResultSubmissionWindowFieldRefs {
     readonly id: FieldRef<"ResultSubmissionWindow", 'String'>
-    readonly courseId: FieldRef<"ResultSubmissionWindow", 'String'>
-    readonly academicSession: FieldRef<"ResultSubmissionWindow", 'String'>
-    readonly semester: FieldRef<"ResultSubmissionWindow", 'Semester'>
-    readonly openedById: FieldRef<"ResultSubmissionWindow", 'String'>
+    readonly scope: FieldRef<"ResultSubmissionWindow", 'String'>
     readonly opensAt: FieldRef<"ResultSubmissionWindow", 'DateTime'>
     readonly closesAt: FieldRef<"ResultSubmissionWindow", 'DateTime'>
+    readonly openedById: FieldRef<"ResultSubmissionWindow", 'String'>
     readonly createdAt: FieldRef<"ResultSubmissionWindow", 'DateTime'>
+    readonly updatedAt: FieldRef<"ResultSubmissionWindow", 'DateTime'>
   }
     
 
@@ -26339,13 +26281,12 @@ export namespace Prisma {
 
   export const ResultSubmissionWindowScalarFieldEnum: {
     id: 'id',
-    courseId: 'courseId',
-    academicSession: 'academicSession',
-    semester: 'semester',
-    openedById: 'openedById',
+    scope: 'scope',
     opensAt: 'opensAt',
     closesAt: 'closesAt',
-    createdAt: 'createdAt'
+    openedById: 'openedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ResultSubmissionWindowScalarFieldEnum = (typeof ResultSubmissionWindowScalarFieldEnum)[keyof typeof ResultSubmissionWindowScalarFieldEnum]
@@ -26800,7 +26741,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenListRelationFilter
     tokensIssuedTo?: OverrideTokenListRelationFilter
     resultChanges?: ResultChangeLogListRelationFilter
-    windowsOpened?: ResultSubmissionWindowListRelationFilter
+    submissionWindowsOpened?: ResultSubmissionWindowListRelationFilter
     graduationRunsTriggered?: GraduationRunListRelationFilter
     studentSeedBatches?: StudentSeedBatchListRelationFilter
     userSeedBatchesUploaded?: UserSeedBatchListRelationFilter
@@ -26831,7 +26772,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenOrderByRelationAggregateInput
     tokensIssuedTo?: OverrideTokenOrderByRelationAggregateInput
     resultChanges?: ResultChangeLogOrderByRelationAggregateInput
-    windowsOpened?: ResultSubmissionWindowOrderByRelationAggregateInput
+    submissionWindowsOpened?: ResultSubmissionWindowOrderByRelationAggregateInput
     graduationRunsTriggered?: GraduationRunOrderByRelationAggregateInput
     studentSeedBatches?: StudentSeedBatchOrderByRelationAggregateInput
     userSeedBatchesUploaded?: UserSeedBatchOrderByRelationAggregateInput
@@ -26865,7 +26806,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenListRelationFilter
     tokensIssuedTo?: OverrideTokenListRelationFilter
     resultChanges?: ResultChangeLogListRelationFilter
-    windowsOpened?: ResultSubmissionWindowListRelationFilter
+    submissionWindowsOpened?: ResultSubmissionWindowListRelationFilter
     graduationRunsTriggered?: GraduationRunListRelationFilter
     studentSeedBatches?: StudentSeedBatchListRelationFilter
     userSeedBatchesUploaded?: UserSeedBatchListRelationFilter
@@ -26987,7 +26928,6 @@ export namespace Prisma {
     updatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     results?: StudentResultListRelationFilter
     uploadFiles?: UploadFileListRelationFilter
-    submissionWindows?: ResultSubmissionWindowListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -27007,7 +26947,6 @@ export namespace Prisma {
     updatedBy?: UserOrderByWithRelationInput
     results?: StudentResultOrderByRelationAggregateInput
     uploadFiles?: UploadFileOrderByRelationAggregateInput
-    submissionWindows?: ResultSubmissionWindowOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = Prisma.AtLeast<{
@@ -27030,7 +26969,6 @@ export namespace Prisma {
     updatedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     results?: StudentResultListRelationFilter
     uploadFiles?: UploadFileListRelationFilter
-    submissionWindows?: ResultSubmissionWindowListRelationFilter
   }, "id" | "code">
 
   export type CourseOrderByWithAggregationInput = {
@@ -27895,56 +27833,48 @@ export namespace Prisma {
     OR?: ResultSubmissionWindowWhereInput[]
     NOT?: ResultSubmissionWindowWhereInput | ResultSubmissionWindowWhereInput[]
     id?: StringFilter<"ResultSubmissionWindow"> | string
-    courseId?: StringFilter<"ResultSubmissionWindow"> | string
-    academicSession?: StringFilter<"ResultSubmissionWindow"> | string
-    semester?: EnumSemesterFilter<"ResultSubmissionWindow"> | $Enums.Semester
-    openedById?: StringFilter<"ResultSubmissionWindow"> | string
+    scope?: StringFilter<"ResultSubmissionWindow"> | string
     opensAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
     closesAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
+    openedById?: StringFilter<"ResultSubmissionWindow"> | string
     createdAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
-    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    updatedAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
     openedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ResultSubmissionWindowOrderByWithRelationInput = {
     id?: SortOrder
-    courseId?: SortOrder
-    academicSession?: SortOrder
-    semester?: SortOrder
-    openedById?: SortOrder
+    scope?: SortOrder
     opensAt?: SortOrder
     closesAt?: SortOrder
+    openedById?: SortOrder
     createdAt?: SortOrder
-    course?: CourseOrderByWithRelationInput
+    updatedAt?: SortOrder
     openedBy?: UserOrderByWithRelationInput
   }
 
   export type ResultSubmissionWindowWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    courseId_academicSession_semester?: ResultSubmissionWindowCourseIdAcademicSessionSemesterCompoundUniqueInput
+    scope?: string
     AND?: ResultSubmissionWindowWhereInput | ResultSubmissionWindowWhereInput[]
     OR?: ResultSubmissionWindowWhereInput[]
     NOT?: ResultSubmissionWindowWhereInput | ResultSubmissionWindowWhereInput[]
-    courseId?: StringFilter<"ResultSubmissionWindow"> | string
-    academicSession?: StringFilter<"ResultSubmissionWindow"> | string
-    semester?: EnumSemesterFilter<"ResultSubmissionWindow"> | $Enums.Semester
-    openedById?: StringFilter<"ResultSubmissionWindow"> | string
     opensAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
     closesAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
+    openedById?: StringFilter<"ResultSubmissionWindow"> | string
     createdAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
-    course?: XOR<CourseScalarRelationFilter, CourseWhereInput>
+    updatedAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
     openedBy?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "courseId_academicSession_semester">
+  }, "id" | "scope">
 
   export type ResultSubmissionWindowOrderByWithAggregationInput = {
     id?: SortOrder
-    courseId?: SortOrder
-    academicSession?: SortOrder
-    semester?: SortOrder
-    openedById?: SortOrder
+    scope?: SortOrder
     opensAt?: SortOrder
     closesAt?: SortOrder
+    openedById?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ResultSubmissionWindowCountOrderByAggregateInput
     _max?: ResultSubmissionWindowMaxOrderByAggregateInput
     _min?: ResultSubmissionWindowMinOrderByAggregateInput
@@ -27955,13 +27885,12 @@ export namespace Prisma {
     OR?: ResultSubmissionWindowScalarWhereWithAggregatesInput[]
     NOT?: ResultSubmissionWindowScalarWhereWithAggregatesInput | ResultSubmissionWindowScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
-    courseId?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
-    academicSession?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
-    semester?: EnumSemesterWithAggregatesFilter<"ResultSubmissionWindow"> | $Enums.Semester
-    openedById?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
+    scope?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
     opensAt?: DateTimeWithAggregatesFilter<"ResultSubmissionWindow"> | Date | string
     closesAt?: DateTimeWithAggregatesFilter<"ResultSubmissionWindow"> | Date | string
+    openedById?: StringWithAggregatesFilter<"ResultSubmissionWindow"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ResultSubmissionWindow"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ResultSubmissionWindow"> | Date | string
   }
 
   export type UploadBatchWhereInput = {
@@ -28396,7 +28325,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -28427,7 +28356,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -28458,7 +28387,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -28489,7 +28418,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -28609,7 +28538,6 @@ export namespace Prisma {
     updatedBy?: UserCreateNestedOneWithoutCoursesUpdatedInput
     results?: StudentResultCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -28627,7 +28555,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     results?: StudentResultUncheckedCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileUncheckedCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
@@ -28645,7 +28572,6 @@ export namespace Prisma {
     updatedBy?: UserUpdateOneWithoutCoursesUpdatedNestedInput
     results?: StudentResultUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -28663,7 +28589,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     results?: StudentResultUncheckedUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUncheckedUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -29568,77 +29493,71 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowCreateInput = {
     id?: string
-    academicSession: string
-    semester: $Enums.Semester
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
     createdAt?: Date | string
-    course: CourseCreateNestedOneWithoutSubmissionWindowsInput
-    openedBy: UserCreateNestedOneWithoutWindowsOpenedInput
+    updatedAt?: Date | string
+    openedBy: UserCreateNestedOneWithoutSubmissionWindowsOpenedInput
   }
 
   export type ResultSubmissionWindowUncheckedCreateInput = {
     id?: string
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
-    openedById: string
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
+    openedById: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ResultSubmissionWindowUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutSubmissionWindowsNestedInput
-    openedBy?: UserUpdateOneRequiredWithoutWindowsOpenedNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openedBy?: UserUpdateOneRequiredWithoutSubmissionWindowsOpenedNestedInput
   }
 
   export type ResultSubmissionWindowUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    openedById?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openedById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResultSubmissionWindowCreateManyInput = {
     id?: string
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
-    openedById: string
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
+    openedById: string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ResultSubmissionWindowUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResultSubmissionWindowUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    openedById?: StringFieldUpdateOperationsInput | string
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    openedById?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UploadBatchCreateInput = {
@@ -31282,43 +31201,34 @@ export namespace Prisma {
     newScore?: SortOrder
   }
 
-  export type ResultSubmissionWindowCourseIdAcademicSessionSemesterCompoundUniqueInput = {
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
-  }
-
   export type ResultSubmissionWindowCountOrderByAggregateInput = {
     id?: SortOrder
-    courseId?: SortOrder
-    academicSession?: SortOrder
-    semester?: SortOrder
-    openedById?: SortOrder
+    scope?: SortOrder
     opensAt?: SortOrder
     closesAt?: SortOrder
+    openedById?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ResultSubmissionWindowMaxOrderByAggregateInput = {
     id?: SortOrder
-    courseId?: SortOrder
-    academicSession?: SortOrder
-    semester?: SortOrder
-    openedById?: SortOrder
+    scope?: SortOrder
     opensAt?: SortOrder
     closesAt?: SortOrder
+    openedById?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ResultSubmissionWindowMinOrderByAggregateInput = {
     id?: SortOrder
-    courseId?: SortOrder
-    academicSession?: SortOrder
-    semester?: SortOrder
-    openedById?: SortOrder
+    scope?: SortOrder
     opensAt?: SortOrder
     closesAt?: SortOrder
+    openedById?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumUploadBatchStatusFilter<$PrismaModel = never> = {
@@ -32562,13 +32472,6 @@ export namespace Prisma {
     connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
   }
 
-  export type ResultSubmissionWindowCreateNestedManyWithoutCourseInput = {
-    create?: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput> | ResultSubmissionWindowCreateWithoutCourseInput[] | ResultSubmissionWindowUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: ResultSubmissionWindowCreateOrConnectWithoutCourseInput | ResultSubmissionWindowCreateOrConnectWithoutCourseInput[]
-    createMany?: ResultSubmissionWindowCreateManyCourseInputEnvelope
-    connect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-  }
-
   export type StudentResultUncheckedCreateNestedManyWithoutCourseInput = {
     create?: XOR<StudentResultCreateWithoutCourseInput, StudentResultUncheckedCreateWithoutCourseInput> | StudentResultCreateWithoutCourseInput[] | StudentResultUncheckedCreateWithoutCourseInput[]
     connectOrCreate?: StudentResultCreateOrConnectWithoutCourseInput | StudentResultCreateOrConnectWithoutCourseInput[]
@@ -32581,13 +32484,6 @@ export namespace Prisma {
     connectOrCreate?: UploadFileCreateOrConnectWithoutMatchedCourseInput | UploadFileCreateOrConnectWithoutMatchedCourseInput[]
     createMany?: UploadFileCreateManyMatchedCourseInputEnvelope
     connect?: UploadFileWhereUniqueInput | UploadFileWhereUniqueInput[]
-  }
-
-  export type ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput = {
-    create?: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput> | ResultSubmissionWindowCreateWithoutCourseInput[] | ResultSubmissionWindowUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: ResultSubmissionWindowCreateOrConnectWithoutCourseInput | ResultSubmissionWindowCreateOrConnectWithoutCourseInput[]
-    createMany?: ResultSubmissionWindowCreateManyCourseInputEnvelope
-    connect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -32652,20 +32548,6 @@ export namespace Prisma {
     deleteMany?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
   }
 
-  export type ResultSubmissionWindowUpdateManyWithoutCourseNestedInput = {
-    create?: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput> | ResultSubmissionWindowCreateWithoutCourseInput[] | ResultSubmissionWindowUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: ResultSubmissionWindowCreateOrConnectWithoutCourseInput | ResultSubmissionWindowCreateOrConnectWithoutCourseInput[]
-    upsert?: ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput | ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput[]
-    createMany?: ResultSubmissionWindowCreateManyCourseInputEnvelope
-    set?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    disconnect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    delete?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    connect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    update?: ResultSubmissionWindowUpdateWithWhereUniqueWithoutCourseInput | ResultSubmissionWindowUpdateWithWhereUniqueWithoutCourseInput[]
-    updateMany?: ResultSubmissionWindowUpdateManyWithWhereWithoutCourseInput | ResultSubmissionWindowUpdateManyWithWhereWithoutCourseInput[]
-    deleteMany?: ResultSubmissionWindowScalarWhereInput | ResultSubmissionWindowScalarWhereInput[]
-  }
-
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -32696,20 +32578,6 @@ export namespace Prisma {
     update?: UploadFileUpdateWithWhereUniqueWithoutMatchedCourseInput | UploadFileUpdateWithWhereUniqueWithoutMatchedCourseInput[]
     updateMany?: UploadFileUpdateManyWithWhereWithoutMatchedCourseInput | UploadFileUpdateManyWithWhereWithoutMatchedCourseInput[]
     deleteMany?: UploadFileScalarWhereInput | UploadFileScalarWhereInput[]
-  }
-
-  export type ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput = {
-    create?: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput> | ResultSubmissionWindowCreateWithoutCourseInput[] | ResultSubmissionWindowUncheckedCreateWithoutCourseInput[]
-    connectOrCreate?: ResultSubmissionWindowCreateOrConnectWithoutCourseInput | ResultSubmissionWindowCreateOrConnectWithoutCourseInput[]
-    upsert?: ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput | ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput[]
-    createMany?: ResultSubmissionWindowCreateManyCourseInputEnvelope
-    set?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    disconnect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    delete?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    connect?: ResultSubmissionWindowWhereUniqueInput | ResultSubmissionWindowWhereUniqueInput[]
-    update?: ResultSubmissionWindowUpdateWithWhereUniqueWithoutCourseInput | ResultSubmissionWindowUpdateWithWhereUniqueWithoutCourseInput[]
-    updateMany?: ResultSubmissionWindowUpdateManyWithWhereWithoutCourseInput | ResultSubmissionWindowUpdateManyWithWhereWithoutCourseInput[]
-    deleteMany?: ResultSubmissionWindowScalarWhereInput | ResultSubmissionWindowScalarWhereInput[]
   }
 
   export type StudentSeedRowCreateNestedOneWithoutStudentInput = {
@@ -33506,32 +33374,18 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutResultChangesInput, UserUpdateWithoutResultChangesInput>, UserUncheckedUpdateWithoutResultChangesInput>
   }
 
-  export type CourseCreateNestedOneWithoutSubmissionWindowsInput = {
-    create?: XOR<CourseCreateWithoutSubmissionWindowsInput, CourseUncheckedCreateWithoutSubmissionWindowsInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutSubmissionWindowsInput
-    connect?: CourseWhereUniqueInput
-  }
-
-  export type UserCreateNestedOneWithoutWindowsOpenedInput = {
-    create?: XOR<UserCreateWithoutWindowsOpenedInput, UserUncheckedCreateWithoutWindowsOpenedInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWindowsOpenedInput
+  export type UserCreateNestedOneWithoutSubmissionWindowsOpenedInput = {
+    create?: XOR<UserCreateWithoutSubmissionWindowsOpenedInput, UserUncheckedCreateWithoutSubmissionWindowsOpenedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubmissionWindowsOpenedInput
     connect?: UserWhereUniqueInput
   }
 
-  export type CourseUpdateOneRequiredWithoutSubmissionWindowsNestedInput = {
-    create?: XOR<CourseCreateWithoutSubmissionWindowsInput, CourseUncheckedCreateWithoutSubmissionWindowsInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutSubmissionWindowsInput
-    upsert?: CourseUpsertWithoutSubmissionWindowsInput
-    connect?: CourseWhereUniqueInput
-    update?: XOR<XOR<CourseUpdateToOneWithWhereWithoutSubmissionWindowsInput, CourseUpdateWithoutSubmissionWindowsInput>, CourseUncheckedUpdateWithoutSubmissionWindowsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutWindowsOpenedNestedInput = {
-    create?: XOR<UserCreateWithoutWindowsOpenedInput, UserUncheckedCreateWithoutWindowsOpenedInput>
-    connectOrCreate?: UserCreateOrConnectWithoutWindowsOpenedInput
-    upsert?: UserUpsertWithoutWindowsOpenedInput
+  export type UserUpdateOneRequiredWithoutSubmissionWindowsOpenedNestedInput = {
+    create?: XOR<UserCreateWithoutSubmissionWindowsOpenedInput, UserUncheckedCreateWithoutSubmissionWindowsOpenedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubmissionWindowsOpenedInput
+    upsert?: UserUpsertWithoutSubmissionWindowsOpenedInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWindowsOpenedInput, UserUpdateWithoutWindowsOpenedInput>, UserUncheckedUpdateWithoutWindowsOpenedInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubmissionWindowsOpenedInput, UserUpdateWithoutSubmissionWindowsOpenedInput>, UserUncheckedUpdateWithoutSubmissionWindowsOpenedInput>
   }
 
   export type UserCreateNestedOneWithoutUploadBatchesInput = {
@@ -34382,7 +34236,6 @@ export namespace Prisma {
     updatedBy?: UserCreateNestedOneWithoutCoursesUpdatedInput
     results?: StudentResultCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutCreatedByInput = {
@@ -34399,7 +34252,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     results?: StudentResultUncheckedCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileUncheckedCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutCreatedByInput = {
@@ -34426,7 +34278,6 @@ export namespace Prisma {
     createdBy: UserCreateNestedOneWithoutCoursesCreatedInput
     results?: StudentResultCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutUpdatedByInput = {
@@ -34443,7 +34294,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     results?: StudentResultUncheckedCreateNestedManyWithoutCourseInput
     uploadFiles?: UploadFileUncheckedCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutUpdatedByInput = {
@@ -34760,22 +34610,20 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowCreateWithoutOpenedByInput = {
     id?: string
-    academicSession: string
-    semester: $Enums.Semester
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
     createdAt?: Date | string
-    course: CourseCreateNestedOneWithoutSubmissionWindowsInput
+    updatedAt?: Date | string
   }
 
   export type ResultSubmissionWindowUncheckedCreateWithoutOpenedByInput = {
     id?: string
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ResultSubmissionWindowCreateOrConnectWithoutOpenedByInput = {
@@ -35344,13 +35192,12 @@ export namespace Prisma {
     OR?: ResultSubmissionWindowScalarWhereInput[]
     NOT?: ResultSubmissionWindowScalarWhereInput | ResultSubmissionWindowScalarWhereInput[]
     id?: StringFilter<"ResultSubmissionWindow"> | string
-    courseId?: StringFilter<"ResultSubmissionWindow"> | string
-    academicSession?: StringFilter<"ResultSubmissionWindow"> | string
-    semester?: EnumSemesterFilter<"ResultSubmissionWindow"> | $Enums.Semester
-    openedById?: StringFilter<"ResultSubmissionWindow"> | string
+    scope?: StringFilter<"ResultSubmissionWindow"> | string
     opensAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
     closesAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
+    openedById?: StringFilter<"ResultSubmissionWindow"> | string
     createdAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
+    updatedAt?: DateTimeFilter<"ResultSubmissionWindow"> | Date | string
   }
 
   export type GraduationRunUpsertWithWhereUniqueWithoutTriggeredByInput = {
@@ -35608,7 +35455,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -35638,7 +35485,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -35673,7 +35520,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -35703,7 +35550,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -35749,7 +35596,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -35779,7 +35626,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -35820,7 +35667,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -35850,7 +35697,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -35879,7 +35726,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -35909,7 +35756,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -35944,7 +35791,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -35974,7 +35821,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -36078,36 +35925,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ResultSubmissionWindowCreateWithoutCourseInput = {
-    id?: string
-    academicSession: string
-    semester: $Enums.Semester
-    opensAt: Date | string
-    closesAt: Date | string
-    createdAt?: Date | string
-    openedBy: UserCreateNestedOneWithoutWindowsOpenedInput
-  }
-
-  export type ResultSubmissionWindowUncheckedCreateWithoutCourseInput = {
-    id?: string
-    academicSession: string
-    semester: $Enums.Semester
-    openedById: string
-    opensAt: Date | string
-    closesAt: Date | string
-    createdAt?: Date | string
-  }
-
-  export type ResultSubmissionWindowCreateOrConnectWithoutCourseInput = {
-    where: ResultSubmissionWindowWhereUniqueInput
-    create: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput>
-  }
-
-  export type ResultSubmissionWindowCreateManyCourseInputEnvelope = {
-    data: ResultSubmissionWindowCreateManyCourseInput | ResultSubmissionWindowCreateManyCourseInput[]
-    skipDuplicates?: boolean
-  }
-
   export type UserUpsertWithoutCoursesCreatedInput = {
     update: XOR<UserUpdateWithoutCoursesCreatedInput, UserUncheckedUpdateWithoutCoursesCreatedInput>
     create: XOR<UserCreateWithoutCoursesCreatedInput, UserUncheckedCreateWithoutCoursesCreatedInput>
@@ -36138,7 +35955,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -36168,7 +35985,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -36209,7 +36026,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -36239,7 +36056,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -36300,22 +36117,6 @@ export namespace Prisma {
     data: XOR<UploadFileUpdateManyMutationInput, UploadFileUncheckedUpdateManyWithoutMatchedCourseInput>
   }
 
-  export type ResultSubmissionWindowUpsertWithWhereUniqueWithoutCourseInput = {
-    where: ResultSubmissionWindowWhereUniqueInput
-    update: XOR<ResultSubmissionWindowUpdateWithoutCourseInput, ResultSubmissionWindowUncheckedUpdateWithoutCourseInput>
-    create: XOR<ResultSubmissionWindowCreateWithoutCourseInput, ResultSubmissionWindowUncheckedCreateWithoutCourseInput>
-  }
-
-  export type ResultSubmissionWindowUpdateWithWhereUniqueWithoutCourseInput = {
-    where: ResultSubmissionWindowWhereUniqueInput
-    data: XOR<ResultSubmissionWindowUpdateWithoutCourseInput, ResultSubmissionWindowUncheckedUpdateWithoutCourseInput>
-  }
-
-  export type ResultSubmissionWindowUpdateManyWithWhereWithoutCourseInput = {
-    where: ResultSubmissionWindowScalarWhereInput
-    data: XOR<ResultSubmissionWindowUpdateManyMutationInput, ResultSubmissionWindowUncheckedUpdateManyWithoutCourseInput>
-  }
-
   export type StudentSeedRowCreateWithoutStudentInput = {
     id?: string
     matricNumberRaw: string
@@ -36362,7 +36163,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -36392,7 +36193,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -36587,7 +36388,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -36617,7 +36418,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -36708,7 +36509,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
@@ -36738,7 +36539,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
@@ -36816,7 +36617,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
@@ -36846,7 +36647,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
@@ -37038,7 +36839,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
@@ -37068,7 +36869,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
@@ -37146,7 +36947,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
@@ -37176,7 +36977,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
@@ -37260,7 +37061,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -37290,7 +37091,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37365,7 +37166,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -37395,7 +37196,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37424,7 +37225,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -37454,7 +37255,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37489,7 +37290,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -37519,7 +37320,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37565,7 +37366,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -37595,7 +37396,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37636,7 +37437,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -37666,7 +37467,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37728,7 +37529,6 @@ export namespace Prisma {
     createdBy: UserCreateNestedOneWithoutCoursesCreatedInput
     updatedBy?: UserCreateNestedOneWithoutCoursesUpdatedInput
     uploadFiles?: UploadFileCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutResultsInput = {
@@ -37745,7 +37545,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     uploadFiles?: UploadFileUncheckedCreateNestedManyWithoutMatchedCourseInput
-    submissionWindows?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutResultsInput = {
@@ -38011,7 +37810,6 @@ export namespace Prisma {
     createdBy?: UserUpdateOneRequiredWithoutCoursesCreatedNestedInput
     updatedBy?: UserUpdateOneWithoutCoursesUpdatedNestedInput
     uploadFiles?: UploadFileUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutResultsInput = {
@@ -38028,7 +37826,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadFiles?: UploadFileUncheckedUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type StudentResultUpsertWithoutPreviousVersionInput = {
@@ -38233,7 +38030,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -38263,7 +38060,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38298,7 +38095,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -38328,7 +38125,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38446,7 +38243,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -38476,7 +38273,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38517,7 +38314,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -38547,7 +38344,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38608,7 +38405,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -38638,7 +38435,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38673,7 +38470,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -38703,7 +38500,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38785,7 +38582,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -38815,7 +38612,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38856,7 +38653,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -38886,7 +38683,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38973,7 +38770,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestCreateNestedManyWithoutApprovedByInput
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -39003,7 +38800,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedCreateNestedManyWithoutApprovedByInput
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -39096,7 +38893,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUpdateManyWithoutApprovedByNestedInput
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -39126,7 +38923,7 @@ export namespace Prisma {
     correctionsApproved?: CorrectionRequestUncheckedUpdateManyWithoutApprovedByNestedInput
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -39137,46 +38934,7 @@ export namespace Prisma {
     uploadRowsResolved?: UploadRowUncheckedUpdateManyWithoutResolvedByNestedInput
   }
 
-  export type CourseCreateWithoutSubmissionWindowsInput = {
-    id?: string
-    code: string
-    title: string
-    creditUnits: number
-    level: number
-    semester: $Enums.Semester
-    courseType?: $Enums.CourseType
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdBy: UserCreateNestedOneWithoutCoursesCreatedInput
-    updatedBy?: UserCreateNestedOneWithoutCoursesUpdatedInput
-    results?: StudentResultCreateNestedManyWithoutCourseInput
-    uploadFiles?: UploadFileCreateNestedManyWithoutMatchedCourseInput
-  }
-
-  export type CourseUncheckedCreateWithoutSubmissionWindowsInput = {
-    id?: string
-    code: string
-    title: string
-    creditUnits: number
-    level: number
-    semester: $Enums.Semester
-    courseType?: $Enums.CourseType
-    isActive?: boolean
-    createdById: string
-    updatedById?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    results?: StudentResultUncheckedCreateNestedManyWithoutCourseInput
-    uploadFiles?: UploadFileUncheckedCreateNestedManyWithoutMatchedCourseInput
-  }
-
-  export type CourseCreateOrConnectWithoutSubmissionWindowsInput = {
-    where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutSubmissionWindowsInput, CourseUncheckedCreateWithoutSubmissionWindowsInput>
-  }
-
-  export type UserCreateWithoutWindowsOpenedInput = {
+  export type UserCreateWithoutSubmissionWindowsOpenedInput = {
     id?: string
     name: string
     email: string
@@ -39206,7 +38964,7 @@ export namespace Prisma {
     uploadRowsResolved?: UploadRowCreateNestedManyWithoutResolvedByInput
   }
 
-  export type UserUncheckedCreateWithoutWindowsOpenedInput = {
+  export type UserUncheckedCreateWithoutSubmissionWindowsOpenedInput = {
     id?: string
     name: string
     email: string
@@ -39236,68 +38994,23 @@ export namespace Prisma {
     uploadRowsResolved?: UploadRowUncheckedCreateNestedManyWithoutResolvedByInput
   }
 
-  export type UserCreateOrConnectWithoutWindowsOpenedInput = {
+  export type UserCreateOrConnectWithoutSubmissionWindowsOpenedInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutWindowsOpenedInput, UserUncheckedCreateWithoutWindowsOpenedInput>
+    create: XOR<UserCreateWithoutSubmissionWindowsOpenedInput, UserUncheckedCreateWithoutSubmissionWindowsOpenedInput>
   }
 
-  export type CourseUpsertWithoutSubmissionWindowsInput = {
-    update: XOR<CourseUpdateWithoutSubmissionWindowsInput, CourseUncheckedUpdateWithoutSubmissionWindowsInput>
-    create: XOR<CourseCreateWithoutSubmissionWindowsInput, CourseUncheckedCreateWithoutSubmissionWindowsInput>
-    where?: CourseWhereInput
-  }
-
-  export type CourseUpdateToOneWithWhereWithoutSubmissionWindowsInput = {
-    where?: CourseWhereInput
-    data: XOR<CourseUpdateWithoutSubmissionWindowsInput, CourseUncheckedUpdateWithoutSubmissionWindowsInput>
-  }
-
-  export type CourseUpdateWithoutSubmissionWindowsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    creditUnits?: IntFieldUpdateOperationsInput | number
-    level?: IntFieldUpdateOperationsInput | number
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    courseType?: EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: UserUpdateOneRequiredWithoutCoursesCreatedNestedInput
-    updatedBy?: UserUpdateOneWithoutCoursesUpdatedNestedInput
-    results?: StudentResultUpdateManyWithoutCourseNestedInput
-    uploadFiles?: UploadFileUpdateManyWithoutMatchedCourseNestedInput
-  }
-
-  export type CourseUncheckedUpdateWithoutSubmissionWindowsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    creditUnits?: IntFieldUpdateOperationsInput | number
-    level?: IntFieldUpdateOperationsInput | number
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    courseType?: EnumCourseTypeFieldUpdateOperationsInput | $Enums.CourseType
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdById?: StringFieldUpdateOperationsInput | string
-    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    results?: StudentResultUncheckedUpdateManyWithoutCourseNestedInput
-    uploadFiles?: UploadFileUncheckedUpdateManyWithoutMatchedCourseNestedInput
-  }
-
-  export type UserUpsertWithoutWindowsOpenedInput = {
-    update: XOR<UserUpdateWithoutWindowsOpenedInput, UserUncheckedUpdateWithoutWindowsOpenedInput>
-    create: XOR<UserCreateWithoutWindowsOpenedInput, UserUncheckedCreateWithoutWindowsOpenedInput>
+  export type UserUpsertWithoutSubmissionWindowsOpenedInput = {
+    update: XOR<UserUpdateWithoutSubmissionWindowsOpenedInput, UserUncheckedUpdateWithoutSubmissionWindowsOpenedInput>
+    create: XOR<UserCreateWithoutSubmissionWindowsOpenedInput, UserUncheckedCreateWithoutSubmissionWindowsOpenedInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutWindowsOpenedInput = {
+  export type UserUpdateToOneWithWhereWithoutSubmissionWindowsOpenedInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutWindowsOpenedInput, UserUncheckedUpdateWithoutWindowsOpenedInput>
+    data: XOR<UserUpdateWithoutSubmissionWindowsOpenedInput, UserUncheckedUpdateWithoutSubmissionWindowsOpenedInput>
   }
 
-  export type UserUpdateWithoutWindowsOpenedInput = {
+  export type UserUpdateWithoutSubmissionWindowsOpenedInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -39327,7 +39040,7 @@ export namespace Prisma {
     uploadRowsResolved?: UploadRowUpdateManyWithoutResolvedByNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutWindowsOpenedInput = {
+  export type UserUncheckedUpdateWithoutSubmissionWindowsOpenedInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -39376,7 +39089,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -39406,7 +39119,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -39494,7 +39207,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -39524,7 +39237,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -39584,7 +39297,6 @@ export namespace Prisma {
     createdBy: UserCreateNestedOneWithoutCoursesCreatedInput
     updatedBy?: UserCreateNestedOneWithoutCoursesUpdatedInput
     results?: StudentResultCreateNestedManyWithoutCourseInput
-    submissionWindows?: ResultSubmissionWindowCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateWithoutUploadFilesInput = {
@@ -39601,7 +39313,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     results?: StudentResultUncheckedCreateNestedManyWithoutCourseInput
-    submissionWindows?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseCreateOrConnectWithoutUploadFilesInput = {
@@ -39629,7 +39340,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -39659,7 +39370,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -39768,7 +39479,6 @@ export namespace Prisma {
     createdBy?: UserUpdateOneRequiredWithoutCoursesCreatedNestedInput
     updatedBy?: UserUpdateOneWithoutCoursesUpdatedNestedInput
     results?: StudentResultUpdateManyWithoutCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutUploadFilesInput = {
@@ -39785,7 +39495,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     results?: StudentResultUncheckedUpdateManyWithoutCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type UserUpsertWithoutUploadFilesResolvedInput = {
@@ -39819,7 +39528,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -39849,7 +39558,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -40010,7 +39719,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
@@ -40040,7 +39749,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     graduationRunsTriggered?: GraduationRunUncheckedCreateNestedManyWithoutTriggeredByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
@@ -40219,7 +39928,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
@@ -40249,7 +39958,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     graduationRunsTriggered?: GraduationRunUncheckedUpdateManyWithoutTriggeredByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -40279,7 +39988,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowCreateNestedManyWithoutOpenedByInput
     studentSeedBatches?: StudentSeedBatchCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowCreateNestedOneWithoutUserInput
@@ -40309,7 +40018,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedCreateNestedManyWithoutGeneratedByInput
     tokensIssuedTo?: OverrideTokenUncheckedCreateNestedManyWithoutIssuedToInput
     resultChanges?: ResultChangeLogUncheckedCreateNestedManyWithoutChangedByInput
-    windowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedCreateNestedManyWithoutOpenedByInput
     studentSeedBatches?: StudentSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedCreateNestedManyWithoutUploadedByInput
     createdViaSeedRow?: UserSeedRowUncheckedCreateNestedOneWithoutUserInput
@@ -40381,7 +40090,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUpdateManyWithoutOpenedByNestedInput
     studentSeedBatches?: StudentSeedBatchUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUpdateOneWithoutUserNestedInput
@@ -40411,7 +40120,7 @@ export namespace Prisma {
     tokensGenerated?: OverrideTokenUncheckedUpdateManyWithoutGeneratedByNestedInput
     tokensIssuedTo?: OverrideTokenUncheckedUpdateManyWithoutIssuedToNestedInput
     resultChanges?: ResultChangeLogUncheckedUpdateManyWithoutChangedByNestedInput
-    windowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
+    submissionWindowsOpened?: ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByNestedInput
     studentSeedBatches?: StudentSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     userSeedBatchesUploaded?: UserSeedBatchUncheckedUpdateManyWithoutUploadedByNestedInput
     createdViaSeedRow?: UserSeedRowUncheckedUpdateOneWithoutUserNestedInput
@@ -40707,12 +40416,11 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowCreateManyOpenedByInput = {
     id?: string
-    courseId: string
-    academicSession: string
-    semester: $Enums.Semester
+    scope?: string
     opensAt: Date | string
     closesAt: Date | string
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type GraduationRunCreateManyTriggeredByInput = {
@@ -40803,7 +40511,6 @@ export namespace Prisma {
     updatedBy?: UserUpdateOneWithoutCoursesUpdatedNestedInput
     results?: StudentResultUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutCreatedByInput = {
@@ -40820,7 +40527,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     results?: StudentResultUncheckedUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUncheckedUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutCreatedByInput = {
@@ -40851,7 +40557,6 @@ export namespace Prisma {
     createdBy?: UserUpdateOneRequiredWithoutCoursesCreatedNestedInput
     results?: StudentResultUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateWithoutUpdatedByInput = {
@@ -40868,7 +40573,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     results?: StudentResultUncheckedUpdateManyWithoutCourseNestedInput
     uploadFiles?: UploadFileUncheckedUpdateManyWithoutMatchedCourseNestedInput
-    submissionWindows?: ResultSubmissionWindowUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateManyWithoutUpdatedByInput = {
@@ -41199,32 +40903,29 @@ export namespace Prisma {
 
   export type ResultSubmissionWindowUpdateWithoutOpenedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    course?: CourseUpdateOneRequiredWithoutSubmissionWindowsNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResultSubmissionWindowUncheckedUpdateWithoutOpenedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResultSubmissionWindowUncheckedUpdateManyWithoutOpenedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    courseId?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    scope?: StringFieldUpdateOperationsInput | string
     opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
     closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GraduationRunUpdateWithoutTriggeredByInput = {
@@ -41486,16 +41187,6 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type ResultSubmissionWindowCreateManyCourseInput = {
-    id?: string
-    academicSession: string
-    semester: $Enums.Semester
-    openedById: string
-    opensAt: Date | string
-    closesAt: Date | string
-    createdAt?: Date | string
-  }
-
   export type StudentResultUpdateWithoutCourseInput = {
     id?: StringFieldUpdateOperationsInput | string
     academicSession?: StringFieldUpdateOperationsInput | string
@@ -41590,36 +41281,6 @@ export namespace Prisma {
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolutionNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResultSubmissionWindowUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    openedBy?: UserUpdateOneRequiredWithoutWindowsOpenedNestedInput
-  }
-
-  export type ResultSubmissionWindowUncheckedUpdateWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    openedById?: StringFieldUpdateOperationsInput | string
-    opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ResultSubmissionWindowUncheckedUpdateManyWithoutCourseInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    academicSession?: StringFieldUpdateOperationsInput | string
-    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
-    openedById?: StringFieldUpdateOperationsInput | string
-    opensAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    closesAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

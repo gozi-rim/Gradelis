@@ -276,13 +276,12 @@ exports.Prisma.ResultChangeLogScalarFieldEnum = {
 
 exports.Prisma.ResultSubmissionWindowScalarFieldEnum = {
   id: 'id',
-  courseId: 'courseId',
-  academicSession: 'academicSession',
-  semester: 'semester',
-  openedById: 'openedById',
+  scope: 'scope',
   opensAt: 'opensAt',
   closesAt: 'closesAt',
-  createdAt: 'createdAt'
+  openedById: 'openedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.UploadBatchScalarFieldEnum = {

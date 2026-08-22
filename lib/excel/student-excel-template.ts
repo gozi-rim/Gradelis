@@ -14,31 +14,41 @@ export function downloadStudentTemplate() {
   const sampleData = [
     {
       "Matric Number": "ENG/2021/001",
-      "Full Name": "Emmanuel Okonkwo",
+      "First Name": "Emmanuel",
+      "Middle Name": "Chukwuemeka",
+      "Last Name": "Okonkwo",
       "Current Level": 400,
       "Entry Session": "2021/2022",
     },
     {
       "Matric Number": "ENG/2021/002",
-      "Full Name": "Amina Bello",
+      "First Name": "Amina",
+      "Middle Name": "",
+      "Last Name": "Bello",
       "Current Level": 400,
       "Entry Session": "2021/2022",
     },
     {
       "Matric Number": "ENG/2022/015",
-      "Full Name": "Chinedu Eze",
+      "First Name": "Chinedu",
+      "Middle Name": "",
+      "Last Name": "Eze",
       "Current Level": 300,
       "Entry Session": "2022/2023",
     },
     {
       "Matric Number": "ENG/2023/042",
-      "Full Name": "Fatima Abubakar",
+      "First Name": "Fatima",
+      "Middle Name": "",
+      "Last Name": "Abubakar",
       "Current Level": 200,
       "Entry Session": "2023/2024",
     },
     {
       "Matric Number": "ENG/2024/099",
-      "Full Name": "David Adeleke",
+      "First Name": "David",
+      "Middle Name": "",
+      "Last Name": "Adeleke",
       "Current Level": 100,
       "Entry Session": "2024/2025",
     },
@@ -46,10 +56,12 @@ export function downloadStudentTemplate() {
 
   const worksheet = XLSX.utils.json_to_sheet(sampleData);
 
-  // Set column widths
+  // Set column widths: Matric, First, Middle, Last, Level, Session
   worksheet["!cols"] = [
     { wch: 20 }, // Matric Number
-    { wch: 30 }, // Full Name
+    { wch: 18 }, // First Name
+    { wch: 18 }, // Middle Name
+    { wch: 18 }, // Last Name
     { wch: 15 }, // Current Level
     { wch: 18 }, // Entry Session
   ];
@@ -68,6 +80,21 @@ function normalizeHeader(header: string): string {
     .replace(/[.:_\-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+/**
+ * Finds a column key whose normalized header matches one of the given
+ * exact phrases. Exact matching (not `.includes`) is used here on purpose:
+ * "first name", "last name", and "full name" all contain the substring
+ * "name", so a loose `.includes("name")` match can't tell them apart.
+ * This is what caused first/middle/last name columns to collapse into
+ * whichever one happened to be found first.
+ */
+function findExactHeaderMatch(
+  keys: string[],
+  candidates: string[]
+): string | undefined {
+  return keys.find((k) => candidates.includes(normalizeHeader(k)));
 }
 
 export function parseStudentSpreadsheet(
@@ -99,7 +126,9 @@ export function parseStudentSpreadsheet(
     throw new Error("The selected spreadsheet contains no data rows.");
   }
 
-  const matricKey = Object.keys(rawJson[0]).find((k) => {
+  const headerKeys = Object.keys(rawJson[0]);
+
+  const matricKey = headerKeys.find((k) => {
     const norm = normalizeHeader(k);
     return (
       norm.includes("matric") ||
@@ -108,16 +137,50 @@ export function parseStudentSpreadsheet(
     );
   });
 
-  const nameKey = Object.keys(rawJson[0]).find((k) => {
-    const norm = normalizeHeader(k);
-    return (
-      norm.includes("name") ||
-      norm.includes("student name") ||
-      norm.includes("full name")
-    );
-  });
+  // ---------------------------------------------------------------------
+  // Name columns. Two supported layouts:
+  //  (A) split columns: "First Name" / "Middle Name" / "Last Name" (or
+  //      "Surname"). This is checked FIRST because a loose substring
+  //      match for "name" would otherwise grab "First Name" and silently
+  //      drop Middle/Last.
+  //  (B) a single combined "Full Name" / "Student Name" column, used as
+  //      a fallback when no split columns are present.
+  // ---------------------------------------------------------------------
+  const firstNameKey = findExactHeaderMatch(headerKeys, [
+    "first name",
+    "firstname",
+    "given name",
+  ]);
+  const middleNameKey = findExactHeaderMatch(headerKeys, [
+    "middle name",
+    "middlename",
+    "other name",
+    "other names",
+  ]);
+  const lastNameKey = findExactHeaderMatch(headerKeys, [
+    "last name",
+    "lastname",
+    "surname",
+    "family name",
+  ]);
 
-  const levelKey = Object.keys(rawJson[0]).find((k) => {
+  const hasSplitNameColumns = Boolean(firstNameKey || lastNameKey);
+
+  // Only used as a fallback when split columns aren't present.
+  const fullNameKey = hasSplitNameColumns
+    ? undefined
+    : headerKeys.find((k) => {
+        const norm = normalizeHeader(k);
+        return (
+          norm === "full name" ||
+          norm === "student name" ||
+          norm === "name" ||
+          norm.includes("full name") ||
+          norm.includes("student name")
+        );
+      });
+
+  const levelKey = headerKeys.find((k) => {
     const norm = normalizeHeader(k);
     return (
       norm.includes("level") ||
@@ -126,7 +189,7 @@ export function parseStudentSpreadsheet(
     );
   });
 
-  const sessionKey = Object.keys(rawJson[0]).find((k) => {
+  const sessionKey = headerKeys.find((k) => {
     const norm = normalizeHeader(k);
     return (
       norm.includes("session") ||
@@ -141,9 +204,9 @@ export function parseStudentSpreadsheet(
     );
   }
 
-  if (!nameKey) {
+  if (!hasSplitNameColumns && !fullNameKey) {
     throw new Error(
-      "Missing required 'Full Name' column. Please check your spreadsheet headers."
+      "Missing required name column(s). Provide either 'Full Name', or separate 'First Name' / 'Last Name' columns."
     );
   }
 
@@ -152,7 +215,16 @@ export function parseStudentSpreadsheet(
 
   rawJson.forEach((row, index) => {
     const matricNumber = String(row[matricKey] ?? "").trim();
-    const fullName = String(row[nameKey] ?? "").trim();
+
+    let fullName: string;
+    if (hasSplitNameColumns) {
+      const first = firstNameKey ? String(row[firstNameKey] ?? "").trim() : "";
+      const middle = middleNameKey ? String(row[middleNameKey] ?? "").trim() : "";
+      const last = lastNameKey ? String(row[lastNameKey] ?? "").trim() : "";
+      fullName = [first, middle, last].filter(Boolean).join(" ");
+    } else {
+      fullName = fullNameKey ? String(row[fullNameKey] ?? "").trim() : "";
+    }
 
     if (!matricNumber && !fullName) {
       // Empty row, skip
@@ -184,7 +256,9 @@ export function parseStudentSpreadsheet(
       errorMessage = "Matric Number is empty.";
     } else if (!fullName) {
       status = "INVALID_DATA";
-      errorMessage = "Student Name is empty.";
+      errorMessage = hasSplitNameColumns
+        ? "First Name and Last Name are both empty."
+        : "Student Name is empty.";
     } else if (seenMatric.has(matricNumber.toLowerCase())) {
       status = "DUPLICATE_MATRIC";
       errorMessage = `Duplicate matric number '${matricNumber}' in this sheet.`;

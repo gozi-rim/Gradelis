@@ -3,412 +3,695 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { UserRole } from "@/generated/prisma";
+
+const WINDOWS_PATH = "/admin/upload-windows";
+
+const GLOBAL_SCOPE = "GLOBAL";
+
+export type SubmissionWindowStatus =
+  | "OPEN"
+  | "CLOSED"
+  | "SCHEDULED";
 
 export type SubmissionWindowItem = {
   id: string;
-  courseId: string;
-  courseCode: string;
-  courseTitle: string;
-  isAllCourses: boolean;
-  academicSession: string;
-  semester: "FIRST" | "SECOND";
   opensAt: string;
   closesAt: string;
-  status: "OPEN" | "CLOSED" | "SCHEDULED";
+  status: SubmissionWindowStatus;
   daysRemaining: number;
   openedByName: string;
   createdAt: string;
+  updatedAt: string;
 };
 
-export type WindowFilters = {
-  session?: string;
-  semester?: string;
-  status?: string;
-  search?: string;
+export type SubmissionWindowResult = {
+  success: boolean;
+  message: string;
 };
 
-// Fallback in-memory dataset when PostgreSQL is offline
-let fallbackWindows: SubmissionWindowItem[] = [
-  {
-    id: "win-1",
-    courseId: "all-dept-courses",
-    courseCode: "ALL DEPT COURSES",
-    courseTitle: "All Departmental Courses (General Submission Window)",
-    isAllCourses: true,
-    academicSession: "2024/2025",
-    semester: "SECOND",
-    opensAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-    closesAt: new Date(Date.now() + 86400000 * 10).toISOString(),
-    status: "OPEN",
-    daysRemaining: 10,
-    openedByName: "Prof. Ibrahim Musa (HOD)",
-    createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-  },
-  {
-    id: "win-2",
-    courseId: "crs-401",
-    courseCode: "CPE 401",
-    courseTitle: "Embedded Systems Design",
-    isAllCourses: false,
-    academicSession: "2024/2025",
-    semester: "FIRST",
-    opensAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-    closesAt: new Date(Date.now() - 86400000 * 15).toISOString(),
-    status: "CLOSED",
-    daysRemaining: 0,
-    openedByName: "System Admin",
-    createdAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-  },
-  {
-    id: "win-3",
-    courseId: "crs-201",
-    courseCode: "CPE 201",
-    courseTitle: "Computer Engineering Principles",
-    isAllCourses: false,
-    academicSession: "2024/2025",
-    semester: "FIRST",
-    opensAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-    closesAt: new Date(Date.now() - 86400000 * 15).toISOString(),
-    status: "CLOSED",
-    daysRemaining: 0,
-    openedByName: "System Admin",
-    createdAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-  },
-  {
-    id: "win-4",
-    courseId: "all-dept-courses",
-    courseCode: "ALL DEPT COURSES",
-    courseTitle: "All Departmental Courses (Mid-Term Resit Window)",
-    isAllCourses: true,
-    academicSession: "2025/2026",
-    semester: "FIRST",
-    opensAt: new Date(Date.now() + 86400000 * 20).toISOString(),
-    closesAt: new Date(Date.now() + 86400000 * 35).toISOString(),
-    status: "SCHEDULED",
-    daysRemaining: 35,
-    openedByName: "Prof. Ibrahim Musa (HOD)",
-    createdAt: new Date().toISOString(),
-  },
-];
-
-function calculateStatus(opensAt: Date, closesAt: Date): {
-  status: "OPEN" | "CLOSED" | "SCHEDULED";
-  daysRemaining: number;
-} {
-  const now = new Date();
-  if (now < opensAt) {
-    const diff = Math.ceil((opensAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    return { status: "SCHEDULED", daysRemaining: diff };
-  } else if (now > closesAt) {
-    return { status: "CLOSED", daysRemaining: 0 };
-  } else {
-    const diff = Math.ceil((closesAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    return { status: "OPEN", daysRemaining: diff };
-  }
-}
-
-export async function getSubmissionWindows(filters: WindowFilters = {}): Promise<{
+export type SubmissionWindowListResult = {
   success: boolean;
   windows: SubmissionWindowItem[];
   total: number;
   openCount: number;
   closedCount: number;
   scheduledCount: number;
-}> {
-  try {
-    const where: Record<string, unknown> = {};
+  error?: string;
+};
 
-    if (filters.session && filters.session !== "ALL") {
-      where.academicSession = filters.session;
-    }
-    if (filters.semester && filters.semester !== "ALL") {
-      where.semester = filters.semester;
-    }
+/**
+ * Calculate the current state of a submission window.
+ */
+function calculateStatus(
+  opensAt: Date,
+  closesAt: Date
+): {
+  status: SubmissionWindowStatus;
+  daysRemaining: number;
+} {
+  const now = Date.now();
+  const openTime = opensAt.getTime();
+  const closeTime = closesAt.getTime();
 
-    const dbWindows = await prisma.resultSubmissionWindow.findMany({
-      where,
-      include: {
-        course: true,
-        openedBy: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    let mapped: SubmissionWindowItem[] = dbWindows.map((w) => {
-      const { status, daysRemaining } = calculateStatus(w.opensAt, w.closesAt);
-      return {
-        id: w.id,
-        courseId: w.courseId,
-        courseCode: w.course.code,
-        courseTitle: w.course.title,
-        isAllCourses: w.course.code === "ALL_COURSES",
-        academicSession: w.academicSession,
-        semester: w.semester as "FIRST" | "SECOND",
-        opensAt: w.opensAt.toISOString(),
-        closesAt: w.closesAt.toISOString(),
-        status,
-        daysRemaining,
-        openedByName: w.openedBy?.name || "System Admin",
-        createdAt: w.createdAt.toISOString(),
-      };
-    });
-
-    if (filters.status && filters.status !== "ALL") {
-      mapped = mapped.filter((w) => w.status === filters.status);
-    }
-    if (filters.search && filters.search.trim()) {
-      const q = filters.search.trim().toLowerCase();
-      mapped = mapped.filter(
-        (w) =>
-          w.courseCode.toLowerCase().includes(q) ||
-          w.courseTitle.toLowerCase().includes(q) ||
-          w.academicSession.toLowerCase().includes(q) ||
-          w.openedByName.toLowerCase().includes(q)
-      );
-    }
-
-    const openCount = mapped.filter((w) => w.status === "OPEN").length;
-    const closedCount = mapped.filter((w) => w.status === "CLOSED").length;
-    const scheduledCount = mapped.filter((w) => w.status === "SCHEDULED").length;
-
+  if (now < openTime) {
     return {
-      success: true,
-      windows: mapped,
-      total: mapped.length,
-      openCount,
-      closedCount,
-      scheduledCount,
+      status: "SCHEDULED",
+      daysRemaining: Math.ceil(
+        (openTime - now) / (1000 * 60 * 60 * 24)
+      ),
     };
-  } catch {
-    let mapped = fallbackWindows.map((w) => {
-      const { status, daysRemaining } = calculateStatus(
-        new Date(w.opensAt),
-        new Date(w.closesAt)
-      );
-      return { ...w, status, daysRemaining };
-    });
+  }
 
-    if (filters.session && filters.session !== "ALL") {
-      mapped = mapped.filter((w) => w.academicSession === filters.session);
-    }
-    if (filters.semester && filters.semester !== "ALL") {
-      mapped = mapped.filter((w) => w.semester === filters.semester);
-    }
-    if (filters.status && filters.status !== "ALL") {
-      mapped = mapped.filter((w) => w.status === filters.status);
-    }
-    if (filters.search && filters.search.trim()) {
-      const q = filters.search.trim().toLowerCase();
-      mapped = mapped.filter(
-        (w) =>
-          w.courseCode.toLowerCase().includes(q) ||
-          w.courseTitle.toLowerCase().includes(q) ||
-          w.academicSession.toLowerCase().includes(q) ||
-          w.openedByName.toLowerCase().includes(q)
-      );
+  if (now >= closeTime) {
+    return {
+      status: "CLOSED",
+      daysRemaining: 0,
+    };
+  }
+
+  return {
+    status: "OPEN",
+    daysRemaining: Math.ceil(
+      (closeTime - now) / (1000 * 60 * 60 * 24)
+    ),
+  };
+}
+
+/**
+ * Validate and convert an incoming date string.
+ */
+function parseDate(value: string): Date | null {
+  if (!value || typeof value !== "string") {
+    return null;
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date;
+}
+
+/**
+ * Require an authenticated and active administrator/HOD.
+ *
+ * These are the users allowed to create, modify, extend,
+ * close, or delete the global submission period.
+ */
+async function requireWindowManager() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("You must be logged in.");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      id: true,
+      name: true,
+      role: true,
+      isActive: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error("Authenticated user was not found.");
+  }
+
+  if (!user.isActive) {
+    throw new Error("Your account is inactive.");
+  }
+
+  const allowedRoles: UserRole[] = [
+    UserRole.SYSTEM_ADMIN,
+    UserRole.HOD,
+  ];
+
+  if (!allowedRoles.includes(user.role)) {
+    throw new Error(
+      "Only the System Admin or HOD can manage the result submission period."
+    );
+  }
+
+  return user;
+}
+
+/**
+ * ============================================================================
+ * GET GLOBAL SUBMISSION WINDOW
+ * ============================================================================
+ *
+ * Returns the single global submission window.
+ *
+ * There is intentionally no course, academic session, semester,
+ * adviser, or lecturer filter here.
+ */
+export async function getSubmissionWindows(): Promise<SubmissionWindowListResult> {
+  try {
+    const window =
+      await prisma.resultSubmissionWindow.findUnique({
+        where: {
+          scope: GLOBAL_SCOPE,
+        },
+        include: {
+          openedBy: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+    if (!window) {
+      return {
+        success: true,
+        windows: [],
+        total: 0,
+        openCount: 0,
+        closedCount: 0,
+        scheduledCount: 0,
+      };
     }
 
-    const openCount = mapped.filter((w) => w.status === "OPEN").length;
-    const closedCount = mapped.filter((w) => w.status === "CLOSED").length;
-    const scheduledCount = mapped.filter((w) => w.status === "SCHEDULED").length;
+    const { status, daysRemaining } = calculateStatus(
+      window.opensAt,
+      window.closesAt
+    );
+
+    const item: SubmissionWindowItem = {
+      id: window.id,
+      opensAt: window.opensAt.toISOString(),
+      closesAt: window.closesAt.toISOString(),
+      status,
+      daysRemaining,
+      openedByName: window.openedBy.name,
+      createdAt: window.createdAt.toISOString(),
+      updatedAt: window.updatedAt.toISOString(),
+    };
 
     return {
       success: true,
-      windows: mapped,
-      total: mapped.length,
-      openCount,
-      closedCount,
-      scheduledCount,
+      windows: [item],
+      total: 1,
+      openCount: status === "OPEN" ? 1 : 0,
+      closedCount: status === "CLOSED" ? 1 : 0,
+      scheduledCount: status === "SCHEDULED" ? 1 : 0,
+    };
+  } catch (error) {
+    console.error("getSubmissionWindows error:", error);
+
+    return {
+      success: false,
+      windows: [],
+      total: 0,
+      openCount: 0,
+      closedCount: 0,
+      scheduledCount: 0,
+      error: "Unable to load the result submission period.",
     };
   }
 }
 
-export async function openOrScheduleWindow(data: {
-  academicSession: string;
-  semester: "FIRST" | "SECOND";
-  courseId?: string;
-  courseCode?: string;
-  courseTitle?: string;
-  opensAt: string;
-  closesAt: string;
-}): Promise<{
+/**
+ * ============================================================================
+ * GET CURRENT GLOBAL SUBMISSION WINDOW
+ * ============================================================================
+ *
+ * Convenience function when the UI only needs the current window.
+ */
+export async function getCurrentSubmissionWindow(): Promise<{
   success: boolean;
-  message?: string;
+  window: SubmissionWindowItem | null;
   error?: string;
 }> {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  const opensDate = new Date(data.opensAt);
-  const closesDate = new Date(data.closesAt);
-
-  if (closesDate <= opensDate) {
-    return { success: false, error: "Closing date must be after opening date." };
-  }
-
   try {
-    let adminUserId = userId;
-    if (!adminUserId) {
-      const defaultAdmin = await prisma.user.findFirst({
-        where: { role: "SYSTEM_ADMIN" },
-      });
-      adminUserId = defaultAdmin?.id || "admin-fallback";
+    const result = await getSubmissionWindows();
+
+    if (!result.success) {
+      return {
+        success: false,
+        window: null,
+        error: result.error,
+      };
     }
 
-    let targetCourseId = data.courseId;
-    if (!targetCourseId) {
-      // Find or create a course record representing "ALL_COURSES"
-      let allCoursesDummy = await prisma.course.findUnique({
-        where: { code: "ALL_COURSES" },
-      });
-      if (!allCoursesDummy) {
-        allCoursesDummy = await prisma.course.create({
-          data: {
-            code: "ALL_COURSES",
-            title: "Department-wide General Submission Window",
-            creditUnits: 0,
-            level: 100,
-            semester: data.semester,
-            createdById: adminUserId,
-          },
-        });
-      }
-      targetCourseId = allCoursesDummy.id;
+    return {
+      success: true,
+      window: result.windows[0] ?? null,
+    };
+  } catch (error) {
+    console.error("getCurrentSubmissionWindow error:", error);
+
+    return {
+      success: false,
+      window: null,
+      error: "Unable to load submission period.",
+    };
+  }
+}
+
+/**
+ * ============================================================================
+ * CREATE OR UPDATE GLOBAL SUBMISSION PERIOD
+ * ============================================================================
+ *
+ * There is only one submission period in the system.
+ *
+ * If one already exists, it is updated.
+ * If none exists, it is created.
+ */
+export async function openOrScheduleWindow(data: {
+  opensAt: string;
+  closesAt: string;
+}): Promise<SubmissionWindowResult> {
+  try {
+    const user = await requireWindowManager();
+
+    const opensAt = parseDate(data.opensAt);
+    const closesAt = parseDate(data.closesAt);
+
+    if (!opensAt) {
+      return {
+        success: false,
+        message: "Invalid opening date and time.",
+      };
+    }
+
+    if (!closesAt) {
+      return {
+        success: false,
+        message: "Invalid closing date and time.",
+      };
+    }
+
+    if (closesAt <= opensAt) {
+      return {
+        success: false,
+        message: "Closing date must be after the opening date.",
+      };
     }
 
     await prisma.resultSubmissionWindow.upsert({
       where: {
-        courseId_academicSession_semester: {
-          courseId: targetCourseId,
-          academicSession: data.academicSession,
-          semester: data.semester,
-        },
+        scope: GLOBAL_SCOPE,
       },
       update: {
-        opensAt: opensDate,
-        closesAt: closesDate,
-        openedById: adminUserId,
+        opensAt,
+        closesAt,
+        openedById: user.id,
       },
       create: {
-        courseId: targetCourseId,
-        academicSession: data.academicSession,
-        semester: data.semester,
-        opensAt: opensDate,
-        closesAt: closesDate,
-        openedById: adminUserId,
+        scope: GLOBAL_SCOPE,
+        opensAt,
+        closesAt,
+        openedById: user.id,
       },
     });
 
-    revalidatePath("/admin/upload-windows");
-    return {
-      success: true,
-      message: `Result submission window for ${data.academicSession} (${data.semester} Semester) saved successfully.`,
-    };
-  } catch {
-    const isAll = !data.courseId || data.courseId === "all-dept-courses";
-    const courseCode = isAll ? "ALL DEPT COURSES" : (data.courseCode || "SPECIFIC COURSE");
-    const courseTitle = isAll
-      ? "All Departmental Courses (General Submission Window)"
-      : (data.courseTitle || "Course Specific Window");
+    revalidatePath(WINDOWS_PATH);
 
-    const existingIdx = fallbackWindows.findIndex(
-      (w) =>
-        w.academicSession === data.academicSession &&
-        w.semester === data.semester &&
-        w.isAllCourses === isAll
+    const { status } = calculateStatus(
+      opensAt,
+      closesAt
     );
 
-    const { status, daysRemaining } = calculateStatus(opensDate, closesDate);
+    const statusMessage =
+      status === "OPEN"
+        ? "Result submission is now open."
+        : status === "SCHEDULED"
+          ? "Result submission period has been scheduled."
+          : "Result submission period has been saved as closed.";
 
-    if (existingIdx !== -1) {
-      fallbackWindows[existingIdx] = {
-        ...fallbackWindows[existingIdx],
-        opensAt: opensDate.toISOString(),
-        closesAt: closesDate.toISOString(),
-        status,
-        daysRemaining,
-      };
-    } else {
-      fallbackWindows.unshift({
-        id: `win-${Date.now()}`,
-        courseId: data.courseId || "all-dept-courses",
-        courseCode,
-        courseTitle,
-        isAllCourses: isAll,
-        academicSession: data.academicSession,
-        semester: data.semester,
-        opensAt: opensDate.toISOString(),
-        closesAt: closesDate.toISOString(),
-        status,
-        daysRemaining,
-        openedByName: "System Admin",
-        createdAt: new Date().toISOString(),
-      });
-    }
-
-    revalidatePath("/admin/upload-windows");
     return {
       success: true,
-      message: `Result submission window for ${data.academicSession} saved.`,
+      message: statusMessage,
+    };
+  } catch (error) {
+    console.error("openOrScheduleWindow error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to save the result submission period.",
     };
   }
 }
 
+/**
+ * ============================================================================
+ * EXTEND GLOBAL SUBMISSION DEADLINE
+ * ============================================================================
+ *
+ * Extends the closing time by the specified number of days.
+ *
+ * If the period is already closed, the extension starts from NOW.
+ * Otherwise, it extends from the existing closing time.
+ */
 export async function extendWindowDeadline(
   id: string,
-  extraDays: number = 7
-): Promise<{ success: boolean; message: string }> {
+  extraDays = 7
+): Promise<SubmissionWindowResult> {
   try {
-    const win = await prisma.resultSubmissionWindow.findUnique({ where: { id } });
-    if (win) {
-      const newClose = new Date(Math.max(Date.now(), win.closesAt.getTime()) + extraDays * 86400000);
-      await prisma.resultSubmissionWindow.update({
-        where: { id },
-        data: { closesAt: newClose },
+    await requireWindowManager();
+
+    if (!id) {
+      return {
+        success: false,
+        message: "Submission window ID is required.",
+      };
+    }
+
+    if (!Number.isInteger(extraDays) || extraDays <= 0) {
+      return {
+        success: false,
+        message: "Extension must be a positive number of days.",
+      };
+    }
+
+    const window =
+      await prisma.resultSubmissionWindow.findUnique({
+        where: {
+          id,
+        },
       });
-    }
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: `Deadline extended by ${extraDays} days.` };
-  } catch {
-    const idx = fallbackWindows.findIndex((w) => w.id === id);
-    if (idx !== -1) {
-      const currentClose = new Date(fallbackWindows[idx].closesAt);
-      const newClose = new Date(Math.max(Date.now(), currentClose.getTime()) + extraDays * 86400000);
-      fallbackWindows[idx].closesAt = newClose.toISOString();
-    }
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: `Deadline extended by ${extraDays} days.` };
-  }
-}
 
-export async function closeWindowImmediately(id: string): Promise<{ success: boolean; message: string }> {
-  try {
+    if (!window) {
+      return {
+        success: false,
+        message: "Submission period not found.",
+      };
+    }
+
+    if (window.scope !== GLOBAL_SCOPE) {
+      return {
+        success: false,
+        message: "Invalid submission period.",
+      };
+    }
+
+    const baseTime = Math.max(
+      Date.now(),
+      window.closesAt.getTime()
+    );
+
+    const newCloseDate = new Date(
+      baseTime +
+        extraDays * 24 * 60 * 60 * 1000
+    );
+
     await prisma.resultSubmissionWindow.update({
-      where: { id },
-      data: { closesAt: new Date(Date.now() - 1000) },
+      where: {
+        id,
+      },
+      data: {
+        closesAt: newCloseDate,
+      },
     });
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: "Submission window closed and locked." };
-  } catch {
-    const idx = fallbackWindows.findIndex((w) => w.id === id);
-    if (idx !== -1) {
-      fallbackWindows[idx].closesAt = new Date(Date.now() - 1000).toISOString();
-      fallbackWindows[idx].status = "CLOSED";
-      fallbackWindows[idx].daysRemaining = 0;
-    }
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: "Submission window closed and locked." };
+
+    revalidatePath(WINDOWS_PATH);
+
+    return {
+      success: true,
+      message: `Submission deadline extended by ${extraDays} days.`,
+    };
+  } catch (error) {
+    console.error("extendWindowDeadline error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to extend the submission deadline.",
+    };
   }
 }
 
-export async function deleteWindow(id: string): Promise<{ success: boolean; message: string }> {
+/**
+ * ============================================================================
+ * CLOSE GLOBAL SUBMISSION PERIOD
+ * ============================================================================
+ *
+ * Immediately prevents new result submissions.
+ */
+export async function closeWindowImmediately(
+  id: string
+): Promise<SubmissionWindowResult> {
   try {
-    await prisma.resultSubmissionWindow.delete({ where: { id } });
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: "Submission window removed." };
-  } catch {
-    fallbackWindows = fallbackWindows.filter((w) => w.id !== id);
-    revalidatePath("/admin/upload-windows");
-    return { success: true, message: "Submission window removed." };
+    await requireWindowManager();
+
+    if (!id) {
+      return {
+        success: false,
+        message: "Submission window ID is required.",
+      };
+    }
+
+    const window =
+      await prisma.resultSubmissionWindow.findUnique({
+        where: {
+          id,
+        },
+      });
+
+    if (!window) {
+      return {
+        success: false,
+        message: "Submission period not found.",
+      };
+    }
+
+    if (window.scope !== GLOBAL_SCOPE) {
+      return {
+        success: false,
+        message: "Invalid submission period.",
+      };
+    }
+
+    await prisma.resultSubmissionWindow.update({
+      where: {
+        id,
+      },
+      data: {
+        closesAt: new Date(),
+      },
+    });
+
+    revalidatePath(WINDOWS_PATH);
+
+    return {
+      success: true,
+      message: "Result submission period closed successfully.",
+    };
+  } catch (error) {
+    console.error("closeWindowImmediately error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to close the submission period.",
+    };
+  }
+}
+
+/**
+ * ============================================================================
+ * DELETE GLOBAL SUBMISSION PERIOD
+ * ============================================================================
+ *
+ * Removes the configured submission period entirely.
+ *
+ * This does NOT delete any uploaded results.
+ */
+export async function deleteWindow(
+  id: string
+): Promise<SubmissionWindowResult> {
+  try {
+    await requireWindowManager();
+
+    if (!id) {
+      return {
+        success: false,
+        message: "Submission window ID is required.",
+      };
+    }
+
+    const window =
+      await prisma.resultSubmissionWindow.findUnique({
+        where: {
+          id,
+        },
+      });
+
+    if (!window) {
+      return {
+        success: false,
+        message: "Submission period not found.",
+      };
+    }
+
+    if (window.scope !== GLOBAL_SCOPE) {
+      return {
+        success: false,
+        message: "Invalid submission period.",
+      };
+    }
+
+    await prisma.resultSubmissionWindow.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidatePath(WINDOWS_PATH);
+
+    return {
+      success: true,
+      message: "Result submission period removed.",
+    };
+  } catch (error) {
+    console.error("deleteWindow error:", error);
+
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Unable to remove the submission period.",
+    };
+  }
+}
+
+/**
+ * ============================================================================
+ * CHECK WHETHER RESULT SUBMISSION IS CURRENTLY OPEN
+ * ============================================================================
+ *
+ * This is the important function for the result-upload pipeline.
+ *
+ * It does NOT care:
+ * - which lecturer is uploading
+ * - which adviser is uploading
+ * - which course is being uploaded
+ * - which academic session is being uploaded
+ * - which semester the result belongs to
+ *
+ * It only determines whether the global submission period is open.
+ */
+export async function checkSubmissionWindow(): Promise<{
+  success: boolean;
+  isOpen: boolean;
+  status: SubmissionWindowStatus | null;
+  opensAt: string | null;
+  closesAt: string | null;
+  message: string;
+}> {
+  try {
+    const window =
+      await prisma.resultSubmissionWindow.findUnique({
+        where: {
+          scope: GLOBAL_SCOPE,
+        },
+      });
+
+    if (!window) {
+      return {
+        success: true,
+        isOpen: false,
+        status: null,
+        opensAt: null,
+        closesAt: null,
+        message:
+          "Result submission is currently unavailable. No submission period has been configured.",
+      };
+    }
+
+    const { status } = calculateStatus(
+      window.opensAt,
+      window.closesAt
+    );
+
+    if (status === "SCHEDULED") {
+      return {
+        success: true,
+        isOpen: false,
+        status,
+        opensAt: window.opensAt.toISOString(),
+        closesAt: window.closesAt.toISOString(),
+        message:
+          "The result submission period has not opened yet.",
+      };
+    }
+
+    if (status === "CLOSED") {
+      return {
+        success: true,
+        isOpen: false,
+        status,
+        opensAt: window.opensAt.toISOString(),
+        closesAt: window.closesAt.toISOString(),
+        message:
+          "The result submission period has closed.",
+      };
+    }
+
+    return {
+      success: true,
+      isOpen: true,
+      status: "OPEN",
+      opensAt: window.opensAt.toISOString(),
+      closesAt: window.closesAt.toISOString(),
+      message:
+        "Result submission is currently open.",
+    };
+  } catch (error) {
+    console.error("checkSubmissionWindow error:", error);
+
+    return {
+      success: false,
+      isOpen: false,
+      status: null,
+      opensAt: null,
+      closesAt: null,
+      message:
+        "Unable to verify the result submission period.",
+    };
+  }
+}
+
+/**
+ * ============================================================================
+ * REQUIRE OPEN SUBMISSION PERIOD
+ * ============================================================================
+ *
+ * Convenience function for upload server actions.
+ *
+ * Instead of repeating:
+ *
+ * const check = await checkSubmissionWindow();
+ * if (!check.success) ...
+ * if (!check.isOpen) ...
+ *
+ * an upload action can simply call this function.
+ */
+export async function requireOpenSubmissionWindow(): Promise<void> {
+  const result = await checkSubmissionWindow();
+
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+
+  if (!result.isOpen) {
+    throw new Error(result.message);
   }
 }

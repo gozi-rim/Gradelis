@@ -4,8 +4,15 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { UserRole } from "@/generated/prisma";
 import bcrypt from "bcryptjs";
-import { generateTemporaryPassword, StaffCredentialItem } from "@/lib/excel/staff-excel-template";
+import {
+  generateTemporaryPassword,
+  StaffCredentialItem,
+} from "@/lib/excel/staff-excel-template";
 import { revalidatePath } from "next/cache";
+
+/* ============================================================================
+   TYPES
+============================================================================ */
 
 export type StaffItem = {
   id: string;
@@ -17,82 +24,114 @@ export type StaffItem = {
 };
 
 export type StaffFilters = {
-  role?: string;
-  status?: string;
+  role?: "ALL" | "LECTURER" | "HOD" | "SYSTEM_ADMIN";
+  status?: "ALL" | "ACTIVE" | "INACTIVE";
   search?: string;
 };
 
-// Fallback in-memory staff dataset
-let fallbackStaff: StaffItem[] = [
-  {
-    id: "staff-1",
-    name: "System Admin",
-    email: "admin@gradelis.com",
-    role: "SYSTEM_ADMIN",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 90).toISOString(),
-  },
-  {
-    id: "staff-2",
-    name: "Prof. Ibrahim Musa",
-    email: "hod@gradelis.com",
-    role: "HOD",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 60).toISOString(),
-  },
-  {
-    id: "staff-3",
-    name: "Dr. Kelvin Bello",
-    email: "kelvin.bello@gradelis.com",
-    role: "LECTURER",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 45).toISOString(),
-  },
-  {
-    id: "staff-4",
-    name: "Dr. Grace Ibrahim",
-    email: "grace.ibrahim@gradelis.com",
-    role: "LECTURER",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 40).toISOString(),
-  },
-  {
-    id: "staff-5",
-    name: "Dr. Emeka Nwosu",
-    email: "emeka.nwosu@gradelis.com",
-    role: "LECTURER",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 35).toISOString(),
-  },
-  {
-    id: "staff-6",
-    name: "Dr. Maryam Bello",
-    email: "maryam.bello@gradelis.com",
-    role: "LECTURER",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 30).toISOString(),
-  },
-  {
-    id: "staff-7",
-    name: "Dr. A. Okafor",
-    email: "okafor.a@gradelis.com",
-    role: "LECTURER",
-    isActive: true,
-    createdAt: new Date(Date.now() - 86400000 * 25).toISOString(),
-  },
-  {
-    id: "staff-8",
-    name: "Dr. T. Lawal",
-    email: "lawal.t@gradelis.com",
-    role: "LECTURER",
-    isActive: false,
-    createdAt: new Date(Date.now() - 86400000 * 20).toISOString(),
-  },
-];
+type StaffRole = "LECTURER" | "HOD" | "SYSTEM_ADMIN";
+
+/* ============================================================================
+   AUTHORIZATION
+============================================================================ */
+
+async function requireSystemAdmin() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized.");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+    select: {
+      id: true,
+      role: true,
+      isActive: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error("Authenticated user was not found.");
+  }
+
+  if (!user.isActive) {
+    throw new Error("Your account is inactive.");
+  }
+
+  if (user.role !== UserRole.SYSTEM_ADMIN) {
+    throw new Error("Only system administrators can manage staff.");
+  }
+
+  return user;
+}
+
+/* ============================================================================
+   HELPERS
+============================================================================ */
+
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
+function normalizeName(name: string) {
+  return name.trim().replace(/\s+/g, " ");
+}
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function isValidStaffRole(role: string): role is StaffRole {
+  return (
+    role === "LECTURER" ||
+    role === "HOD" ||
+    role === "SYSTEM_ADMIN"
+  );
+}
+
+function toStaffItem(user: {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt: Date;
+}): StaffItem {
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role as StaffItem["role"],
+    isActive: user.isActive,
+    createdAt: user.createdAt.toISOString(),
+  };
+}
+
+/* ============================================================================
+   GET STAFF
+============================================================================ */
 
 export async function getStaff(filters: StaffFilters = {}) {
   try {
-    const where: Record<string, unknown> = {};
+    await requireSystemAdmin();
+
+    const where: {
+      role?: UserRole;
+      isActive?: boolean;
+      OR?: Array<{
+        name?: {
+          contains: string;
+          mode: "insensitive";
+        };
+        email?: {
+          contains: string;
+          mode: "insensitive";
+        };
+      }>;
+    } = {};
 
     if (filters.role && filters.role !== "ALL") {
       where.role = filters.role as UserRole;
@@ -102,92 +141,147 @@ export async function getStaff(filters: StaffFilters = {}) {
       where.isActive = filters.status === "ACTIVE";
     }
 
-    if (filters.search) {
+    const search = filters.search?.trim();
+
+    if (search) {
       where.OR = [
-        { name: { contains: filters.search, mode: "insensitive" } },
-        { email: { contains: filters.search, mode: "insensitive" } },
+        {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          email: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
       ];
     }
 
-    const staffList = await prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where,
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
+      },
     });
 
-    const formatted: StaffItem[] = staffList.map((u) => ({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      role: u.role as StaffItem["role"],
-      isActive: u.isActive,
-      createdAt: u.createdAt.toISOString(),
-    }));
+    const staff = users.map(toStaffItem);
 
     return {
-      success: true,
-      staff: formatted,
-      total: formatted.length,
-      isDatabaseConnected: true,
+      success: true as const,
+      staff,
+      total: staff.length,
+      isDatabaseConnected: true as const,
     };
-  } catch {
-    let filtered = [...fallbackStaff];
-
-    if (filters.role && filters.role !== "ALL") {
-      filtered = filtered.filter((u) => u.role === filters.role);
-    }
-    if (filters.status && filters.status !== "ALL") {
-      const active = filters.status === "ACTIVE";
-      filtered = filtered.filter((u) => u.isActive === active);
-    }
-    if (filters.search) {
-      const q = filters.search.toLowerCase();
-      filtered = filtered.filter(
-        (u) =>
-          u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
-      );
-    }
+  } catch (error) {
+    console.error("getStaff error:", error);
 
     return {
-      success: true,
-      staff: filtered,
-      total: filtered.length,
-      isDatabaseConnected: false,
+      success: false as const,
+      staff: [],
+      total: 0,
+      isDatabaseConnected: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to load staff accounts.",
     };
   }
 }
+
+/* ============================================================================
+   IMPORT STAFF BATCH
+============================================================================ */
 
 export async function importStaffBatch(data: {
   rows: {
     name: string;
     email: string;
-    role: "LECTURER" | "HOD" | "SYSTEM_ADMIN";
-    temporaryPassword?: string;
+    role: StaffRole;
   }[];
 }) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
   const credentials: StaffCredentialItem[] = [];
 
   try {
-    let adminUser = userId
-      ? await prisma.user.findUnique({ where: { id: userId } })
-      : null;
+    const admin = await requireSystemAdmin();
 
-    if (!adminUser) {
-      adminUser = await prisma.user.findFirst({
-        where: { role: "SYSTEM_ADMIN" },
-      });
+    if (!Array.isArray(data.rows) || data.rows.length === 0) {
+      return {
+        success: false as const,
+        batchId: null,
+        successCount: 0,
+        duplicateCount: 0,
+        errorCount: 0,
+        credentials,
+        error: "No staff records were supplied.",
+      };
     }
 
-    if (!adminUser) {
-      throw new Error("Admin user not found in database.");
-    }
+    /* ------------------------------------------------------------------------
+       Validate and normalize rows
+    ------------------------------------------------------------------------ */
+
+    const preparedRows = data.rows.map((row, index) => {
+      const name = normalizeName(row.name ?? "");
+      const email = normalizeEmail(row.email ?? "");
+      const role = row.role;
+
+      if (!name) {
+        throw new Error(`Row ${index + 1}: name is required.`);
+      }
+
+      if (!email) {
+        throw new Error(`Row ${index + 1}: email is required.`);
+      }
+
+      if (!isValidEmail(email)) {
+        throw new Error(
+          `Row ${index + 1}: invalid email address '${email}'.`
+        );
+      }
+
+      if (!isValidStaffRole(role)) {
+        throw new Error(`Row ${index + 1}: invalid staff role.`);
+      }
+
+      return {
+        name,
+        email,
+        role,
+      };
+    });
+
+    /* ------------------------------------------------------------------------
+       Determine batch role metadata
+    ------------------------------------------------------------------------ */
+
+    const uniqueRoles = [
+      ...new Set(preparedRows.map((row) => row.role)),
+    ];
+
+    const batchRole =
+      uniqueRoles.length === 1
+        ? uniqueRoles[0]
+        : UserRole.LECTURER;
+
+    /* ------------------------------------------------------------------------
+       Create seed batch
+    ------------------------------------------------------------------------ */
 
     const batch = await prisma.userSeedBatch.create({
       data: {
-        role: "LECTURER",
-        uploadedById: adminUser.id,
+        role: batchRole,
+        uploadedById: admin.id,
         status: "PROCESSING",
       },
     });
@@ -196,87 +290,161 @@ export async function importStaffBatch(data: {
     let duplicateCount = 0;
     let errorCount = 0;
 
-    for (const row of data.rows) {
-      const tempPass = row.temporaryPassword || generateTemporaryPassword();
-      const cleanEmail = row.email.trim().toLowerCase();
+    /* ------------------------------------------------------------------------
+       Process rows
+    ------------------------------------------------------------------------ */
+
+    const seenEmails = new Set<string>();
+
+    for (const row of preparedRows) {
+      /* ----------------------------------------------------------------------
+         Duplicate inside uploaded file
+      ---------------------------------------------------------------------- */
+
+      if (seenEmails.has(row.email)) {
+        duplicateCount++;
+
+        await prisma.userSeedRow.create({
+          data: {
+            batchId: batch.id,
+            nameRaw: row.name,
+            emailRaw: row.email,
+            status: "DUPLICATE_EMAIL",
+            errorMessage: "Duplicate email in uploaded file.",
+          },
+        });
+
+        credentials.push({
+          name: row.name,
+          email: row.email,
+          role: row.role,
+          temporaryPassword: "Duplicate in file",
+          status: "Skipped (Duplicate)",
+        });
+
+        continue;
+      }
+
+      seenEmails.add(row.email);
 
       try {
+        /* --------------------------------------------------------------------
+           Check database
+        -------------------------------------------------------------------- */
+
         const existing = await prisma.user.findUnique({
-          where: { email: cleanEmail },
+          where: {
+            email: row.email,
+          },
+          select: {
+            id: true,
+          },
         });
 
         if (existing) {
+          duplicateCount++;
+
           await prisma.userSeedRow.create({
             data: {
               batchId: batch.id,
               nameRaw: row.name,
-              emailRaw: cleanEmail,
+              emailRaw: row.email,
               status: "DUPLICATE_EMAIL",
               errorMessage: "User with this email already exists.",
             },
           });
-          duplicateCount++;
+
           credentials.push({
             name: row.name,
-            email: cleanEmail,
+            email: row.email,
             role: row.role,
             temporaryPassword: "Already Exists",
             status: "Skipped (Duplicate)",
           });
+
           continue;
         }
 
-        const passwordHash = await bcrypt.hash(tempPass, 10);
+        /* --------------------------------------------------------------------
+           Generate password
+        -------------------------------------------------------------------- */
 
-        const newUser = await prisma.user.create({
-          data: {
-            name: row.name.trim(),
-            email: cleanEmail,
-            passwordHash,
-            role: row.role as UserRole,
-            isActive: true,
-          },
-        });
+        const temporaryPassword = generateTemporaryPassword();
 
-        await prisma.userSeedRow.create({
-          data: {
-            batchId: batch.id,
-            nameRaw: row.name,
-            emailRaw: cleanEmail,
-            status: "IMPORTED",
-            generatedPassword: tempPass,
-            userId: newUser.id,
-          },
+        const passwordHash = await bcrypt.hash(
+          temporaryPassword,
+          12
+        );
+
+        /* --------------------------------------------------------------------
+           Create user + seed row atomically
+        -------------------------------------------------------------------- */
+
+        const user = await prisma.$transaction(async (tx) => {
+          const createdUser = await tx.user.create({
+            data: {
+              name: row.name,
+              email: row.email,
+              passwordHash,
+              role: row.role as UserRole,
+              isActive: true,
+            },
+          });
+
+          await tx.userSeedRow.create({
+            data: {
+              batchId: batch.id,
+              nameRaw: row.name,
+              emailRaw: row.email,
+              status: "IMPORTED",
+              generatedPassword: temporaryPassword,
+              userId: createdUser.id,
+            },
+          });
+
+          return createdUser;
         });
 
         successCount++;
+
         credentials.push({
-          name: row.name,
-          email: cleanEmail,
-          role: row.role,
-          temporaryPassword: tempPass,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          temporaryPassword,
           status: "Created Successfully",
         });
-      } catch (err: unknown) {
+      } catch (error) {
         errorCount++;
+
         await prisma.userSeedRow.create({
           data: {
             batchId: batch.id,
             nameRaw: row.name,
-            emailRaw: cleanEmail,
+            emailRaw: row.email,
             status: "FAILED",
             errorMessage:
-              err instanceof Error ? err.message : "Error creating staff user",
+              error instanceof Error
+                ? error.message
+                : "Failed to create staff account.",
           },
         });
       }
     }
 
+    /* ------------------------------------------------------------------------
+       Complete batch
+    ------------------------------------------------------------------------ */
+
     await prisma.userSeedBatch.update({
-      where: { id: batch.id },
+      where: {
+        id: batch.id,
+      },
       data: {
         status:
-          errorCount > 0 && successCount === 0 ? "FAILED" : "COMPLETED",
+          successCount === 0 && errorCount > 0
+            ? "FAILED"
+            : "COMPLETED",
         completedAt: new Date(),
       },
     });
@@ -285,68 +453,38 @@ export async function importStaffBatch(data: {
     revalidatePath("/admin/logs");
 
     return {
-      success: true,
+      success: true as const,
       batchId: batch.id,
       successCount,
       duplicateCount,
       errorCount,
       credentials,
-      message: `Successfully seeded ${successCount} staff account(s).`,
+      message:
+        successCount > 0
+          ? `Successfully created ${successCount} staff account(s).`
+          : "No new staff accounts were created.",
     };
-  } catch {
-    // In-memory fallback
-    let successCount = 0;
-    let duplicateCount = 0;
+  } catch (error) {
+    console.error("importStaffBatch error:", error);
 
-    data.rows.forEach((r) => {
-      const cleanEmail = r.email.trim().toLowerCase();
-      const exists = fallbackStaff.some(
-        (u) => u.email.toLowerCase() === cleanEmail
-      );
-
-      if (exists) {
-        duplicateCount++;
-        credentials.push({
-          name: r.name,
-          email: cleanEmail,
-          role: r.role,
-          temporaryPassword: "Already Exists",
-          status: "Skipped (Duplicate)",
-        });
-      } else {
-        const tempPass = r.temporaryPassword || generateTemporaryPassword();
-        const newStaff: StaffItem = {
-          id: `staff-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-          name: r.name.trim(),
-          email: cleanEmail,
-          role: r.role,
-          isActive: true,
-          createdAt: new Date().toISOString(),
-        };
-        fallbackStaff.unshift(newStaff);
-        successCount++;
-        credentials.push({
-          name: r.name,
-          email: cleanEmail,
-          role: r.role,
-          temporaryPassword: tempPass,
-          status: "Created Successfully",
-        });
-      }
-    });
-
-    revalidatePath("/admin/staff");
     return {
-      success: true,
-      batchId: `batch-${Date.now()}`,
-      successCount,
-      duplicateCount,
+      success: false as const,
+      batchId: null,
+      successCount: 0,
+      duplicateCount: 0,
       errorCount: 0,
       credentials,
-      message: `Seeded ${successCount} staff member(s). Generated secure temporary passwords.`,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to import staff accounts.",
     };
   }
 }
+
+/* ============================================================================
+   CREATE STAFF MANUALLY
+============================================================================ */
 
 export async function createStaffManual(data: {
   name: string;
@@ -354,27 +492,68 @@ export async function createStaffManual(data: {
   role: UserRole;
   password?: string;
 }) {
-  const cleanEmail = data.email.trim().toLowerCase();
-  const password = data.password || generateTemporaryPassword();
-
   try {
+    await requireSystemAdmin();
+
+    const name = normalizeName(data.name ?? "");
+    const email = normalizeEmail(data.email ?? "");
+
+    if (!name) {
+      return {
+        success: false as const,
+        error: "Name is required.",
+      };
+    }
+
+    if (!isValidEmail(email)) {
+      return {
+        success: false as const,
+        error: "Please provide a valid email address.",
+      };
+    }
+
+    if (!Object.values(UserRole).includes(data.role)) {
+      return {
+        success: false as const,
+        error: "Invalid staff role.",
+      };
+    }
+
     const existing = await prisma.user.findUnique({
-      where: { email: cleanEmail },
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+      },
     });
 
     if (existing) {
       return {
-        success: false,
-        error: `User with email '${cleanEmail}' already exists.`,
+        success: false as const,
+        error: `User with email '${email}' already exists.`,
       };
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const temporaryPassword =
+      data.password?.trim() || generateTemporaryPassword();
+
+    if (temporaryPassword.length < 8) {
+      return {
+        success: false as const,
+        error: "Password must contain at least 8 characters.",
+      };
+    }
+
+    const passwordHash = await bcrypt.hash(
+      temporaryPassword,
+      12
+    );
 
     const user = await prisma.user.create({
       data: {
-        name: data.name.trim(),
-        email: cleanEmail,
+        name,
+        email,
         passwordHash,
         role: data.role,
         isActive: true,
@@ -385,48 +564,32 @@ export async function createStaffManual(data: {
     revalidatePath("/admin/logs");
 
     return {
-      success: true,
+      success: true as const,
       staff: {
         id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
-        temporaryPassword: password,
+        temporaryPassword,
       },
       message: "Staff member created successfully.",
     };
-  } catch {
-    const exists = fallbackStaff.some(
-      (u) => u.email.toLowerCase() === cleanEmail
-    );
-    if (exists) {
-      return {
-        success: false,
-        error: `User with email '${cleanEmail}' already exists.`,
-      };
-    }
+  } catch (error) {
+    console.error("createStaffManual error:", error);
 
-    const newStaff: StaffItem = {
-      id: `staff-${Date.now()}`,
-      name: data.name.trim(),
-      email: cleanEmail,
-      role: data.role,
-      isActive: true,
-      createdAt: new Date().toISOString(),
-    };
-    fallbackStaff.unshift(newStaff);
-
-    revalidatePath("/admin/staff");
     return {
-      success: true,
-      staff: {
-        ...newStaff,
-        temporaryPassword: password,
-      },
-      message: "Staff member created successfully.",
+      success: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to create staff member.",
     };
   }
 }
+
+/* ============================================================================
+   UPDATE STAFF
+============================================================================ */
 
 export async function updateStaff(data: {
   id: string;
@@ -435,95 +598,408 @@ export async function updateStaff(data: {
   role: UserRole;
   isActive: boolean;
 }) {
-  const cleanEmail = data.email.trim().toLowerCase();
-
   try {
+    const admin = await requireSystemAdmin();
+
+    const name = normalizeName(data.name ?? "");
+    const email = normalizeEmail(data.email ?? "");
+
+    if (!data.id) {
+      return {
+        success: false as const,
+        error: "Staff ID is required.",
+      };
+    }
+
+    if (!name) {
+      return {
+        success: false as const,
+        error: "Name is required.",
+      };
+    }
+
+    if (!isValidEmail(email)) {
+      return {
+        success: false as const,
+        error: "Invalid email address.",
+      };
+    }
+
+    if (!Object.values(UserRole).includes(data.role)) {
+      return {
+        success: false as const,
+        error: "Invalid staff role.",
+      };
+    }
+
+    /* Prevent self-deactivation */
+
+    if (data.id === admin.id && !data.isActive) {
+      return {
+        success: false as const,
+        error:
+          "You cannot deactivate your own administrator account.",
+      };
+    }
+
+    /* Check target user */
+
     const existing = await prisma.user.findUnique({
-      where: { email: cleanEmail },
+      where: {
+        id: data.id,
+      },
     });
 
-    if (existing && existing.id !== data.id) {
+    if (!existing) {
       return {
-        success: false,
-        error: `Email '${cleanEmail}' is already registered to another account.`,
+        success: false as const,
+        error: "Staff member not found.",
+      };
+    }
+
+    /* Prevent removing the final active administrator */
+
+    if (
+      existing.role === UserRole.SYSTEM_ADMIN &&
+      existing.isActive &&
+      !data.isActive
+    ) {
+      const activeAdminCount = await prisma.user.count({
+        where: {
+          role: UserRole.SYSTEM_ADMIN,
+          isActive: true,
+        },
+      });
+
+      if (activeAdminCount <= 1) {
+        return {
+          success: false as const,
+          error:
+            "The last active system administrator cannot be deactivated.",
+        };
+      }
+    }
+
+    /* Check email */
+
+    const emailOwner = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (emailOwner && emailOwner.id !== data.id) {
+      return {
+        success: false as const,
+        error:
+          `Email '${email}' is already registered to another account.`,
       };
     }
 
     const updated = await prisma.user.update({
-      where: { id: data.id },
+      where: {
+        id: data.id,
+      },
       data: {
-        name: data.name.trim(),
-        email: cleanEmail,
+        name,
+        email,
         role: data.role,
         isActive: data.isActive,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
       },
     });
 
     revalidatePath("/admin/staff");
+    revalidatePath("/admin/logs");
+
     return {
-      success: true,
-      staff: updated,
+      success: true as const,
+      staff: toStaffItem(updated),
       message: "Staff details updated successfully.",
     };
-  } catch {
-    const idx = fallbackStaff.findIndex((u) => u.id === data.id);
-    if (idx !== -1) {
-      fallbackStaff[idx] = {
-        ...fallbackStaff[idx],
-        name: data.name.trim(),
-        email: cleanEmail,
-        role: data.role,
-        isActive: data.isActive,
-      };
-      revalidatePath("/admin/staff");
-      return { success: true, message: "Staff details updated." };
-    }
-    return { success: false, error: "Staff member not found." };
+  } catch (error) {
+    console.error("updateStaff error:", error);
+
+    return {
+      success: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to update staff.",
+    };
   }
 }
 
-export async function resetStaffPassword(userId: string) {
-  const newPassword = generateTemporaryPassword();
+/* ============================================================================
+   DEACTIVATE STAFF
+============================================================================ */
 
+export async function deactivateStaff(userId: string) {
   try {
-    const passwordHash = await bcrypt.hash(newPassword, 10);
+    const admin = await requireSystemAdmin();
 
-    const user = await prisma.user.update({
-      where: { id: userId },
-      data: { passwordHash },
+    if (!userId) {
+      return {
+        success: false as const,
+        error: "User ID is required.",
+      };
+    }
+
+    if (userId === admin.id) {
+      return {
+        success: false as const,
+        error:
+          "You cannot deactivate your own administrator account.",
+      };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        name: true,
+        role: true,
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false as const,
+        error: "Staff member not found.",
+      };
+    }
+
+    if (!user.isActive) {
+      return {
+        success: false as const,
+        error: "This staff account is already inactive.",
+      };
+    }
+
+    /* Protect the final active administrator */
+
+    if (user.role === UserRole.SYSTEM_ADMIN) {
+      const activeAdminCount = await prisma.user.count({
+        where: {
+          role: UserRole.SYSTEM_ADMIN,
+          isActive: true,
+        },
+      });
+
+      if (activeAdminCount <= 1) {
+        return {
+          success: false as const,
+          error:
+            "The last active system administrator cannot be deactivated.",
+        };
+      }
+    }
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        isActive: false,
+      },
     });
 
     revalidatePath("/admin/staff");
+    revalidatePath("/admin/logs");
+
     return {
-      success: true,
+      success: true as const,
+      message: `${user.name}'s account has been deactivated.`,
+    };
+  } catch (error) {
+    console.error("deactivateStaff error:", error);
+
+    return {
+      success: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to deactivate staff account.",
+    };
+  }
+}
+
+/* ============================================================================
+   ACTIVATE STAFF
+============================================================================ */
+
+export async function activateStaff(userId: string) {
+  try {
+    await requireSystemAdmin();
+
+    if (!userId) {
+      return {
+        success: false as const,
+        error: "User ID is required.",
+      };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        name: true,
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false as const,
+        error: "Staff member not found.",
+      };
+    }
+
+    if (user.isActive) {
+      return {
+        success: false as const,
+        error: "This staff account is already active.",
+      };
+    }
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        isActive: true,
+      },
+    });
+
+    revalidatePath("/admin/staff");
+    revalidatePath("/admin/logs");
+
+    return {
+      success: true as const,
+      message: `${user.name}'s account has been activated.`,
+    };
+  } catch (error) {
+    console.error("activateStaff error:", error);
+
+    return {
+      success: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to activate staff account.",
+    };
+  }
+}
+
+/* ============================================================================
+   RESET STAFF PASSWORD
+============================================================================ */
+
+export async function resetStaffPassword(userId: string) {
+  try {
+    const admin = await requireSystemAdmin();
+
+    if (!userId) {
+      return {
+        success: false as const,
+        error: "User ID is required.",
+      };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        isActive: true,
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false as const,
+        error: "Staff member not found.",
+      };
+    }
+
+    if (!user.isActive) {
+      return {
+        success: false as const,
+        error:
+          "Cannot reset the password of an inactive staff account.",
+      };
+    }
+
+    const newPassword = generateTemporaryPassword();
+
+    const passwordHash = await bcrypt.hash(
+      newPassword,
+      12
+    );
+
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        passwordHash,
+      },
+    });
+
+    revalidatePath("/admin/staff");
+    revalidatePath("/admin/logs");
+
+    return {
+      success: true as const,
       temporaryPassword: newPassword,
       userName: user.name,
       userEmail: user.email,
+      resetBy: admin.id,
       message: "Password reset successfully.",
     };
-  } catch {
-    const staff = fallbackStaff.find((u) => u.id === userId);
+  } catch (error) {
+    console.error("resetStaffPassword error:", error);
+
     return {
-      success: true,
-      temporaryPassword: newPassword,
-      userName: staff?.name || "Staff Member",
-      userEmail: staff?.email || "staff@gradelis.com",
-      message: "Temporary password generated.",
+      success: false as const,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to reset password.",
     };
   }
 }
 
+/* ============================================================================
+   DEPRECATED DELETE ACTION
+============================================================================ */
+
+/*
+ * Staff accounts should not be physically deleted because User is referenced
+ * by many historical/audit models.
+ *
+ * Keep this export temporarily so any older component importing deleteStaff
+ * does not break. It performs a safe deactivation instead.
+ */
+
 export async function deleteStaff(userId: string) {
-  try {
-    // Check if user has associated student results or batches
-    await prisma.user.delete({
-      where: { id: userId },
-    });
-    revalidatePath("/admin/staff");
-    return { success: true, message: "Staff account deleted." };
-  } catch {
-    fallbackStaff = fallbackStaff.filter((u) => u.id !== userId);
-    revalidatePath("/admin/staff");
-    return { success: true, message: "Staff account deleted." };
-  }
+  return deactivateStaff(userId);
 }
