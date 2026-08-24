@@ -880,7 +880,7 @@ export function AdminStudentsScreen() {
 
       {showCrudModal && (
         <StudentCrudModal
-          // student={editingStudent}
+          initialData={editingStudent}
           defaultSession={activeSession || "2024/2025"}
           onClose={() => {
             setShowCrudModal(false);

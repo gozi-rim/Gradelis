@@ -29,7 +29,6 @@ const navConfig: Record<PortalRole, NavItem[]> = {
     { label: "Upload result", href: "/adviser/upload-result", icon: UploadIcon },
     { label: "Student Records", href: "/adviser/student-records", icon: StudentsIcon },
     { label: "Graduation Report", href: "/adviser/graduation-report", icon: ReportIcon },
-    { label: "Settings", href: "/adviser/settings", icon: SettingsIcon },
   ],
   hod: [
     { label: "Dashboard", href: "/hod", exact: true, icon: DashboardIcon },

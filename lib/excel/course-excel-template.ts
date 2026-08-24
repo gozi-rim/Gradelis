@@ -28,7 +28,7 @@ export function parseCourseSpreadsheet(
   const sheetName = workbook.SheetNames[0];
   const worksheet = workbook.Sheets[sheetName];
 
-  const rawData = XLSX.utils.sheet_to_json<Record<string, unknown>>(worksheet, {
+  const rawData = XLSX.utils.sheet_to_json<unknown[]>(worksheet, {
     header: 1,
     defval: "",
   }) as unknown[][];

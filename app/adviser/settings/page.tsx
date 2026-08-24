@@ -1,5 +1,5 @@
-import { LogoutButton } from "@/app/_components/LogoutButton";
+import { redirect } from "next/navigation";
 
-export default function HODSettings() {
-  return <LogoutButton />
+export default function AdviserSettingsPage() {
+  redirect("/adviser");
 }

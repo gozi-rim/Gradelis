@@ -191,3 +191,32 @@ export function ChevronDownIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function SearchIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill={base} {...props}>
+      <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="m21 21-4.35-4.35"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function DownloadIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill={base} {...props}>
+      <path
+        d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
